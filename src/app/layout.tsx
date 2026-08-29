@@ -1,31 +1,36 @@
-import type { Metadata } from 'next'
-import { Inter, Lora } from 'next/font/google'
-import './globals.css'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
+import type { Metadata } from 'next';
+import { Inter, Lora } from 'next/font/google';
+import './globals.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import LoginModal from '@/components/LoginModal';
+import { AuthProvider } from '@/context/AuthContext';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
-const lora = Lora({ subsets: ['latin'], variable: '--font-lora' })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const lora = Lora({ subsets: ['latin'], variable: '--font-lora' });
 
 export const metadata: Metadata = {
-  title: 'Casa de la Memoria Cumbal',
-  description: 'Centro cultural. Desarrollamos estrategias de salvaguarda y protección de las memorias y el patrimonio cultural de los pueblos indígenas del sur de Colombia',
-}
+  title: 'Casa de la Memoria Cumbal - Archivo & Salvaguarda',
+  description: 'Centro cultural y Archivo General. Desarrollamos estrategias de salvaguarda y protección de las memorias y el patrimonio cultural del sur de Colombia.',
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="es" className={`${inter.variable} ${lora.variable}`}>
-      <body className="flex flex-col min-h-screen bg-crema text-cafe">
-        <Navbar />
-        <main className="flex-grow">
-          {children}
-        </main>
-        <Footer />
+      <body className="flex flex-col min-h-screen bg-crema text-cafe antialiased">
+        <AuthProvider>
+          <Navbar />
+          <LoginModal />
+          <main className="flex-grow">
+            {children}
+          </main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
-  )
+  );
 }
