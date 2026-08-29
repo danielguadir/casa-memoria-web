@@ -9,9 +9,22 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        crema: "#FDFBF7",
+        'crema-dark': "#F2EBE1",
+        'verde-profundo': "#1C3F2B", // conexión con territorio y montaña
+        terracota: "#A84522", // tierra, memoria, calidez
+        'terracota-light': "#C95B36",
+        cafe: "#4A3018", // identidad orgánica ancestral
+        mostaza: "#DCA74E", // acento cálido
       },
+      fontFamily: {
+        sans: ['var(--font-inter)', 'sans-serif'],
+        serif: ['var(--font-lora)', 'serif'],
+      },
+      backgroundImage: {
+        'pattern-tejido': "url('/images/tejido-pattern.png')",
+        'pattern-tierra': "url('/images/tierra-pattern.png')",
+      }
     },
   },
   plugins: [],
