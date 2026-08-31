@@ -14,9 +14,12 @@ interface AuthContextType {
   user: User | null;
   isLoggedIn: boolean;
   isLoginModalOpen: boolean;
+  isKioskOpen: boolean;
   activeView: 'public' | 'admin';
   openLoginModal: () => void;
   closeLoginModal: () => void;
+  openKioskModal: () => void;
+  closeKioskModal: () => void;
   login: (email: string, password: string) => { success: boolean; error?: string };
   logout: () => void;
   setActiveView: (view: 'public' | 'admin') => void;
@@ -27,13 +30,16 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
+  const [isKioskOpen, setIsKioskOpen] = useState<boolean>(false);
   const [activeView, setActiveView] = useState<'public' | 'admin'>('public');
 
   const openLoginModal = () => setIsLoginModalOpen(true);
   const closeLoginModal = () => setIsLoginModalOpen(false);
 
+  const openKioskModal = () => setIsKioskOpen(true);
+  const closeKioskModal = () => setIsKioskOpen(false);
+
   const login = (email: string, password: string) => {
-    // Validations
     if (!email || !email.includes('@')) {
       return { success: false, error: 'Por favor ingresa un correo electrónico válido.' };
     }
@@ -42,7 +48,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return { success: false, error: 'Contraseña incorrecta. La clave demo para pruebas es: 123' };
     }
 
-    // Successful login simulation
     const mockUser: User = {
       id: 'usr_001',
       name: email.split('@')[0].replace('.', ' ').toUpperCase(),
@@ -68,9 +73,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         user,
         isLoggedIn: !!user,
         isLoginModalOpen,
+        isKioskOpen,
         activeView,
         openLoginModal,
         closeLoginModal,
+        openKioskModal,
+        closeKioskModal,
         login,
         logout,
         setActiveView,

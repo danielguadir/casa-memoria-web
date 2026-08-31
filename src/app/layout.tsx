@@ -4,6 +4,7 @@ import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import LoginModal from '@/components/LoginModal';
+import PublicKioskWrapper from '@/components/kiosk/PublicKioskWrapper';
 import { AuthProvider } from '@/context/AuthContext';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -25,6 +26,7 @@ export default function RootLayout({
         <AuthProvider>
           <Navbar />
           <LoginModal />
+          <PublicKioskWrapper />
           <main className="flex-grow">
             {children}
           </main>

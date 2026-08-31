@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, LogOut, ChevronDown, ShieldCheck, LayoutDashboard, LogIn } from 'lucide-react';
+import { Menu, X, LogOut, ChevronDown, ShieldCheck, LayoutDashboard, LogIn, Monitor } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { Button, Badge } from '@/components/design-system';
@@ -27,7 +27,7 @@ export default function Navbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMemoriaOpen, setIsMemoriaOpen] = useState(false);
 
-  const { user, isLoggedIn, openLoginModal, logout, activeView, setActiveView } = useAuth();
+  const { user, isLoggedIn, openLoginModal, openKioskModal, logout, activeView, setActiveView } = useAuth();
 
   return (
     <nav className="bg-verde-profundo text-crema sticky top-0 z-50 shadow-md">
@@ -58,7 +58,7 @@ export default function Navbar() {
           </div>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center space-x-4 lg:space-x-6">
+          <div className="hidden md:flex items-center space-x-3 lg:space-x-5">
             {navLinks.map((link) => (
               <div
                 key={link.name}
@@ -102,6 +102,18 @@ export default function Navbar() {
                 )}
               </div>
             ))}
+
+            {/* Public Kiosk Terminal Button */}
+            <Button
+              variant="mostaza"
+              size="sm"
+              onClick={openKioskModal}
+              leftIcon={<Monitor size={16} />}
+              className="shadow-sm font-bold animate-pulse hover:animate-none"
+              title="Abrir la Terminal de Consulta Pública de Archivos"
+            >
+              Consultar Archivo (PC)
+            </Button>
 
             {/* Auth Buttons / Profile Menu */}
             {!isLoggedIn ? (
@@ -180,22 +192,34 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu button & Mobile Kiosk trigger */}
           <div className="flex items-center md:hidden space-x-2">
+            <Button
+              variant="mostaza"
+              size="sm"
+              onClick={openKioskModal}
+              leftIcon={<Monitor size={14} />}
+              className="text-xs px-2.5"
+            >
+              Consultar
+            </Button>
+
             {!isLoggedIn ? (
               <Button
                 variant="terracota"
                 size="sm"
                 onClick={openLoginModal}
-                leftIcon={<LogIn size={16} />}
+                leftIcon={<LogIn size={14} />}
+                className="text-xs px-2.5"
               >
                 Ingresar
               </Button>
             ) : (
               <Button
-                variant="mostaza"
+                variant="secondary"
                 size="sm"
                 onClick={() => setActiveView(activeView === 'admin' ? 'public' : 'admin')}
+                className="text-xs px-2.5"
               >
                 {activeView === 'admin' ? 'Sitio' : 'Admin'}
               </Button>
@@ -205,7 +229,7 @@ export default function Navbar() {
               onClick={() => setIsOpen(!isOpen)}
               className="text-crema hover:text-mostaza focus:outline-none p-1"
             >
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
+              {isOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
         </div>
@@ -226,6 +250,21 @@ export default function Navbar() {
                 </Link>
               </div>
             ))}
+
+            <div className="pt-2 border-t border-crema/10">
+              <Button
+                variant="mostaza"
+                size="md"
+                onClick={() => {
+                  openKioskModal();
+                  setIsOpen(false);
+                }}
+                leftIcon={<Monitor size={18} />}
+                fullWidth
+              >
+                Abrir Terminal de Consulta (PC Kiosco)
+              </Button>
+            </div>
 
             {isLoggedIn && (
               <div className="border-t border-crema/10 mt-3 pt-3 space-y-2">

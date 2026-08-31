@@ -1,7 +1,13 @@
+'use client';
+
 import Image from 'next/image';
-import { ArrowDown } from 'lucide-react';
+import { ArrowDown, Monitor } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { Button } from '@/components/design-system';
 
 export default function Hero() {
+    const { openKioskModal } = useAuth();
+
     return (
         <section id="inicio" className="relative min-h-[90vh] flex items-center justify-center bg-crema text-verde-profundo overflow-hidden">
 
@@ -40,7 +46,7 @@ export default function Hero() {
                     </h1>
 
                     <h2 className="text-xl md:text-3xl font-medium text-cafe max-w-3xl mx-auto">
-                        Centro Cultural
+                        Centro Cultural & Archivo General (AGN)
                     </h2>
 
                     <p className="text-lg md:text-2xl font-sans text-cafe/90 max-w-3xl mx-auto leading-relaxed border-t border-b border-verde-profundo/20 py-6 my-8">
@@ -48,11 +54,20 @@ export default function Hero() {
                     </p>
                 </div>
 
-                <div className="flex flex-col sm:flex-row justify-center items-center gap-6 pt-10">
-                    <a href="#sobre-el-proceso" className="bg-terracota hover:bg-verde-profundo text-crema px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:-translate-y-1 shadow-md w-full sm:w-auto text-center">
+                <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-4">
+                    <Button
+                        variant="mostaza"
+                        size="lg"
+                        onClick={openKioskModal}
+                        leftIcon={<Monitor className="w-5 h-5" />}
+                        className="shadow-lg font-bold text-base px-8 py-4 rounded-full w-full sm:w-auto"
+                    >
+                        Terminal de Consulta Pública (PC AGN)
+                    </Button>
+                    <a href="#sobre-el-proceso" className="bg-terracota hover:bg-verde-profundo text-crema px-8 py-4 rounded-full font-semibold text-base transition-all duration-300 transform hover:-translate-y-1 shadow-md w-full sm:w-auto text-center">
                         Conoce el proceso
                     </a>
-                    <a href="#convocatoria" className="border-2 border-verde-profundo text-verde-profundo hover:bg-verde-profundo hover:text-crema px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 w-full sm:w-auto text-center">
+                    <a href="#convocatoria" className="border-2 border-verde-profundo text-verde-profundo hover:bg-verde-profundo hover:text-crema px-8 py-4 rounded-full font-semibold text-base transition-all duration-300 w-full sm:w-auto text-center">
                         Convocatoria
                     </a>
                 </div>
