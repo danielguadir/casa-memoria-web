@@ -41,8 +41,7 @@ export default function Hero() {
 
                 <div className="space-y-6 max-w-4xl mx-auto">
                     <h1 className="font-serif font-extrabold text-4xl sm:text-6xl md:text-7xl !leading-[1.1] text-verde-profundo drop-shadow-md text-balance">
-                        Casa de la <span className="text-terracota inline-block">Memoria</span> <br />
-                        Gran Cumbal
+                        Casa de la <span className="text-terracota">Memoria</span> Cumbal
                     </h1>
 
                     <p className="text-base sm:text-xl md:text-2xl font-sans text-cafe/90 max-w-3xl mx-auto leading-relaxed border-t border-b border-verde-profundo/20 py-6 my-6">
