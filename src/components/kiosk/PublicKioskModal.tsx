@@ -47,8 +47,15 @@ export const PublicKioskModal: React.FC<PublicKioskModalProps> = ({ isOpen, onCl
     };
   }, []);
 
-  // Filter dataset
+  // Check if user has entered a search query or selected a filter
+  const isSearchActive = useMemo(() => {
+    return searchQuery.trim().length > 0 || selectedType !== 'Todos' || selectedYearRange !== 'all';
+  }, [searchQuery, selectedType, selectedYearRange]);
+
+  // Filter dataset: Return empty array when no search/filter is active
   const filteredCatalog = useMemo(() => {
+    if (!isSearchActive) return [];
+
     return agnCatalogData.filter((item) => {
       // Type match
       const matchesType = selectedType === 'Todos' || item.type === selectedType;
@@ -72,7 +79,7 @@ export const PublicKioskModal: React.FC<PublicKioskModalProps> = ({ isOpen, onCl
 
       return matchesType && matchesYear && matchesQuery;
     });
-  }, [searchQuery, selectedType, selectedYearRange]);
+  }, [searchQuery, selectedType, selectedYearRange, isSearchActive]);
 
   const visibleItems = filteredCatalog.slice(0, itemsToShow);
 
@@ -184,21 +191,55 @@ export const PublicKioskModal: React.FC<PublicKioskModalProps> = ({ isOpen, onCl
           <div className="flex items-center space-x-2">
             <Sparkles className="w-4 h-4 text-mostaza shrink-0" />
             <span>
-              Mostrando <strong className="text-verde-profundo">{filteredCatalog.length}</strong> registros encontrados de {agnCatalogData.length} totales en catálogo.
+              {isSearchActive ? (
+                <>Mostrando <strong className="text-verde-profundo">{filteredCatalog.length}</strong> registros encontrados.</>
+              ) : (
+                <>Ingrese un código ID, nombre o palabra clave para consultar el catálogo de {agnCatalogData.length} bienes.</>
+              )}
             </span>
           </div>
-          {searchQuery && (
+          {isSearchActive && (
             <button 
-              onClick={() => setSearchQuery('')}
+              onClick={() => { setSearchQuery(''); setSelectedType('Todos'); setSelectedYearRange('all'); }}
               className="text-terracota font-bold hover:underline"
             >
-              Limpiar búsqueda
+              Limpiar consulta
             </button>
           )}
         </div>
 
-        {/* Catalog Grid */}
-        {filteredCatalog.length === 0 ? (
+        {/* Catalog Grid / Initial Empty Prompt */}
+        {!isSearchActive ? (
+          <div className="p-12 sm:p-16 text-center bg-white/80 rounded-3xl border-2 border-dashed border-crema-dark space-y-4 shadow-sm">
+            <div className="w-16 h-16 bg-mostaza/15 rounded-2xl flex items-center justify-center mx-auto text-terracota border border-mostaza/30">
+              <Search className="w-8 h-8 text-terracota" />
+            </div>
+            <div className="space-y-1 max-w-lg mx-auto">
+              <h3 className="font-serif font-bold text-xl text-verde-profundo">
+                Consulta Pública de Archivos & Artefactos
+              </h3>
+              <p className="text-xs sm:text-sm text-cafe/70 leading-relaxed">
+                Escriba un código ID (ej. <code className="bg-crema-dark px-1.5 py-0.5 rounded font-mono font-bold text-terracota">AGN-ART-039</code>), un nombre de documento o una palabra clave en la barra superior para explorar.
+              </p>
+            </div>
+
+            {/* Suggested Searches Chips */}
+            <div className="pt-2">
+              <p className="text-xs font-semibold text-cafe/60 uppercase tracking-wider mb-2">Búsquedas sugeridas:</p>
+              <div className="flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-auto">
+                {['AGN-ART-039', 'AGN-FIS-001', 'Territorio', 'Cacique Juan Chiles', 'Sol de los Pastos', 'Fototeca Histórica', 'Inti Raymi'].map((chip) => (
+                  <button
+                    key={chip}
+                    onClick={() => setSearchQuery(chip)}
+                    className="px-3 py-1.5 bg-crema hover:bg-terracota hover:text-crema text-cafe border border-crema-dark text-xs font-medium rounded-xl transition-all shadow-xs"
+                  >
+                    🔍 {chip}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : filteredCatalog.length === 0 ? (
           <div className="p-12 text-center bg-white rounded-2xl border border-crema-dark space-y-3">
             <Info className="w-10 h-10 text-terracota/60 mx-auto" />
             <p className="font-bold text-base text-verde-profundo">No se encontraron archivos con ese criterio.</p>
