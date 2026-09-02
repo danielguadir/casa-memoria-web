@@ -1,6 +1,37 @@
 import Image from 'next/image';
 import { Instagram, MapPin, Facebook } from 'lucide-react';
 
+const socialLinks = [
+  {
+    name: 'Instagram',
+    href: 'https://www.instagram.com/casadelamemoriagrancumbal',
+    icon: <Instagram size={20} />,
+  },
+  {
+    name: 'Facebook',
+    href: 'https://www.facebook.com/profile.php?id=61565526674813',
+    icon: <Facebook size={20} />,
+  },
+  {
+    name: 'TikTok',
+    href: 'https://www.tiktok.com/@casadelamemoriagrancumbal',
+    icon: (
+      <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64c.29 0 .56.04.82.1v-3.5a6.37 6.37 0 00-.82-.05A6.34 6.34 0 003.15 15.6a6.34 6.34 0 0010.83 4.47V10.45a8.28 8.28 0 004.82 1.54V8.54a4.85 4.85 0 01-3.21-1.85z"/>
+      </svg>
+    ),
+  },
+  {
+    name: 'X (Twitter)',
+    href: 'https://x.com/casamemoriacumbal',
+    icon: (
+      <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+    ),
+  },
+];
+
 export default function Footer() {
     return (
         <footer id="contacto" className="bg-cafe text-crema py-12 border-t-4 border-terracota">
@@ -30,13 +61,23 @@ export default function Footer() {
                             </p>
                         </div>
 
-                        <div className="flex space-x-4 pt-2">
-                            <a href="https://www.instagram.com/casadelamemoriagrancumbal" target="_blank" rel="noopener noreferrer" className="bg-verde-profundo p-2 rounded-full hover:bg-terracota transition-colors">
-                                <Instagram size={20} />
-                            </a>
-                            <a href="#" className="bg-verde-profundo p-2 rounded-full hover:bg-terracota transition-colors">
-                                <Facebook size={20} />
-                            </a>
+                        <div className="space-y-2 pt-2">
+                            <p className="text-xs font-semibold text-mostaza uppercase tracking-wider">Síguenos en Redes Sociales:</p>
+                            <div className="flex space-x-3">
+                                {socialLinks.map((social) => (
+                                    <a
+                                        key={social.name}
+                                        href={social.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        title={`Síguenos en ${social.name}`}
+                                        aria-label={social.name}
+                                        className="bg-verde-profundo p-2.5 rounded-full hover:bg-terracota hover:scale-110 transition-all duration-200 text-crema flex items-center justify-center border border-crema/10 shadow-sm"
+                                    >
+                                        {social.icon}
+                                    </a>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
