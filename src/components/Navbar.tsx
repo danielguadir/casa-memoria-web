@@ -110,9 +110,9 @@ export default function Navbar() {
               onClick={openKioskModal}
               leftIcon={<Monitor size={16} />}
               className="shadow-sm font-bold animate-pulse hover:animate-none"
-              title="Abrir la Terminal de Consulta Pública de Archivos"
+              title="Abrir la Consulta Pública - Casa de la Memoria Cumbal"
             >
-              Consultar Archivo (PC)
+              Consulta Pública
             </Button>
 
             {/* Auth Buttons / Profile Menu */}

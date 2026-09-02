@@ -62,7 +62,7 @@ export default function Hero() {
                         leftIcon={<Monitor className="w-5 h-5" />}
                         className="shadow-lg font-bold text-base px-8 py-4 rounded-full w-full sm:w-auto"
                     >
-                        Terminal de Consulta Pública (PC AGN)
+                        Consulta Pública - Casa de la Memoria
                     </Button>
                     <a href="#sobre-el-proceso" className="bg-terracota hover:bg-verde-profundo text-crema px-8 py-4 rounded-full font-semibold text-base transition-all duration-300 transform hover:-translate-y-1 shadow-md w-full sm:w-auto text-center">
                         Conoce el proceso

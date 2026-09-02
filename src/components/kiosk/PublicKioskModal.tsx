@@ -93,10 +93,10 @@ export const PublicKioskModal: React.FC<PublicKioskModalProps> = ({ isOpen, onCl
           </div>
           <div>
             <h2 className="text-xl font-bold font-serif text-crema tracking-wide">
-              Terminal de Consulta Pública - Archivo General & Memoria
+              Consulta Pública - Casa de la Memoria Cumbal
             </h2>
             <p className="text-xs text-crema/70">
-              Kiosco de consulta previa: Catálogo de fondos físicos, digitales, audiovisuales y piezas arqueológicas
+              Consulta por nombre, ID o palabra clave
             </p>
           </div>
         </div>
