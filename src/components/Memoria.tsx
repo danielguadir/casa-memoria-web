@@ -37,28 +37,41 @@ export default function Memoria() {
 
                 <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-12 text-cafe items-center">
 
-                    {/* Card Lanzamiento Documental */}
-                    <div className="bg-crema/95 backdrop-blur-sm rounded-[2.5rem] overflow-hidden shadow-2xl relative group transform hover:-translate-y-2 transition-all duration-500 border-b-8 border-mostaza">
+                    {/* Card Lanzamiento Documental - Enlace a Reel de Facebook */}
+                    <a 
+                        href="https://www.facebook.com/reel/818082714699399" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block bg-crema/95 backdrop-blur-sm rounded-[2.5rem] overflow-hidden shadow-2xl relative group transform hover:-translate-y-2 transition-all duration-500 border-b-8 border-mostaza cursor-pointer focus:outline-none focus:ring-4 focus:ring-mostaza/50"
+                        title="Ver corto documental 'Ecos del Gran Cumbal' en Facebook Reel"
+                    >
                         <div className="h-56 bg-verde-profundo relative overflow-hidden">
                             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-500 z-10"></div>
                             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
-                                <div className="w-20 h-20 bg-mostaza/90 rounded-full flex items-center justify-center animate-pulse shadow-2xl border-4 border-crema/30">
-                                    <Film size={40} className="text-verde-profundo ml-1" />
+                                <div className="w-20 h-20 bg-mostaza/90 group-hover:bg-terracota group-hover:scale-110 rounded-full flex items-center justify-center animate-pulse group-hover:animate-none shadow-2xl border-4 border-crema/30 transition-all duration-300">
+                                    <Film size={40} className="text-verde-profundo group-hover:text-crema ml-1 transition-colors" />
                                 </div>
                             </div>
                             <Image
                                 src="/images/tesoros2.png"
-                                alt="Documental"
+                                alt="Documental Ecos del Gran Cumbal"
                                 fill
                                 className="object-cover opacity-60 group-hover:scale-110 transition-transform duration-700"
                             />
                         </div>
 
                         <div className="p-10">
-                            <span className="px-4 py-1.5 bg-terracota/10 text-terracota font-bold text-xs rounded-full uppercase tracking-widest border border-terracota/20">
-                                Estreno | Corto Documental
-                            </span>
-                            <h3 className="font-serif font-bold text-3xl text-verde-profundo mt-6 mb-3 tracking-tight">
+                            <div className="flex items-center justify-between">
+                                <span className="px-4 py-1.5 bg-terracota/10 text-terracota font-bold text-xs rounded-full uppercase tracking-widest border border-terracota/20">
+                                    Estreno | Corto Documental
+                                </span>
+                                <span className="text-xs font-bold text-verde-profundo flex items-center gap-1 group-hover:text-terracota transition-colors">
+                                    <span>Ver en Facebook</span>
+                                    <span className="text-base">↗</span>
+                                </span>
+                            </div>
+
+                            <h3 className="font-serif font-bold text-3xl text-verde-profundo mt-6 mb-3 tracking-tight group-hover:text-terracota transition-colors">
                                 Ecos del Gran Cumbal
                             </h3>
                             <p className="font-sans text-cafe/80 text-base leading-relaxed italic mb-8 border-l-4 border-terracota/30 pl-4">
@@ -78,15 +91,15 @@ export default function Memoria() {
                                         <span className="w-8 h-8 rounded-full bg-verde-profundo/10 flex items-center justify-center text-mostaza">⏰</span>
                                         <span>Hora:</span>
                                     </div>
-                                    <span className="text-terracota font-extrabold uppercase tracking-tighter">5:00pm | ¡Este viernes!</span>
+                                    <span className="text-terracota font-extrabold uppercase tracking-tighter">5:00pm | ¡Ver Reel!</span>
                                 </div>
                             </div>
 
-                            <div className="flex items-center justify-center space-x-2 text-terracota font-extrabold text-sm uppercase tracking-widest animate-bounce mt-4">
-                                <span>¡Los esperamos!</span>
+                            <div className="flex items-center justify-center space-x-2 bg-terracota group-hover:bg-verde-profundo text-crema font-extrabold text-sm uppercase tracking-widest py-3 px-6 rounded-xl transition-colors shadow-md mt-4">
+                                <span>Ver Corto Documental en Facebook ↗</span>
                             </div>
                         </div>
-                    </div>
+                    </a>
 
                     {/* Experiencia PACPI */}
                     <div className="bg-crema-dark/30 backdrop-blur-md rounded-[2.5rem] p-10 lg:p-14 border-4 border-crema shadow-2xl relative h-full flex flex-col justify-center overflow-hidden group">
