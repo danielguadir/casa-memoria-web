@@ -1,25 +1,25 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X, LogOut, ChevronDown, ShieldCheck, LayoutDashboard, LogIn, Monitor } from 'lucide-react';
 import { useState } from 'react';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth, SectionType } from '@/context/AuthContext';
 import { Button, Badge } from '@/components/design-system';
 
-const navLinks = [
-  { name: 'Inicio', href: '/' },
-  { name: 'Sobre el proceso', href: '#sobre-el-proceso' },
-  { name: 'Convocatoria', href: '#convocatoria' },
+const navLinks: { name: string; key: SectionType; href: string; dropdown?: { name: string; href: string }[] }[] = [
+  { name: 'Inicio', key: 'inicio', href: '#' },
+  { name: 'Sobre el proceso', key: 'sobre-el-proceso', href: '#' },
+  { name: 'Convocatoria', key: 'convocatoria', href: '#' },
   {
     name: 'Memoria',
-    href: '#memoria',
+    key: 'memoria',
+    href: '#',
     dropdown: [
       { name: 'Documentales', href: '#' },
       { name: 'Hallazgos', href: '#' }
     ]
   },
-  { name: 'Contacto', href: '#contacto' },
+  { name: 'Contacto', key: 'inicio', href: '#contacto' },
 ];
 
 export default function Navbar() {
@@ -27,7 +27,25 @@ export default function Navbar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isMemoriaOpen, setIsMemoriaOpen] = useState(false);
 
-  const { user, isLoggedIn, openLoginModal, openKioskModal, logout, activeView, setActiveView } = useAuth();
+  const { 
+    user, isLoggedIn, openLoginModal, openKioskModal, 
+    logout, activeView, setActiveView, activeSection, setActiveSection 
+  } = useAuth();
+
+  const handleNavClick = (sectionKey: SectionType, href?: string) => {
+    setActiveSection(sectionKey);
+    if (activeView === 'admin') {
+      setActiveView('public');
+    }
+    if (href === '#contacto') {
+      const footerEl = document.getElementById('contacto');
+      if (footerEl) {
+        footerEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
     <nav className="bg-verde-profundo text-crema sticky top-0 z-50 shadow-md">
@@ -36,7 +54,10 @@ export default function Navbar() {
           
           {/* Logo & Brand Name */}
           <div className="flex items-center">
-            <Link href="/" className="flex-shrink-0 flex items-center space-x-3 group">
+            <button 
+              onClick={() => handleNavClick('inicio')}
+              className="flex-shrink-0 flex items-center space-x-3 group text-left focus:outline-none"
+            >
               <div className="relative w-13 h-13 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-mostaza bg-crema flex items-center justify-center shadow-md group-hover:scale-105 transition-transform shrink-0">
                 <Image
                   src="/images/hero-logo.png"
@@ -55,54 +76,65 @@ export default function Navbar() {
                   Archivo & Salvaguarda
                 </span>
               </div>
-            </Link>
+            </button>
           </div>
 
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-3 lg:space-x-5">
-            {navLinks.map((link) => (
-              <div
-                key={link.name}
-                className="relative group h-full flex items-center"
-                onMouseEnter={() => link.dropdown && setIsMemoriaOpen(true)}
-                onMouseLeave={() => link.dropdown && setIsMemoriaOpen(false)}
-              >
-                {link.dropdown ? (
-                  <div className="relative flex items-center">
-                    <Link
-                      href={link.href}
-                      className="flex items-center space-x-1 hover:text-mostaza transition-colors duration-300 font-medium text-sm lg:text-base tracking-wide py-2"
-                      onClick={() => setIsMemoriaOpen(false)}
-                    >
-                      <span>{link.name}</span>
-                      <ChevronDown size={14} className={`transition-transform duration-300 ${isMemoriaOpen ? 'rotate-180' : ''}`} />
-                    </Link>
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.key && activeView === 'public' && link.href !== '#contacto';
+              return (
+                <div
+                  key={link.name}
+                  className="relative group h-full flex items-center"
+                  onMouseEnter={() => link.dropdown && setIsMemoriaOpen(true)}
+                  onMouseLeave={() => link.dropdown && setIsMemoriaOpen(false)}
+                >
+                  {link.dropdown ? (
+                    <div className="relative flex items-center">
+                      <button
+                        onClick={() => handleNavClick(link.key)}
+                        className={`
+                          flex items-center space-x-1 transition-colors duration-300 font-medium text-sm lg:text-base tracking-wide py-2
+                          ${isActive ? 'text-mostaza font-bold border-b-2 border-mostaza' : 'hover:text-mostaza'}
+                        `}
+                      >
+                        <span>{link.name}</span>
+                        <ChevronDown size={14} className={`transition-transform duration-300 ${isMemoriaOpen ? 'rotate-180' : ''}`} />
+                      </button>
 
-                    {/* Dropdown Desktop */}
-                    {isMemoriaOpen && (
-                      <div className="absolute top-full left-0 w-48 bg-crema text-cafe rounded-b-xl shadow-xl border-t-2 border-terracota py-2 animate-in fade-in slide-in-from-top-2 z-[60]">
-                        {link.dropdown.map((item) => (
-                          <Link
-                            key={item.name}
-                            href={item.href}
-                            className="block px-4 py-2 hover:bg-crema-dark hover:text-terracota transition-colors text-sm font-medium"
-                          >
-                            {item.name}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <Link
-                    href={link.href}
-                    className="hover:text-mostaza transition-colors duration-300 font-medium text-sm lg:text-base tracking-wide"
-                  >
-                    {link.name}
-                  </Link>
-                )}
-              </div>
-            ))}
+                      {/* Dropdown Desktop */}
+                      {isMemoriaOpen && (
+                        <div className="absolute top-full left-0 w-48 bg-crema text-cafe rounded-b-xl shadow-xl border-t-2 border-terracota py-2 animate-in fade-in slide-in-from-top-2 z-[60]">
+                          {link.dropdown.map((item) => (
+                            <button
+                              key={item.name}
+                              onClick={() => {
+                                handleNavClick('memoria');
+                                setIsMemoriaOpen(false);
+                              }}
+                              className="w-full text-left px-4 py-2 hover:bg-crema-dark hover:text-terracota transition-colors text-sm font-medium"
+                            >
+                              {item.name}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => handleNavClick(link.key, link.href)}
+                      className={`
+                        transition-colors duration-300 font-medium text-sm lg:text-base tracking-wide py-1 px-1 rounded-md
+                        ${isActive ? 'text-mostaza font-bold border-b-2 border-mostaza' : 'hover:text-mostaza'}
+                      `}
+                    >
+                      {link.name}
+                    </button>
+                  )}
+                </div>
+              );
+            })}
 
             {/* Public Kiosk Terminal Button */}
             <Button
@@ -242,13 +274,15 @@ export default function Navbar() {
           <div className="px-3 pt-2 pb-4 space-y-2">
             {navLinks.map((link) => (
               <div key={link.name}>
-                <Link
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="block px-3 py-2 rounded-lg text-base font-medium hover:bg-terracota hover:text-crema transition-colors text-crema"
+                <button
+                  onClick={() => {
+                    handleNavClick(link.key, link.href);
+                    setIsOpen(false);
+                  }}
+                  className="w-full text-left px-3 py-2 rounded-lg text-base font-medium hover:bg-terracota hover:text-crema transition-colors text-crema"
                 >
                   {link.name}
-                </Link>
+                </button>
               </div>
             ))}
 
@@ -263,7 +297,7 @@ export default function Navbar() {
                 leftIcon={<Monitor size={18} />}
                 fullWidth
               >
-                Abrir Terminal de Consulta (PC Kiosco)
+                Abrir Consulta Pública
               </Button>
             </div>
 

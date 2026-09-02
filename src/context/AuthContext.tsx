@@ -10,12 +10,15 @@ export interface User {
   avatar?: string;
 }
 
+export type SectionType = 'inicio' | 'sobre-el-proceso' | 'convocatoria' | 'memoria';
+
 interface AuthContextType {
   user: User | null;
   isLoggedIn: boolean;
   isLoginModalOpen: boolean;
   isKioskOpen: boolean;
   activeView: 'public' | 'admin';
+  activeSection: SectionType;
   openLoginModal: () => void;
   closeLoginModal: () => void;
   openKioskModal: () => void;
@@ -23,6 +26,7 @@ interface AuthContextType {
   login: (email: string, password: string) => { success: boolean; error?: string };
   logout: () => void;
   setActiveView: (view: 'public' | 'admin') => void;
+  setActiveSection: (section: SectionType) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -32,6 +36,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
   const [isKioskOpen, setIsKioskOpen] = useState<boolean>(false);
   const [activeView, setActiveView] = useState<'public' | 'admin'>('public');
+  const [activeSection, setActiveSection] = useState<SectionType>('inicio');
 
   const openLoginModal = () => setIsLoginModalOpen(true);
   const closeLoginModal = () => setIsLoginModalOpen(false);
@@ -65,6 +70,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     setUser(null);
     setActiveView('public');
+    setActiveSection('inicio');
   };
 
   return (
@@ -75,6 +81,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isLoginModalOpen,
         isKioskOpen,
         activeView,
+        activeSection,
         openLoginModal,
         closeLoginModal,
         openKioskModal,
@@ -82,6 +89,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         login,
         logout,
         setActiveView,
+        setActiveSection,
       }}
     >
       {children}

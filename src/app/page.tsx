@@ -8,22 +8,22 @@ import AdminDashboard from '@/components/admin/AdminDashboard';
 import { useAuth } from '@/context/AuthContext';
 
 export default function Home() {
-  const { activeView } = useAuth();
+  const { activeView, activeSection } = useAuth();
+
+  if (activeView === 'admin') {
+    return (
+      <div className="animate-in fade-in duration-300">
+        <AdminDashboard />
+      </div>
+    );
+  }
 
   return (
-    <>
-      {activeView === 'admin' ? (
-        <div className="animate-in fade-in duration-300">
-          <AdminDashboard />
-        </div>
-      ) : (
-        <div className="animate-in fade-in duration-300 space-y-0">
-          <Hero />
-          <SobreProceso />
-          <Convocatoria />
-          <Memoria />
-        </div>
-      )}
-    </>
+    <div className="animate-in fade-in duration-300 space-y-0">
+      {activeSection === 'inicio' && <Hero />}
+      {activeSection === 'sobre-el-proceso' && <SobreProceso />}
+      {activeSection === 'convocatoria' && <Convocatoria />}
+      {activeSection === 'memoria' && <Memoria />}
+    </div>
   );
 }
