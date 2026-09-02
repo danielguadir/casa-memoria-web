@@ -50,7 +50,7 @@ export default function Footer() {
                                 />
                             </div>
                             <h3 className="font-serif font-bold text-2xl text-mostaza">
-                                Casa de la Memoria<br /><span className="text-lg font-medium text-crema">Gran Cumbal</span>
+                                Casa de la Memoria Cumbal
                             </h3>
                         </div>
                         <p className="text-sm font-sans leading-relaxed text-crema/80">
@@ -96,7 +96,7 @@ export default function Footer() {
                 </div>
 
                 <div className="mt-12 pt-6 border-t border-crema/10 text-center text-sm font-sans text-crema/60 flex flex-col sm:flex-row justify-between items-center">
-                    <p>© {new Date().getFullYear()} Casa de la Memoria Gran Cumbal. Todos los derechos reservados.</p>
+                    <p>© {new Date().getFullYear()} Casa de la Memoria Cumbal. Todos los derechos reservados.</p>
                     <p className="mt-2 sm:mt-0">Territorio, Memoria y Formación</p>
                 </div>
             </div>
