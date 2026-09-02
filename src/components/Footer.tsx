@@ -91,9 +91,6 @@ export default function Footer() {
 
                     <div className="space-y-4">
                         <h4 className="font-serif font-semibold text-xl text-mostaza border-b border-mostaza/30 pb-2">Redes de Apoyo</h4>
-                        <p className="text-sm font-sans leading-relaxed text-crema/80 border-l-2 border-mostaza/40 pl-3 py-1">
-                            Iniciativa respaldada por las autoridades tradicionales del Resguardo Indígena de Cumbal y entidades de gestión cultural e histórica del departamento de Nariño.
-                        </p>
                     </div>
 
                 </div>
