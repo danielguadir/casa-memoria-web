@@ -40,7 +40,15 @@ export default function Footer() {
 
                     <div className="space-y-4">
                         <div className="flex items-center space-x-3">
-                            <Image src="/images/hero-logo.png" alt="Logo Casa de la Memoria" width={60} height={60} className="w-auto h-16 object-contain filter brightness-110" />
+                            <div className="relative w-14 h-14 rounded-full overflow-hidden border-2 border-mostaza bg-crema flex items-center justify-center shadow-md shrink-0">
+                                <Image 
+                                    src="/images/hero-logo.png" 
+                                    alt="Logo Casa de la Memoria" 
+                                    width={50} 
+                                    height={50} 
+                                    className="w-auto h-12 object-contain p-0.5 scale-110" 
+                                />
+                            </div>
                             <h3 className="font-serif font-bold text-2xl text-mostaza">
                                 Casa de la Memoria<br /><span className="text-lg font-medium text-crema">Gran Cumbal</span>
                             </h3>
@@ -83,16 +91,9 @@ export default function Footer() {
 
                     <div className="space-y-4">
                         <h4 className="font-serif font-semibold text-xl text-mostaza border-b border-mostaza/30 pb-2">Redes de Apoyo</h4>
-                        <div className="space-y-2 text-sm">
-                            <p><span className="font-semibold text-terracota">Organiza:</span><br /> @casadelamemoriagrancumbal</p>
-                            <p className="pt-2"><span className="font-semibold text-terracota">Con el apoyo de:</span><br />
-                                <span className="text-crema/80 inline-block mt-1 space-y-1">
-                                    • @direccion.de.cultura.narino<br />
-                                    • @gobnarino<br />
-                                    • @aicoporlapachamama
-                                </span>
-                            </p>
-                        </div>
+                        <p className="text-sm font-sans leading-relaxed text-crema/80 border-l-2 border-mostaza/40 pl-3 py-1">
+                            Iniciativa respaldada por las autoridades tradicionales del Resguardo Indígena de Cumbal y entidades de gestión cultural e histórica del departamento de Nariño.
+                        </p>
                     </div>
 
                 </div>

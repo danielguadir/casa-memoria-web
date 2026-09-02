@@ -37,13 +37,14 @@ export default function Navbar() {
           {/* Logo & Brand Name */}
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0 flex items-center space-x-3 group">
-              <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-mostaza bg-crema flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+              <div className="relative w-13 h-13 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-mostaza bg-crema flex items-center justify-center shadow-md group-hover:scale-105 transition-transform shrink-0">
                 <Image
                   src="/images/hero-logo.png"
-                  alt="Logo"
-                  width={40}
-                  height={40}
-                  className="w-auto h-10 object-contain p-1"
+                  alt="Logo Casa de la Memoria"
+                  width={52}
+                  height={52}
+                  className="w-auto h-11 sm:h-12 object-contain p-0.5 scale-110"
+                  priority
                 />
               </div>
               <div className="hidden sm:block">
