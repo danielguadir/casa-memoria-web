@@ -45,10 +45,6 @@ export default function Hero() {
                         Gran Cumbal
                     </h1>
 
-                    <h2 className="text-xl md:text-3xl font-medium text-cafe max-w-3xl mx-auto">
-                        Centro Cultural & Archivo General (AGN)
-                    </h2>
-
                     <p className="text-base sm:text-xl md:text-2xl font-sans text-cafe/90 max-w-3xl mx-auto leading-relaxed border-t border-b border-verde-profundo/20 py-6 my-6">
                         Desarrollamos estrategias de salvaguarda y protección de las memorias y el patrimonio cultural de los pueblos indígenas del sur de Colombia
                     </p>
