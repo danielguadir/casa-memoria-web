@@ -154,7 +154,7 @@ export default function AdminDashboard() {
               Panel de Administración
             </h1>
             <p className="text-sm text-cafe/80 mt-1 max-w-2xl font-sans">
-              Bienvenido, <strong className="text-terracota">{user?.name || 'Administrador'}</strong>. Control de patrimonio, archivo fotográfico, gestión de personal y edición de contenidos.
+              Bienvenido, <strong className="text-terracota">{user?.name || user?.email || 'Administrador'}</strong>
             </p>
           </div>
 
@@ -182,9 +182,6 @@ export default function AdminDashboard() {
                 <FolderKanban className="w-5 h-5 text-terracota" />
                 <span>Explorador del Archivo General</span>
               </CardTitle>
-              <p className="text-xs text-cafe/70 mt-0.5 font-sans">
-                Consulta y gestiona actas, manuscritos, testimonios y registros fotográficos
-              </p>
             </div>
 
             {/* Filters Row (Year Dropdown & Search Bar) */}
