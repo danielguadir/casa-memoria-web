@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { 
-  UserPlus, FilePlus, Image as ImageIcon, 
+  FilePlus, Image as ImageIcon, 
   Calendar, Search, Filter, FolderKanban, FileText, CheckCircle2,
   Download, Eye, Trash2, ShieldCheck, Menu, X, ChevronRight
 } from 'lucide-react';
@@ -25,11 +25,6 @@ interface ArchiveItem {
 
 const initialArchives: ArchiveItem[] = [
   { id: '1', title: 'Acta de Salvaguarda del Territorio Ancestral Cumbal', code: 'AGN-CUM-2026-01', type: 'Acta', year: '2026', author: 'Cabildo Gobernador', status: 'Publicado', size: '4.2 MB' },
-  { id: '2', title: 'Registro Fotográfico Encuentro de Sabedoras Ancestrales', code: 'FOTO-CUM-2026-09', type: 'Fotografía', year: '2026', author: 'Equipo de Memoria', status: 'Publicado', size: '18.5 MB' },
-  { id: '3', title: 'Documental de Memorias Orales del Sur de Colombia', code: 'DOC-CUM-2025-14', type: 'Documento', year: '2025', author: 'Investigación Abierta', status: 'Publicado', size: '12.1 MB' },
-  { id: '4', title: 'Plan de Manejo y Protección del Patrimonio Material', code: 'AGN-CUM-2024-03', type: 'Documento', year: '2024', author: 'Ministerio de Cultura', status: 'Publicado', size: '8.7 MB' },
-  { id: '5', title: 'Fototeca Histórica: Primera Asambleas Comunitarias 1990', code: 'FOTO-CUM-1990-01', type: 'Fotografía', year: '1990', author: 'Archivo Histórico', status: 'Archivado', size: '45.0 MB' },
-  { id: '6', title: 'Relatos de la Cordillera: Testimonios de Adultos Mayores', code: 'AUDIO-CUM-2023-02', type: 'Audio', year: '2023', author: 'Colectivo Memoria Viva', status: 'En Revisión', size: '25.3 MB' },
 ];
 
 const yearOptions = [
@@ -177,56 +172,7 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Stats Metrics Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-          <Card variant="default" className="hover:border-verde-profundo/40 transition-colors">
-            <CardContent className="p-4 sm:p-5 flex items-center space-x-4">
-              <div className="w-11 h-11 rounded-xl bg-verde-profundo/10 text-verde-profundo flex items-center justify-center shrink-0">
-                <FileText className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-xs font-semibold text-cafe/60 uppercase tracking-wider font-sans">Documentos</p>
-                <p className="text-xl sm:text-2xl font-bold font-serif text-verde-profundo">{archives.filter(a => a.type !== 'Fotografía').length}</p>
-              </div>
-            </CardContent>
-          </Card>
 
-          <Card variant="default" className="hover:border-terracota/40 transition-colors">
-            <CardContent className="p-4 sm:p-5 flex items-center space-x-4">
-              <div className="w-11 h-11 rounded-xl bg-terracota/10 text-terracota flex items-center justify-center shrink-0">
-                <ImageIcon className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-xs font-semibold text-cafe/60 uppercase tracking-wider font-sans">Fotografías</p>
-                <p className="text-xl sm:text-2xl font-bold font-serif text-terracota">{archives.filter(a => a.type === 'Fotografía').length}</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card variant="default" className="hover:border-mostaza/40 transition-colors">
-            <CardContent className="p-4 sm:p-5 flex items-center space-x-4">
-              <div className="w-11 h-11 rounded-xl bg-mostaza/20 text-cafe flex items-center justify-center shrink-0">
-                <Calendar className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-xs font-semibold text-cafe/60 uppercase tracking-wider font-sans">Años Registrados</p>
-                <p className="text-xl sm:text-2xl font-bold font-serif text-cafe">1990 - 2026</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card variant="default" className="hover:border-blue-300 transition-colors">
-            <CardContent className="p-4 sm:p-5 flex items-center space-x-4">
-              <div className="w-11 h-11 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center shrink-0">
-                <UserPlus className="w-5 h-5" />
-              </div>
-              <div>
-                <p className="text-xs font-semibold text-cafe/60 uppercase tracking-wider font-sans">Usuarios Activos</p>
-                <p className="text-xl sm:text-2xl font-bold font-serif text-blue-800">3 Registrados</p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
 
         {/* Main Archive Explorer Card & Table */}
         <Card variant="default" className="shadow-md border border-crema-dark overflow-hidden">
