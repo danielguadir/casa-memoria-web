@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { 
   FolderKanban, UserPlus, UserMinus, FileEdit, FilePlus, Image as ImageIcon, 
   ChevronLeft, ChevronRight, ChevronDown, LogOut, LayoutDashboard,
-  Calendar, Users
+  Calendar, Users, UserCheck, Activity
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { AdminModalType } from './AdminModals';
@@ -140,6 +140,13 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
             {!isCollapsed && openSubmenu === 'usuarios' && (
               <div className="ml-7 mt-1 space-y-1 border-l-2 border-crema-dark pl-3">
                 <button
+                  onClick={() => onOpenModal('showUsers')}
+                  className="w-full flex items-center space-x-2 text-xs py-1.5 px-2 rounded-lg text-cafe/80 hover:text-verde-profundo hover:bg-crema-dark/50 transition-colors text-left font-medium"
+                >
+                  <UserCheck size={14} className="text-verde-profundo shrink-0" />
+                  <span>Mostrar Usuarios</span>
+                </button>
+                <button
                   onClick={() => onOpenModal('createUser')}
                   className="w-full flex items-center space-x-2 text-xs py-1.5 px-2 rounded-lg text-cafe/80 hover:text-terracota hover:bg-crema-dark/50 transition-colors text-left font-medium"
                 >
@@ -157,7 +164,24 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
             )}
           </div>
 
-          {/* 3. Edición de Textos de Página */}
+          {/* 3. Interacción Web & Inicios de Sesión */}
+          <button
+            onClick={() => onOpenModal('webInteraction')}
+            className="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-cafe hover:bg-crema-dark/70 hover:text-verde-profundo transition-colors text-left"
+            title="Ver Interacción Web y Registro de Inicios de Sesión"
+          >
+            <Activity size={18} className="shrink-0 text-terracota" />
+            {!isCollapsed && (
+              <div className="flex items-center justify-between w-full">
+                <span className="truncate">Interacción Web</span>
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-mostaza/30 text-cafe uppercase shrink-0 ml-1">
+                  Beta
+                </span>
+              </div>
+            )}
+          </button>
+
+          {/* 4. Edición de Textos de Página */}
           <button
             onClick={() => onOpenModal('editPage')}
             className="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-cafe hover:bg-crema-dark/70 hover:text-verde-profundo transition-colors text-left"
@@ -167,7 +191,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
             {!isCollapsed && <span>Editar Sitio Web</span>}
           </button>
 
-          {/* 4. Fototeca & Multimedia */}
+          {/* 5. Fototeca & Multimedia */}
           <button
             onClick={() => onOpenModal('managePhotos')}
             className="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-cafe hover:bg-crema-dark/70 hover:text-verde-profundo transition-colors text-left"
@@ -177,7 +201,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
             {!isCollapsed && <span>Archivos & Fototeca</span>}
           </button>
 
-          {/* 5. Filtro por Años en Sidebar */}
+          {/* 6. Filtro por Años en Sidebar */}
           <div>
             <button
               onClick={() => {

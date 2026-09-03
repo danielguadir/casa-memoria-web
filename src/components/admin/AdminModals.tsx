@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { 
   UserPlus, UserMinus, FileEdit, FilePlus, Image as ImageIcon, 
-  Trash2, Upload
+  Trash2, Upload, Users, Activity, Clock, Wrench
 } from 'lucide-react';
 import { Modal, Input, Button, Badge } from '@/components/design-system';
 
@@ -13,6 +13,8 @@ export type AdminModalType =
   | 'editPage' 
   | 'addDocument' 
   | 'managePhotos' 
+  | 'showUsers'
+  | 'webInteraction'
   | null;
 
 export interface AdminModalsProps {
@@ -31,11 +33,11 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
   const [newUserEmail, setNewUserEmail] = useState('');
   const [newUserRole, setNewUserRole] = useState('Archivista');
 
-  // Delete User state (mock user list)
+  // Directory User list state
   const [userList, setUserList] = useState([
-    { id: '1', name: 'Carlos Guanga', email: 'carlos@casamemoria.gov.co', role: 'Administrador' },
-    { id: '2', name: 'María Tarapues', email: 'maria@casamemoria.gov.co', role: 'Archivista' },
-    { id: '3', name: 'Lucía Alpala', email: 'lucia@casamemoria.gov.co', role: 'Historiadora' },
+    { id: '1', name: 'Carlos Guanga', email: 'carlos@casamemoria.gov.co', role: 'Administrador', lastLogin: 'Hoy, 20:25', status: 'Activo' },
+    { id: '2', name: 'María Tarapues', email: 'maria@casamemoria.gov.co', role: 'Archivista', lastLogin: 'Hoy, 18:10', status: 'Activo' },
+    { id: '3', name: 'Lucía Alpala', email: 'lucia@casamemoria.gov.co', role: 'Historiadora', lastLogin: 'Ayer, 15:40', status: 'Inactivo' },
   ]);
 
   // Edit Page state
@@ -64,6 +66,8 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         name: newUserName,
         email: newUserEmail,
         role: newUserRole,
+        lastLogin: 'Nunca',
+        status: 'Activo',
       },
     ]);
 
@@ -126,7 +130,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         }
         subtitle="Registrar nuevo personal de archivo o gestión"
       >
-        <form onSubmit={handleCreateUser} className="space-y-4">
+        <form onSubmit={handleCreateUser} className="space-y-4 font-sans">
           <Input
             label="Nombre Completo"
             placeholder="Ej. Ana Lucía Cumbal"
@@ -164,7 +168,54 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         </form>
       </Modal>
 
-      {/* 2. MODAL ELIMINAR USUARIOS */}
+      {/* 2. MODAL MOSTRAR USUARIOS (Directorio de Usuarios) */}
+      <Modal
+        isOpen={activeModal === 'showUsers'}
+        onClose={onClose}
+        title={
+          <div className="flex items-center space-x-2 font-serif font-bold text-lg">
+            <Users className="w-5 h-5 text-verde-profundo" />
+            <span>Directorio de Usuarios Registrados</span>
+          </div>
+        }
+        subtitle="Listado completo del personal con acceso al sistema"
+        size="lg"
+      >
+        <div className="space-y-4 font-sans">
+          <div className="border border-crema-dark rounded-xl overflow-hidden divide-y divide-crema-dark bg-white">
+            {userList.map((u) => (
+              <div key={u.id} className="p-4 flex items-center justify-between hover:bg-crema/40 transition-colors">
+                <div className="flex items-center space-x-3">
+                  <div className="w-9 h-9 rounded-full bg-verde-profundo/10 text-verde-profundo font-bold flex items-center justify-center text-sm">
+                    {u.name.charAt(0)}
+                  </div>
+                  <div>
+                    <p className="font-bold text-sm text-verde-profundo">{u.name}</p>
+                    <p className="text-xs text-cafe/60">{u.email}</p>
+                  </div>
+                </div>
+
+                <div className="text-right">
+                  <Badge variant={u.role === 'Administrador' ? 'terracota' : 'verde'}>
+                    {u.role}
+                  </Badge>
+                  <p className="text-[11px] text-cafe/50 mt-1 flex items-center justify-end space-x-1">
+                    <Clock size={12} className="text-mostaza" />
+                    <span>Último acceso: {u.lastLogin}</span>
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="pt-3 flex justify-end space-x-3">
+            <Button variant="ghost" onClick={onClose}>Cerrar</Button>
+            <Button variant="terracota" onClick={() => { onClose(); }}>Aceptar</Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* 3. MODAL ELIMINAR USUARIOS */}
       <Modal
         isOpen={activeModal === 'deleteUser'}
         onClose={onClose}
@@ -177,7 +228,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         subtitle="Gestión de accesos existentes en el sistema"
         size="lg"
       >
-        <div className="space-y-3">
+        <div className="space-y-3 font-sans">
           <p className="text-xs text-cafe/70">
             Haga clic en el botón de eliminar junto al usuario que desea remover del sistema.
           </p>
@@ -210,7 +261,89 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         </div>
       </Modal>
 
-      {/* 3. MODAL EDITAR PÁGINA */}
+      {/* 4. MODAL INTERACCIÓN WEB & INICIOS DE SESIÓN (En Desarrollo) */}
+      <Modal
+        isOpen={activeModal === 'webInteraction'}
+        onClose={onClose}
+        title={
+          <div className="flex items-center space-x-2 font-serif font-bold text-lg">
+            <Activity className="w-5 h-5 text-terracota" />
+            <span>Interacción Web & Registro de Sesiones</span>
+          </div>
+        }
+        subtitle="Monitoreo de tráfico, accesos y horario de inicio de sesión de usuarios"
+        size="lg"
+      >
+        <div className="space-y-4 font-sans">
+          
+          {/* Banner de Opción No Disponible / En Desarrollo */}
+          <div className="p-4 rounded-xl bg-mostaza/15 border-2 border-mostaza/40 flex items-start space-x-3 text-cafe">
+            <Wrench className="w-6 h-6 text-terracota shrink-0 mt-0.5 animate-bounce" />
+            <div>
+              <div className="flex items-center space-x-2">
+                <h4 className="font-bold text-sm text-verde-profundo">Módulo Actualmente en Desarrollo</h4>
+                <Badge variant="mostaza">En Proceso</Badge>
+              </div>
+              <p className="text-xs text-cafe/80 mt-1 leading-relaxed">
+                Esta opción para visualizar la <strong>interacción en tiempo real de la página web</strong> y el <strong>registro detallado de quién inició sesión y a qué hora</strong> se encuentra en construcción por el momento.
+              </p>
+            </div>
+          </div>
+
+          {/* Vista Previa / Mock Log de Inicios de Sesión */}
+          <div>
+            <h5 className="text-xs font-bold text-verde-profundo uppercase tracking-wider mb-2 flex items-center space-x-1.5">
+              <Clock size={14} className="text-terracota" />
+              <span>Vista Previa: Registro Reciente de Accesos</span>
+            </h5>
+
+            <div className="border border-crema-dark rounded-xl overflow-hidden bg-white">
+              <table className="w-full text-left text-xs text-cafe">
+                <thead className="bg-crema-dark/50 text-cafe font-semibold uppercase text-[10px]">
+                  <tr>
+                    <th className="py-2.5 px-3">Usuario</th>
+                    <th className="py-2.5 px-3">Rol</th>
+                    <th className="py-2.5 px-3">Fecha y Hora</th>
+                    <th className="py-2.5 px-3 text-right">Estado</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-crema-dark/40">
+                  <tr className="hover:bg-crema/40 transition-colors">
+                    <td className="py-2.5 px-3 font-semibold text-verde-profundo">Carlos Guanga</td>
+                    <td className="py-2.5 px-3 text-cafe/70">Administrador</td>
+                    <td className="py-2.5 px-3 font-mono text-[11px]">Hoy, 20:25:14</td>
+                    <td className="py-2.5 px-3 text-right">
+                      <Badge variant="verde">En Línea</Badge>
+                    </td>
+                  </tr>
+                  <tr className="hover:bg-crema/40 transition-colors">
+                    <td className="py-2.5 px-3 font-semibold text-verde-profundo">María Tarapues</td>
+                    <td className="py-2.5 px-3 text-cafe/70">Archivista</td>
+                    <td className="py-2.5 px-3 font-mono text-[11px]">Hoy, 18:10:02</td>
+                    <td className="py-2.5 px-3 text-right">
+                      <Badge variant="cafe">Finalizado</Badge>
+                    </td>
+                  </tr>
+                  <tr className="hover:bg-crema/40 transition-colors">
+                    <td className="py-2.5 px-3 font-semibold text-verde-profundo">Lucía Alpala</td>
+                    <td className="py-2.5 px-3 text-cafe/70">Historiadora</td>
+                    <td className="py-2.5 px-3 font-mono text-[11px]">Ayer, 15:40:55</td>
+                    <td className="py-2.5 px-3 text-right">
+                      <Badge variant="neutral">Finalizado</Badge>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="pt-3 flex justify-end">
+            <Button variant="terracota" onClick={onClose}>Entendido</Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* 5. MODAL EDITAR PÁGINA */}
       <Modal
         isOpen={activeModal === 'editPage'}
         onClose={onClose}
@@ -223,7 +356,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         subtitle="Modifica la información visible en el sitio público"
         size="lg"
       >
-        <form onSubmit={handleSavePageContent} className="space-y-4">
+        <form onSubmit={handleSavePageContent} className="space-y-4 font-sans">
           <div>
             <label className="block text-xs font-semibold text-cafe/90 mb-1">Título Sección Principal (Hero)</label>
             <Input
@@ -259,7 +392,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         </form>
       </Modal>
 
-      {/* 4. MODAL AÑADIR DOCUMENTOS */}
+      {/* 6. MODAL AÑADIR DOCUMENTOS */}
       <Modal
         isOpen={activeModal === 'addDocument'}
         onClose={onClose}
@@ -272,7 +405,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         subtitle="Catalogación documental para la Memoria General"
         size="lg"
       >
-        <form onSubmit={handleAddDocument} className="space-y-4">
+        <form onSubmit={handleAddDocument} className="space-y-4 font-sans">
           <Input
             label="Título del Documento o Acta"
             placeholder="Ej. Acta de Delimitación Territorial de Cumbal"
@@ -336,7 +469,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         </form>
       </Modal>
 
-      {/* 5. MODAL ADMINISTRAR ARCHIVOS Y FOTOGRAFÍAS */}
+      {/* 7. MODAL ADMINISTRAR ARCHIVOS Y FOTOGRAFÍAS */}
       <Modal
         isOpen={activeModal === 'managePhotos'}
         onClose={onClose}
@@ -349,7 +482,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         subtitle="Cargar y organizar el archivo fotográfico histórico"
         size="lg"
       >
-        <form onSubmit={handleUploadPhoto} className="space-y-4">
+        <form onSubmit={handleUploadPhoto} className="space-y-4 font-sans">
           <Input
             label="Título de la Fotografía o Colección"
             placeholder="Ej. Encuentro de Sabedores Ancestrales"
