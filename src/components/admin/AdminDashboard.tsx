@@ -2,13 +2,14 @@
 
 import React, { useState } from 'react';
 import { 
-  UserPlus, UserMinus, FileEdit, FilePlus, Image as ImageIcon, 
+  UserPlus, FilePlus, Image as ImageIcon, 
   Calendar, Search, Filter, FolderKanban, FileText, CheckCircle2,
-  Download, Eye, Trash2, ShieldCheck
+  Download, Eye, Trash2, ShieldCheck, Menu, X, ChevronRight
 } from 'lucide-react';
 import { Button, Card, CardHeader, CardTitle, CardContent, Badge, Dropdown } from '@/components/design-system';
 import { useAuth } from '@/context/AuthContext';
 import { AdminModals, AdminModalType } from './AdminModals';
+import { AdminSidebar } from './AdminSidebar';
 
 // Mock initial data for Archivo General / Casa de la Memoria
 interface ArchiveItem {
@@ -47,6 +48,11 @@ export default function AdminDashboard() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [archives, setArchives] = useState<ArchiveItem[]>(initialArchives);
   const [notification, setNotification] = useState<string | null>(null);
+  
+  // Navigation & Layout states
+  const [activeTab, setActiveTab] = useState<string>('explorador');
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
 
   const showNotification = (msg: string) => {
     setNotification(msg);
@@ -69,15 +75,71 @@ export default function AdminDashboard() {
   };
 
   return (
-    <section className="bg-crema-dark/40 py-8 px-4 sm:px-6 lg:px-8 border-y border-crema-dark">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="min-h-screen bg-crema-dark/30 flex flex-col md:flex-row">
+      
+      {/* Mobile Sidebar Toggle Button */}
+      <div className="md:hidden bg-verde-profundo text-crema px-4 py-3 flex items-center justify-between shadow-md">
+        <div className="flex items-center space-x-2">
+          <ShieldCheck className="w-5 h-5 text-mostaza" />
+          <span className="font-serif font-bold text-sm">Panel Admin</span>
+        </div>
+        <button
+          onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+          className="p-1 text-crema hover:text-mostaza focus:outline-none"
+        >
+          {isMobileSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Mobile Drawer Sidebar */}
+      {isMobileSidebarOpen && (
+        <div className="md:hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex">
+          <div className="w-72 bg-crema h-full shadow-2xl animate-in slide-in-from-left duration-200">
+            <AdminSidebar
+              activeTab={activeTab}
+              setActiveTab={(tab) => {
+                setActiveTab(tab);
+                setIsMobileSidebarOpen(false);
+              }}
+              selectedYear={selectedYear}
+              setSelectedYear={(yr) => {
+                setSelectedYear(yr);
+                setIsMobileSidebarOpen(false);
+              }}
+              onOpenModal={(modal) => {
+                setActiveModal(modal);
+                setIsMobileSidebarOpen(false);
+              }}
+              isCollapsed={false}
+              setIsCollapsed={() => {}}
+            />
+          </div>
+          <div className="flex-1" onClick={() => setIsMobileSidebarOpen(false)} />
+        </div>
+      )}
+
+      {/* Desktop Left Sidebar */}
+      <div className="hidden md:block">
+        <AdminSidebar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
+          onOpenModal={setActiveModal}
+          isCollapsed={isSidebarCollapsed}
+          setIsCollapsed={setIsSidebarCollapsed}
+        />
+      </div>
+
+      {/* Main Content Area */}
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto w-full">
         
         {/* Notification Toast */}
         {notification && (
           <div className="p-4 bg-verde-profundo text-crema rounded-xl shadow-lg flex items-center justify-between animate-in slide-in-from-top-4 duration-300">
             <div className="flex items-center space-x-3">
               <CheckCircle2 className="w-5 h-5 text-mostaza shrink-0" />
-              <span className="text-sm font-semibold">{notification}</span>
+              <span className="text-sm font-semibold font-sans">{notification}</span>
             </div>
             <button onClick={() => setNotification(null)} className="text-xs text-crema/70 hover:text-crema">
               Descartar
@@ -85,184 +147,123 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Panel Header */}
-        <div className="bg-verde-profundo text-crema rounded-2xl p-6 sm:p-8 shadow-xl border border-verde-profundo/80 relative overflow-hidden">
-          <div className="absolute top-0 right-0 -mt-8 -mr-8 w-48 h-48 bg-terracota/20 rounded-full blur-2xl pointer-events-none" />
-          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div>
-              <div className="flex items-center space-x-2">
-                <Badge variant="mostaza" icon={<ShieldCheck className="w-3 h-3" />}>
-                  Sistema de Gestión Archivo General
-                </Badge>
-                <span className="text-xs text-crema/60">v1.0 Escalable</span>
-              </div>
-              <h1 className="text-2xl sm:text-3xl font-serif font-bold mt-2">
-                Panel de Administración - Casa de la Memoria
-              </h1>
-              <p className="text-sm text-crema/80 mt-1 max-w-2xl">
-                Bienvenido, <strong className="text-mostaza">{user?.name || 'Administrador'}</strong>. Control de patrimonio, archivo fotográfico, gestión de personal y edición de contenidos.
-              </p>
+        {/* Top Breadcrumb & User Welcome Header */}
+        <div className="bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-crema-dark flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center space-x-2 text-xs text-cafe/60 font-medium">
+              <span>Panel Admin</span>
+              <ChevronRight size={12} />
+              <span className="text-verde-profundo font-bold uppercase tracking-wider">Explorador & Salvaguarda</span>
             </div>
+            <h1 className="text-2xl sm:text-3xl font-serif font-bold text-verde-profundo mt-1">
+              Panel de Administración
+            </h1>
+            <p className="text-sm text-cafe/80 mt-1 max-w-2xl font-sans">
+              Bienvenido, <strong className="text-terracota">{user?.name || 'Administrador'}</strong>. Control de patrimonio, archivo fotográfico, gestión de personal y edición de contenidos.
+            </p>
+          </div>
 
-            <div className="flex items-center space-x-3 bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/10">
-              <FolderKanban className="w-8 h-8 text-mostaza" />
-              <div className="text-xs">
-                <p className="font-bold text-crema">Estado del Sistema</p>
-                <p className="text-crema/70">En Línea & Sincronizado</p>
-              </div>
-            </div>
+          {/* Quick Primary Trigger */}
+          <div className="flex items-center space-x-3">
+            <Button
+              variant="terracota"
+              size="md"
+              leftIcon={<FilePlus size={16} />}
+              onClick={() => setActiveModal('addDocument')}
+              className="shadow-sm font-semibold"
+            >
+              Registrar Documento
+            </Button>
           </div>
         </div>
 
         {/* Stats Metrics Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          <Card variant="default">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          <Card variant="default" className="hover:border-verde-profundo/40 transition-colors">
             <CardContent className="p-4 sm:p-5 flex items-center space-x-4">
-              <div className="w-12 h-12 rounded-xl bg-verde-profundo/10 text-verde-profundo flex items-center justify-center shrink-0">
-                <FileText className="w-6 h-6" />
+              <div className="w-11 h-11 rounded-xl bg-verde-profundo/10 text-verde-profundo flex items-center justify-center shrink-0">
+                <FileText className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-semibold text-cafe/60 uppercase tracking-wider">Documentos</p>
+                <p className="text-xs font-semibold text-cafe/60 uppercase tracking-wider font-sans">Documentos</p>
                 <p className="text-xl sm:text-2xl font-bold font-serif text-verde-profundo">{archives.filter(a => a.type !== 'Fotografía').length}</p>
               </div>
             </CardContent>
           </Card>
 
-          <Card variant="default">
+          <Card variant="default" className="hover:border-terracota/40 transition-colors">
             <CardContent className="p-4 sm:p-5 flex items-center space-x-4">
-              <div className="w-12 h-12 rounded-xl bg-terracota/10 text-terracota flex items-center justify-center shrink-0">
-                <ImageIcon className="w-6 h-6" />
+              <div className="w-11 h-11 rounded-xl bg-terracota/10 text-terracota flex items-center justify-center shrink-0">
+                <ImageIcon className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-semibold text-cafe/60 uppercase tracking-wider">Fotografías</p>
+                <p className="text-xs font-semibold text-cafe/60 uppercase tracking-wider font-sans">Fotografías</p>
                 <p className="text-xl sm:text-2xl font-bold font-serif text-terracota">{archives.filter(a => a.type === 'Fotografía').length}</p>
               </div>
             </CardContent>
           </Card>
 
-          <Card variant="default">
+          <Card variant="default" className="hover:border-mostaza/40 transition-colors">
             <CardContent className="p-4 sm:p-5 flex items-center space-x-4">
-              <div className="w-12 h-12 rounded-xl bg-mostaza/20 text-cafe flex items-center justify-center shrink-0">
-                <Calendar className="w-6 h-6" />
+              <div className="w-11 h-11 rounded-xl bg-mostaza/20 text-cafe flex items-center justify-center shrink-0">
+                <Calendar className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-semibold text-cafe/60 uppercase tracking-wider">Años de Memoria</p>
+                <p className="text-xs font-semibold text-cafe/60 uppercase tracking-wider font-sans">Años Registrados</p>
                 <p className="text-xl sm:text-2xl font-bold font-serif text-cafe">1990 - 2026</p>
               </div>
             </CardContent>
           </Card>
 
-          <Card variant="default">
+          <Card variant="default" className="hover:border-blue-300 transition-colors">
             <CardContent className="p-4 sm:p-5 flex items-center space-x-4">
-              <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center shrink-0">
-                <UserPlus className="w-6 h-6" />
+              <div className="w-11 h-11 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center shrink-0">
+                <UserPlus className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-semibold text-cafe/60 uppercase tracking-wider">Personal Activo</p>
-                <p className="text-xl sm:text-2xl font-bold font-serif text-blue-800">3 Usuarios</p>
+                <p className="text-xs font-semibold text-cafe/60 uppercase tracking-wider font-sans">Usuarios Activos</p>
+                <p className="text-xl sm:text-2xl font-bold font-serif text-blue-800">3 Registrados</p>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Action Toolbar Component */}
-        <Card variant="default" className="shadow-md">
-          <CardHeader className="bg-crema/80 border-b border-crema-dark flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        {/* Main Archive Explorer Card & Table */}
+        <Card variant="default" className="shadow-md border border-crema-dark overflow-hidden">
+          <CardHeader className="bg-white border-b border-crema-dark flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 p-5">
             <div>
-              <CardTitle className="text-verde-profundo text-lg">Acciones de Gestión Principal</CardTitle>
-              <p className="text-xs text-cafe/70 mt-0.5">Herramientas modulares de administración de la plataforma</p>
-            </div>
-            <Badge variant="verde">Consola Admin</Badge>
-          </CardHeader>
-          
-          <CardContent className="p-5 sm:p-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-              <Button
-                variant="terracota"
-                onClick={() => setActiveModal('createUser')}
-                leftIcon={<UserPlus className="w-4 h-4" />}
-                fullWidth
-              >
-                Crear Usuarios
-              </Button>
-
-              <Button
-                variant="outline"
-                onClick={() => setActiveModal('deleteUser')}
-                leftIcon={<UserMinus className="w-4 h-4 text-red-600" />}
-                fullWidth
-              >
-                Eliminar Usuarios
-              </Button>
-
-              <Button
-                variant="secondary"
-                onClick={() => setActiveModal('editPage')}
-                leftIcon={<FileEdit className="w-4 h-4 text-verde-profundo" />}
-                fullWidth
-              >
-                Editar Página
-              </Button>
-
-              <Button
-                variant="primary"
-                onClick={() => setActiveModal('addDocument')}
-                leftIcon={<FilePlus className="w-4 h-4" />}
-                fullWidth
-              >
-                Añadir Documentos
-              </Button>
-
-              <Button
-                variant="mostaza"
-                onClick={() => setActiveModal('managePhotos')}
-                leftIcon={<ImageIcon className="w-4 h-4 text-cafe" />}
-                fullWidth
-              >
-                Archivos & Fotos
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Archive Explorer Table & Filter Section */}
-        <Card variant="default" className="shadow-lg border-2 border-crema-dark">
-          <CardHeader className="bg-white border-b border-crema-dark flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-            <div>
-              <CardTitle className="text-verde-profundo flex items-center space-x-2">
+              <CardTitle className="text-verde-profundo flex items-center space-x-2 font-serif text-xl">
                 <FolderKanban className="w-5 h-5 text-terracota" />
                 <span>Explorador del Archivo General</span>
               </CardTitle>
-              <p className="text-xs text-cafe/70 mt-1">
+              <p className="text-xs text-cafe/70 mt-0.5 font-sans">
                 Consulta y gestiona actas, manuscritos, testimonios y registros fotográficos
               </p>
             </div>
 
-            {/* Filters Row (Dropdown por años & Search input) */}
-            <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
-              {/* Year Dropdown */}
+            {/* Filters Row (Year Dropdown & Search Bar) */}
+            <div className="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto font-sans">
               <Dropdown
-                label="Filtrar por Año:"
+                label="Año:"
                 options={yearOptions}
                 selectedValue={selectedYear}
                 onSelect={(val) => setSelectedYear(val)}
               />
 
-              {/* Search input */}
-              <div className="relative w-full sm:w-64 mt-4 sm:mt-0">
+              <div className="relative w-full sm:w-64 mt-2 sm:mt-0">
                 <input
                   type="text"
                   placeholder="Buscar por código o título..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-crema border border-crema-dark text-cafe focus:ring-2 focus:ring-verde-profundo/20 focus:border-verde-profundo"
+                  className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-crema border border-crema-dark text-cafe focus:ring-2 focus:ring-verde-profundo/20 focus:border-verde-profundo font-medium"
                 />
                 <Search className="w-4 h-4 text-cafe/50 absolute left-3 top-2.5" />
               </div>
             </div>
           </CardHeader>
 
-          <CardContent className="p-0">
+          <CardContent className="p-0 font-sans">
             {filteredArchives.length === 0 ? (
               <div className="p-12 text-center text-cafe/60 space-y-2">
                 <Filter className="w-8 h-8 text-terracota/50 mx-auto" />
@@ -272,7 +273,7 @@ export default function AdminDashboard() {
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs sm:text-sm text-cafe">
-                  <thead className="bg-crema-dark/60 border-b border-crema-dark text-cafe font-semibold tracking-wider uppercase text-[11px]">
+                  <thead className="bg-crema-dark/50 border-b border-crema-dark text-cafe font-semibold tracking-wider uppercase text-[11px]">
                     <tr>
                       <th className="py-3.5 px-4 sm:px-6">Título del Registro</th>
                       <th className="py-3.5 px-4">Código Ref.</th>
@@ -282,7 +283,7 @@ export default function AdminDashboard() {
                       <th className="py-3.5 px-4 text-right">Acciones</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-crema-dark/50 bg-white">
+                  <tbody className="divide-y divide-crema-dark/40 bg-white">
                     {filteredArchives.map((item) => (
                       <tr key={item.id} className="hover:bg-crema/40 transition-colors">
                         <td className="py-4 px-4 sm:px-6 font-medium text-verde-profundo">
@@ -357,14 +358,14 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
 
-      </div>
+      </main>
 
-      {/* Render Admin Action Modals */}
+      {/* Admin Action Modals */}
       <AdminModals
         activeModal={activeModal}
         onClose={() => setActiveModal(null)}
         onSuccessNotification={showNotification}
       />
-    </section>
+    </div>
   );
 }

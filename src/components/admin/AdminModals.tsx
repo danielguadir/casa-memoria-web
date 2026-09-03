@@ -119,7 +119,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         isOpen={activeModal === 'createUser'}
         onClose={onClose}
         title={
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 font-serif font-bold text-lg">
             <UserPlus className="w-5 h-5 text-mostaza" />
             <span>Crear Nuevo Usuario</span>
           </div>
@@ -169,7 +169,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         isOpen={activeModal === 'deleteUser'}
         onClose={onClose}
         title={
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 font-serif font-bold text-lg">
             <UserMinus className="w-5 h-5 text-mostaza" />
             <span>Administrar y Eliminar Usuarios</span>
           </div>
@@ -215,7 +215,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         isOpen={activeModal === 'editPage'}
         onClose={onClose}
         title={
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 font-serif font-bold text-lg">
             <FileEdit className="w-5 h-5 text-mostaza" />
             <span>Editar Textos de la Página Web</span>
           </div>
@@ -264,7 +264,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         isOpen={activeModal === 'addDocument'}
         onClose={onClose}
         title={
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 font-serif font-bold text-lg">
             <FilePlus className="w-5 h-5 text-mostaza" />
             <span>Añadir Nuevo Documento al Archivo</span>
           </div>
@@ -341,7 +341,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         isOpen={activeModal === 'managePhotos'}
         onClose={onClose}
         title={
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 font-serif font-bold text-lg">
             <ImageIcon className="w-5 h-5 text-mostaza" />
             <span>Administrar Archivos & Fototeca</span>
           </div>
