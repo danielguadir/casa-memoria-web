@@ -357,7 +357,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         </div>
       </Modal>
 
-      {/* 5. MODAL EDITAR CONTENIDO DE SECCIONES (INICIO, CONVOCATORIAS, SOBRE EL PROCESO) */}
+      {/* 5. MODAL EDITAR CONTENIDO DE SECCIONES (INICIO, CONVOCATORIAS, QUIÉNES SOMOS) */}
       <Modal
         isOpen={isEditContentOpen}
         onClose={onClose}
@@ -405,7 +405,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
                   : 'border-transparent text-cafe/70 hover:text-verde-profundo'
               }`}
             >
-              Sobre el Proceso
+              Quiénes somos
             </button>
           </div>
 
@@ -472,15 +472,15 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
             </div>
           )}
 
-          {/* Tab 3: SOBRE EL PROCESO */}
+          {/* Tab 3: QUIÉNES SOMOS */}
           {contentTab === 'sobreProceso' && (
             <div className="space-y-4 animate-in fade-in duration-200">
               <div>
-                <label className="block text-xs font-semibold text-cafe/90 mb-1">Título del Proceso</label>
+                <label className="block text-xs font-semibold text-cafe/90 mb-1">Título de la Sección</label>
                 <Input
                   value={sobreProcesoTitle}
                   onChange={(e) => setSobreProcesoTitle(e.target.value)}
-                  placeholder="Ej. Sobre el Proceso de Salvaguarda"
+                  placeholder="Ej. Quiénes somos"
                   required
                 />
               </div>

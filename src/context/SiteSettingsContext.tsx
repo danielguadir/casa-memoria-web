@@ -127,7 +127,7 @@ const DEFAULT_CONTENT: SiteContent = {
   heroDesc: 'Desarrollamos estrategias de salvaguarda y protección de las memorias y el patrimonio cultural de los pueblos indígenas del sur de Colombia',
   convocatoriaTitle: 'Convocatoria Abierta 2026',
   convocatoriaDesc: 'Recepción de proyectos de investigación y materiales documentales para la salvaguarda territorial.',
-  sobreProcesoTitle: 'Sobre el Proceso de Salvaguarda',
+  sobreProcesoTitle: 'Quiénes somos',
   sobreProcesoDesc: 'Iniciativa comunitaria para la preservación, ordenamiento y difusión del conocimiento ancestral y documental.',
 };
 

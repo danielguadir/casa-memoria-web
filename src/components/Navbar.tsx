@@ -8,7 +8,7 @@ import { Button, Badge } from '@/components/design-system';
 
 const navLinks: { name: string; key: SectionType; href: string; dropdown?: { name: string; href: string }[] }[] = [
   { name: 'Inicio', key: 'inicio', href: '#' },
-  { name: 'Sobre el proceso', key: 'sobre-el-proceso', href: '#' },
+  { name: 'Nosotros', key: 'sobre-el-proceso', href: '#' },
   { name: 'Convocatoria', key: 'convocatoria', href: '#' },
   {
     name: 'Memoria',

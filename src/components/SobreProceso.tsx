@@ -1,6 +1,6 @@
 'use client';
 
-import { Target, Lightbulb, Sprout, Handshake } from 'lucide-react';
+import { Target, Lightbulb, Handshake } from 'lucide-react';
 import Image from 'next/image';
 import { useSiteSettings } from '@/context/SiteSettingsContext';
 
@@ -17,11 +17,6 @@ export default function SobreProceso() {
             title: 'Propósito',
             icon: <Target size={32} className="text-mostaza" />,
             content: 'Salvaguardar y proteger la memoria, el patrimonio cultural y la historia audiovisual del Gran Cumbal.',
-        },
-        {
-            title: 'Enfoque',
-            icon: <Sprout size={32} className="text-mostaza" />,
-            content: 'Centrado en el territorio, la formación comunitaria, el diálogo de saberes y la integración de las artes escénicas.',
         },
         {
             title: 'Origen',
@@ -87,7 +82,7 @@ export default function SobreProceso() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {cards.map((card, idx) => (
                         <div key={idx} className="bg-crema/95 backdrop-blur-md p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-crema-dark/50 group">
                             <div className="w-16 h-16 bg-verde-profundo rounded-xl flex items-center justify-center mb-6 transform group-hover:scale-110 shadow-lg transition-transform duration-300">
