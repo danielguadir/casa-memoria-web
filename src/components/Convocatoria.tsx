@@ -1,7 +1,12 @@
+'use client';
+
 import { CheckCircle, AlertCircle, Calendar, Clock, MapPin, Target } from 'lucide-react';
 import Image from 'next/image';
+import { useSiteSettings } from '@/context/SiteSettingsContext';
 
 export default function Convocatoria() {
+    const { siteContent } = useSiteSettings();
+
     const infoGeneral = [
         { label: 'Inscripciones', value: 'Hasta el 10 de septiembre de 2025 o completar cupo', icon: AlertCircle },
         { label: 'Modalidad', value: 'Presencial', icon: MapPin },
@@ -43,11 +48,13 @@ export default function Convocatoria() {
 
                     <div className="space-y-6">
                         <span className="text-mostaza font-bold text-sm tracking-widest uppercase">Formación Comunitaria</span>
-                        <h2 className="font-serif font-bold text-4xl lg:text-5xl text-verde-profundo">Convocatoria</h2>
+                        <h2 className="font-serif font-bold text-4xl lg:text-5xl text-verde-profundo">
+                            {siteContent.convocatoriaTitle}
+                        </h2>
                         <div className="w-24 h-1 bg-terracota rounded-full"></div>
 
                         <p className="text-lg md:text-xl font-sans text-cafe/90 leading-relaxed font-medium mt-6">
-                            Proceso de formación en comunicación asertiva y desarrollo de habilidades en expresión oral de la Casa de la Memoria del Gran Cumbal.
+                            {siteContent.convocatoriaDesc}
                         </p>
                         <p className="text-cafe/80 text-base">
                             A través del teatro y círculos de palabreo, fortalecerás tus habilidades integrando saberes ancestrales, artes escénicas y metodologías participativas.

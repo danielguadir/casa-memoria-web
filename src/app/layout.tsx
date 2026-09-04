@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import LoginModal from '@/components/LoginModal';
 import PublicKioskWrapper from '@/components/kiosk/PublicKioskWrapper';
 import { AuthProvider } from '@/context/AuthContext';
+import { SiteSettingsProvider } from '@/context/SiteSettingsContext';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const lora = Lora({ subsets: ['latin'], variable: '--font-lora' });
@@ -23,15 +24,17 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${inter.variable} ${lora.variable}`}>
       <body className="flex flex-col min-h-screen bg-crema text-cafe antialiased">
-        <AuthProvider>
-          <Navbar />
-          <LoginModal />
-          <PublicKioskWrapper />
-          <main className="flex-grow">
-            {children}
-          </main>
-          <Footer />
-        </AuthProvider>
+        <SiteSettingsProvider>
+          <AuthProvider>
+            <Navbar />
+            <LoginModal />
+            <PublicKioskWrapper />
+            <main className="flex-grow">
+              {children}
+            </main>
+            <Footer />
+          </AuthProvider>
+        </SiteSettingsProvider>
       </body>
     </html>
   );

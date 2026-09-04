@@ -3,10 +3,12 @@
 import Image from 'next/image';
 import { Monitor } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { useSiteSettings } from '@/context/SiteSettingsContext';
 import { Button } from '@/components/design-system';
 
 export default function Hero() {
     const { openKioskModal } = useAuth();
+    const { siteContent } = useSiteSettings();
 
     return (
         <section id="inicio" className="relative min-h-[85vh] flex items-center justify-center bg-crema text-verde-profundo overflow-hidden py-12">
@@ -41,11 +43,17 @@ export default function Hero() {
 
                 <div className="space-y-6 max-w-4xl mx-auto">
                     <h1 className="font-serif font-extrabold text-4xl sm:text-6xl md:text-7xl !leading-[1.1] text-verde-profundo drop-shadow-md text-balance">
-                        Casa de la <span className="text-terracota">Memoria</span> Cumbal
+                        {siteContent.heroTitle}
                     </h1>
 
+                    {siteContent.heroSubtitle && (
+                        <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-terracota font-sans">
+                            {siteContent.heroSubtitle}
+                        </p>
+                    )}
+
                     <p className="text-base sm:text-xl md:text-2xl font-sans text-cafe/90 max-w-3xl mx-auto leading-relaxed border-t border-b border-verde-profundo/20 py-6 my-6">
-                        Desarrollamos estrategias de salvaguarda y protección de las memorias y el patrimonio cultural de los pueblos indígenas del sur de Colombia
+                        {siteContent.heroDesc}
                     </p>
                 </div>
 

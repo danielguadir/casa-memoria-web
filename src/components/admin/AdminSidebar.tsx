@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { 
   FolderKanban, UserPlus, UserMinus, FileEdit, FilePlus, Image as ImageIcon, 
   ChevronLeft, ChevronRight, ChevronDown, LogOut, LayoutDashboard,
-  Calendar, Users, UserCheck, Activity
+  Calendar, Users, UserCheck, Activity, Type, Palette, FileText
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { AdminModalType } from './AdminModals';
@@ -30,7 +30,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
   setIsCollapsed,
 }) => {
   const { user, logout, setActiveView } = useAuth();
-  const [openSubmenu, setOpenSubmenu] = useState<string | null>('usuarios');
+  const [openSubmenu, setOpenSubmenu] = useState<string | null>('editarPagina');
 
   const toggleSubmenu = (menuKey: string) => {
     setOpenSubmenu(openSubmenu === menuKey ? null : menuKey);
@@ -112,7 +112,64 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
             {!isCollapsed && <span>Explorador de Archivo</span>}
           </button>
 
-          {/* 2. Gestión de Usuarios (Con Submenú) */}
+          {/* 2. Edición Desplegable de la Página Web */}
+          <div>
+            <button
+              onClick={() => {
+                if (isCollapsed) setIsCollapsed(false);
+                toggleSubmenu('editarPagina');
+              }}
+              className={`
+                w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-left
+                ${openSubmenu === 'editarPagina' ? 'text-verde-profundo font-semibold bg-crema-dark/40' : 'text-cafe hover:bg-crema-dark/70'}
+              `}
+              title="Editar Sitio Web (Desplegable)"
+            >
+              <div className="flex items-center space-x-3">
+                <FileEdit size={18} className="shrink-0 text-terracota" />
+                {!isCollapsed && <span>Editar Página / Sitio</span>}
+              </div>
+              {!isCollapsed && (
+                <ChevronDown 
+                  size={16} 
+                  className={`transition-transform duration-200 ${openSubmenu === 'editarPagina' ? 'rotate-180' : ''}`} 
+                />
+              )}
+            </button>
+
+            {!isCollapsed && openSubmenu === 'editarPagina' && (
+              <div className="ml-7 mt-1 space-y-1 border-l-2 border-terracota/30 pl-3 animate-in fade-in duration-200">
+                <button
+                  onClick={() => onOpenModal('editPageContent')}
+                  className="w-full flex items-center space-x-2 text-xs py-1.5 px-2 rounded-lg text-cafe/80 hover:text-verde-profundo hover:bg-crema-dark/50 transition-colors text-left font-medium"
+                  title="Editar textos de Inicio, Convocatoria y Secciones"
+                >
+                  <FileText size={14} className="text-verde-profundo shrink-0" />
+                  <span>Editar Contenidos</span>
+                </button>
+
+                <button
+                  onClick={() => onOpenModal('editFont')}
+                  className="w-full flex items-center space-x-2 text-xs py-1.5 px-2 rounded-lg text-cafe/80 hover:text-terracota hover:bg-crema-dark/50 transition-colors text-left font-medium"
+                  title="Personalizar familias de tipografía"
+                >
+                  <Type size={14} className="text-terracota shrink-0" />
+                  <span>Editar Fuente</span>
+                </button>
+
+                <button
+                  onClick={() => onOpenModal('editTheme')}
+                  className="w-full flex items-center space-x-2 text-xs py-1.5 px-2 rounded-lg text-cafe/80 hover:text-mostaza hover:bg-crema-dark/50 transition-colors text-left font-medium"
+                  title="Personalizar colores y modo visual"
+                >
+                  <Palette size={14} className="text-mostaza shrink-0" />
+                  <span>Editar Tema</span>
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* 3. Gestión de Usuarios (Con Submenú) */}
           <div>
             <button
               onClick={() => {
@@ -164,7 +221,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
             )}
           </div>
 
-          {/* 3. Interacción Web & Inicios de Sesión */}
+          {/* 4. Interacción Web & Inicios de Sesión */}
           <button
             onClick={() => onOpenModal('webInteraction')}
             className="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-cafe hover:bg-crema-dark/70 hover:text-verde-profundo transition-colors text-left"
@@ -179,16 +236,6 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
                 </span>
               </div>
             )}
-          </button>
-
-          {/* 4. Edición de Textos de Página */}
-          <button
-            onClick={() => onOpenModal('editPage')}
-            className="w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium text-cafe hover:bg-crema-dark/70 hover:text-verde-profundo transition-colors text-left"
-            title="Editar Textos de la Página Web"
-          >
-            <FileEdit size={18} className="shrink-0" />
-            {!isCollapsed && <span>Editar Sitio Web</span>}
           </button>
 
           {/* 5. Fototeca & Multimedia */}

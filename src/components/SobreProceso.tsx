@@ -1,7 +1,12 @@
+'use client';
+
 import { Target, Lightbulb, Sprout, Handshake } from 'lucide-react';
 import Image from 'next/image';
+import { useSiteSettings } from '@/context/SiteSettingsContext';
 
 export default function SobreProceso() {
+    const { siteContent } = useSiteSettings();
+
     const cards = [
         {
             title: 'Qué es',
@@ -45,11 +50,11 @@ export default function SobreProceso() {
                 <div className="flex flex-col lg:flex-row items-center gap-16 mb-20 text-center lg:text-left">
                     <div className="max-w-3xl space-y-6">
                         <h2 className="font-serif font-bold text-4xl lg:text-5xl text-verde-profundo drop-shadow-sm">
-                            Sobre el Proceso
+                            {siteContent.sobreProcesoTitle}
                         </h2>
                         <div className="w-24 h-1 bg-terracota mx-auto lg:mx-0 rounded-full shadow-md"></div>
                         <p className="text-lg font-sans text-cafe leading-relaxed pt-4 font-semibold italic">
-                            Construyendo memoria a través de la comunidad, el territorio y nuestras raíces ancestrales. Un proceso colectivo que valora la palabra y el encuentro.
+                            {siteContent.sobreProcesoDesc}
                         </p>
                     </div>
 

@@ -1,16 +1,20 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
-  UserPlus, UserMinus, FileEdit, FilePlus, Image as ImageIcon, 
-  Trash2, Upload, Users, Activity, Clock, Wrench
+  UserPlus, UserMinus, FilePlus, Image as ImageIcon, 
+  Trash2, Upload, Users, Activity, Clock, Wrench, Type, Palette, FileText, Check, RotateCcw
 } from 'lucide-react';
 import { Modal, Input, Button, Badge } from '@/components/design-system';
+import { useSiteSettings, FONT_PRESETS, THEME_PRESETS } from '@/context/SiteSettingsContext';
 
 export type AdminModalType = 
   | 'createUser' 
   | 'deleteUser' 
-  | 'editPage' 
+  | 'editPage'
+  | 'editPageContent'
+  | 'editFont'
+  | 'editTheme' 
   | 'addDocument' 
   | 'managePhotos' 
   | 'showUsers'
@@ -28,6 +32,8 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
   onClose,
   onSuccessNotification,
 }) => {
+  const { siteContent, updatePageContent, selectedFontId, setFont, selectedThemeId, setTheme, resetToDefaults } = useSiteSettings();
+
   // Create User state
   const [newUserName, setNewUserName] = useState('');
   const [newUserEmail, setNewUserEmail] = useState('');
@@ -40,10 +46,26 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
     { id: '3', name: 'Lucía Alpala', email: 'lucia@casamemoria.gov.co', role: 'Historiadora', lastLogin: 'Ayer, 15:40', status: 'Inactivo' },
   ]);
 
-  // Edit Page state
-  const [heroTitle, setHeroTitle] = useState('Casa de la Memoria Cumbal');
-  const [heroDesc, setHeroDesc] = useState('Centro cultural. Desarrollamos estrategias de salvaguarda y protección del patrimonio.');
-  const [convocatoriaTitle, setConvocatoriaTitle] = useState('Convocatoria Abierta 2026');
+  // Page Content Edit local state
+  const [contentTab, setContentTab] = useState<'inicio' | 'convocatoria' | 'sobreProceso'>('inicio');
+  const [heroTitle, setHeroTitle] = useState(siteContent.heroTitle);
+  const [heroSubtitle, setHeroSubtitle] = useState(siteContent.heroSubtitle);
+  const [heroDesc, setHeroDesc] = useState(siteContent.heroDesc);
+  const [convocatoriaTitle, setConvocatoriaTitle] = useState(siteContent.convocatoriaTitle);
+  const [convocatoriaDesc, setConvocatoriaDesc] = useState(siteContent.convocatoriaDesc);
+  const [sobreProcesoTitle, setSobreProcesoTitle] = useState(siteContent.sobreProcesoTitle);
+  const [sobreProcesoDesc, setSobreProcesoDesc] = useState(siteContent.sobreProcesoDesc);
+
+  // Synchronize local form state with context siteContent whenever modal opens
+  useEffect(() => {
+    setHeroTitle(siteContent.heroTitle);
+    setHeroSubtitle(siteContent.heroSubtitle);
+    setHeroDesc(siteContent.heroDesc);
+    setConvocatoriaTitle(siteContent.convocatoriaTitle);
+    setConvocatoriaDesc(siteContent.convocatoriaDesc);
+    setSobreProcesoTitle(siteContent.sobreProcesoTitle);
+    setSobreProcesoDesc(siteContent.sobreProcesoDesc);
+  }, [siteContent, activeModal]);
 
   // Add Document state
   const [docTitle, setDocTitle] = useState('');
@@ -89,8 +111,17 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
 
   const handleSavePageContent = (e: React.FormEvent) => {
     e.preventDefault();
+    updatePageContent({
+      heroTitle,
+      heroSubtitle,
+      heroDesc,
+      convocatoriaTitle,
+      convocatoriaDesc,
+      sobreProcesoTitle,
+      sobreProcesoDesc,
+    });
     if (onSuccessNotification) {
-      onSuccessNotification('Secciones principales de la página actualizadas correctamente.');
+      onSuccessNotification('Secciones del sitio web actualizadas y reflejadas en tiempo real.');
     }
     onClose();
   };
@@ -115,6 +146,8 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
     setPhotoTitle('');
     onClose();
   };
+
+  const isEditContentOpen = activeModal === 'editPageContent' || activeModal === 'editPage';
 
   return (
     <>
@@ -261,7 +294,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         </div>
       </Modal>
 
-      {/* 4. MODAL INTERACCIÓN WEB & INICIOS DE SESIÓN (En Desarrollo) */}
+      {/* 4. MODAL INTERACCIÓN WEB & INICIOS DE SESIÓN */}
       <Modal
         isOpen={activeModal === 'webInteraction'}
         onClose={onClose}
@@ -275,8 +308,6 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         size="lg"
       >
         <div className="space-y-4 font-sans">
-          
-          {/* Banner de Opción No Disponible / En Desarrollo */}
           <div className="p-4 rounded-xl bg-mostaza/15 border-2 border-mostaza/40 flex items-start space-x-3 text-cafe">
             <Wrench className="w-6 h-6 text-terracota shrink-0 mt-0.5 animate-bounce" />
             <div>
@@ -290,7 +321,6 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
             </div>
           </div>
 
-          {/* Vista Previa / Mock Log de Inicios de Sesión */}
           <div>
             <h5 className="text-xs font-bold text-verde-profundo uppercase tracking-wider mb-2 flex items-center space-x-1.5">
               <Clock size={14} className="text-terracota" />
@@ -316,22 +346,6 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
                       <Badge variant="verde">En Línea</Badge>
                     </td>
                   </tr>
-                  <tr className="hover:bg-crema/40 transition-colors">
-                    <td className="py-2.5 px-3 font-semibold text-verde-profundo">María Tarapues</td>
-                    <td className="py-2.5 px-3 text-cafe/70">Archivista</td>
-                    <td className="py-2.5 px-3 font-mono text-[11px]">Hoy, 18:10:02</td>
-                    <td className="py-2.5 px-3 text-right">
-                      <Badge variant="cafe">Finalizado</Badge>
-                    </td>
-                  </tr>
-                  <tr className="hover:bg-crema/40 transition-colors">
-                    <td className="py-2.5 px-3 font-semibold text-verde-profundo">Lucía Alpala</td>
-                    <td className="py-2.5 px-3 text-cafe/70">Historiadora</td>
-                    <td className="py-2.5 px-3 font-mono text-[11px]">Ayer, 15:40:55</td>
-                    <td className="py-2.5 px-3 text-right">
-                      <Badge variant="neutral">Finalizado</Badge>
-                    </td>
-                  </tr>
                 </tbody>
               </table>
             </div>
@@ -343,56 +357,315 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         </div>
       </Modal>
 
-      {/* 5. MODAL EDITAR PÁGINA */}
+      {/* 5. MODAL EDITAR CONTENIDO DE SECCIONES (INICIO, CONVOCATORIAS, SOBRE EL PROCESO) */}
       <Modal
-        isOpen={activeModal === 'editPage'}
+        isOpen={isEditContentOpen}
         onClose={onClose}
         title={
           <div className="flex items-center space-x-2 font-serif font-bold text-lg">
-            <FileEdit className="w-5 h-5 text-mostaza" />
-            <span>Editar Textos de la Página Web</span>
+            <FileText className="w-5 h-5 text-terracota" />
+            <span>Editar Contenido de Secciones</span>
           </div>
         }
-        subtitle="Modifica la información visible en el sitio público"
+        subtitle="Los cambios guardados se reflejarán inmediatamente en la página principal"
         size="lg"
       >
-        <form onSubmit={handleSavePageContent} className="space-y-4 font-sans">
-          <div>
-            <label className="block text-xs font-semibold text-cafe/90 mb-1">Título Sección Principal (Hero)</label>
-            <Input
-              value={heroTitle}
-              onChange={(e) => setHeroTitle(e.target.value)}
-              required
-            />
+        <form onSubmit={handleSavePageContent} className="space-y-5 font-sans">
+          
+          {/* Sub-tabs for content sections */}
+          <div className="flex border-b border-crema-dark space-x-2">
+            <button
+              type="button"
+              onClick={() => setContentTab('inicio')}
+              className={`py-2 px-4 text-xs font-bold rounded-t-xl transition-colors border-b-2 ${
+                contentTab === 'inicio'
+                  ? 'border-terracota text-terracota bg-crema-dark/30'
+                  : 'border-transparent text-cafe/70 hover:text-verde-profundo'
+              }`}
+            >
+              Página de Inicio (Hero)
+            </button>
+            <button
+              type="button"
+              onClick={() => setContentTab('convocatoria')}
+              className={`py-2 px-4 text-xs font-bold rounded-t-xl transition-colors border-b-2 ${
+                contentTab === 'convocatoria'
+                  ? 'border-terracota text-terracota bg-crema-dark/30'
+                  : 'border-transparent text-cafe/70 hover:text-verde-profundo'
+              }`}
+            >
+              Convocatorias
+            </button>
+            <button
+              type="button"
+              onClick={() => setContentTab('sobreProceso')}
+              className={`py-2 px-4 text-xs font-bold rounded-t-xl transition-colors border-b-2 ${
+                contentTab === 'sobreProceso'
+                  ? 'border-terracota text-terracota bg-crema-dark/30'
+                  : 'border-transparent text-cafe/70 hover:text-verde-profundo'
+              }`}
+            >
+              Sobre el Proceso
+            </button>
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-cafe/90 mb-1">Descripción del Proceso Cultural</label>
-            <textarea
-              rows={3}
-              value={heroDesc}
-              onChange={(e) => setHeroDesc(e.target.value)}
-              className="w-full rounded-xl bg-white text-cafe border border-crema-dark p-3 text-sm font-medium focus:ring-2 focus:ring-verde-profundo/20 focus:border-verde-profundo"
-            />
-          </div>
+          {/* Tab 1: INICIO */}
+          {contentTab === 'inicio' && (
+            <div className="space-y-4 animate-in fade-in duration-200">
+              <div>
+                <label className="block text-xs font-semibold text-cafe/90 mb-1">Título Principal (Hero)</label>
+                <Input
+                  value={heroTitle}
+                  onChange={(e) => setHeroTitle(e.target.value)}
+                  placeholder="Ej. Casa de la Memoria Cumbal"
+                  required
+                />
+              </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-cafe/90 mb-1">Título Convocatorias Activas</label>
-            <Input
-              value={convocatoriaTitle}
-              onChange={(e) => setConvocatoriaTitle(e.target.value)}
-              required
-            />
-          </div>
+              <div>
+                <label className="block text-xs font-semibold text-cafe/90 mb-1">Subtítulo Destacado</label>
+                <Input
+                  value={heroSubtitle}
+                  onChange={(e) => setHeroSubtitle(e.target.value)}
+                  placeholder="Ej. Centro cultural y Archivo General"
+                />
+              </div>
 
-          <div className="pt-3 flex justify-end space-x-3">
-            <Button type="button" variant="ghost" onClick={onClose}>Cancelar</Button>
-            <Button type="submit" variant="terracota">Guardar Cambios</Button>
+              <div>
+                <label className="block text-xs font-semibold text-cafe/90 mb-1">Descripción del Proceso Cultural</label>
+                <textarea
+                  rows={4}
+                  value={heroDesc}
+                  onChange={(e) => setHeroDesc(e.target.value)}
+                  className="w-full rounded-xl bg-white text-cafe border border-crema-dark p-3 text-sm font-medium focus:ring-2 focus:ring-verde-profundo/20 focus:border-verde-profundo leading-relaxed"
+                  placeholder="Escribe la descripción pública..."
+                  required
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Tab 2: CONVOCATORIA */}
+          {contentTab === 'convocatoria' && (
+            <div className="space-y-4 animate-in fade-in duration-200">
+              <div>
+                <label className="block text-xs font-semibold text-cafe/90 mb-1">Título de la Convocatoria</label>
+                <Input
+                  value={convocatoriaTitle}
+                  onChange={(e) => setConvocatoriaTitle(e.target.value)}
+                  placeholder="Ej. Convocatoria Abierta 2026"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-cafe/90 mb-1">Descripción o Instrucciones</label>
+                <textarea
+                  rows={4}
+                  value={convocatoriaDesc}
+                  onChange={(e) => setConvocatoriaDesc(e.target.value)}
+                  className="w-full rounded-xl bg-white text-cafe border border-crema-dark p-3 text-sm font-medium focus:ring-2 focus:ring-verde-profundo/20 focus:border-verde-profundo leading-relaxed"
+                  placeholder="Descripción de la convocatoria..."
+                  required
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Tab 3: SOBRE EL PROCESO */}
+          {contentTab === 'sobreProceso' && (
+            <div className="space-y-4 animate-in fade-in duration-200">
+              <div>
+                <label className="block text-xs font-semibold text-cafe/90 mb-1">Título del Proceso</label>
+                <Input
+                  value={sobreProcesoTitle}
+                  onChange={(e) => setSobreProcesoTitle(e.target.value)}
+                  placeholder="Ej. Sobre el Proceso de Salvaguarda"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-cafe/90 mb-1">Resumen del Proceso</label>
+                <textarea
+                  rows={4}
+                  value={sobreProcesoDesc}
+                  onChange={(e) => setSobreProcesoDesc(e.target.value)}
+                  className="w-full rounded-xl bg-white text-cafe border border-crema-dark p-3 text-sm font-medium focus:ring-2 focus:ring-verde-profundo/20 focus:border-verde-profundo leading-relaxed"
+                  placeholder="Detalles sobre la misión del proceso..."
+                  required
+                />
+              </div>
+            </div>
+          )}
+
+          <div className="pt-3 flex items-center justify-between border-t border-crema-dark">
+            <button
+              type="button"
+              onClick={resetToDefaults}
+              className="text-xs text-cafe/60 hover:text-terracota font-medium flex items-center space-x-1"
+            >
+              <RotateCcw size={14} />
+              <span>Restablecer Todo</span>
+            </button>
+
+            <div className="flex space-x-3">
+              <Button type="button" variant="ghost" onClick={onClose}>Cancelar</Button>
+              <Button type="submit" variant="terracota">Guardar y Publicar</Button>
+            </div>
           </div>
         </form>
       </Modal>
 
-      {/* 6. MODAL AÑADIR DOCUMENTOS */}
+      {/* 6. MODAL EDITAR FUENTE / TIPOGRAFÍA */}
+      <Modal
+        isOpen={activeModal === 'editFont'}
+        onClose={onClose}
+        title={
+          <div className="flex items-center space-x-2 font-serif font-bold text-lg">
+            <Type className="w-5 h-5 text-terracota" />
+            <span>Personalizar Fuente / Tipografía</span>
+          </div>
+        }
+        subtitle="Selecciona la combinación tipográfica para los títulos y textos del sitio"
+        size="lg"
+      >
+        <div className="space-y-5 font-sans">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {FONT_PRESETS.map((font) => {
+              const isSelected = font.id === selectedFontId;
+              return (
+                <div
+                  key={font.id}
+                  onClick={() => setFont(font.id)}
+                  className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                    isSelected
+                      ? 'border-terracota bg-terracota/5 shadow-md'
+                      : 'border-crema-dark bg-white hover:border-mostaza/60'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="font-bold text-sm text-verde-profundo">{font.name}</h4>
+                    {isSelected && (
+                      <span className="w-5 h-5 rounded-full bg-terracota text-crema flex items-center justify-center">
+                        <Check size={12} />
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-cafe/70 mb-3">{font.description}</p>
+                  <div className="p-3 bg-crema rounded-lg border border-crema-dark/60 text-xs">
+                    <p className="font-serif text-sm font-bold text-verde-profundo">Casa de la Memoria</p>
+                    <p className="font-sans text-cafe/80 mt-1 text-[11px]">
+                      Salvaguarda y protección del patrimonio indígena.
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="pt-3 flex justify-end space-x-3 border-t border-crema-dark">
+            <Button variant="terracota" onClick={() => {
+              if (onSuccessNotification) {
+                onSuccessNotification('Combinación tipográfica actualizada y aplicada al sitio web.');
+              }
+              onClose();
+            }}>
+              Aplicar Tipografía
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* 7. MODAL EDITAR TEMA / COLORES */}
+      <Modal
+        isOpen={activeModal === 'editTheme'}
+        onClose={onClose}
+        title={
+          <div className="flex items-center space-x-2 font-serif font-bold text-lg">
+            <Palette className="w-5 h-5 text-mostaza" />
+            <span>Personalizar Tema de Color</span>
+          </div>
+        }
+        subtitle="Elige la paleta cromática de la Casa de la Memoria"
+        size="lg"
+      >
+        <div className="space-y-5 font-sans">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {THEME_PRESETS.map((theme) => {
+              const isSelected = theme.id === selectedThemeId;
+              return (
+                <div
+                  key={theme.id}
+                  onClick={() => setTheme(theme.id)}
+                  className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                    isSelected
+                      ? 'border-verde-profundo bg-verde-profundo/5 shadow-md'
+                      : 'border-crema-dark bg-white hover:border-mostaza/60'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <div className="flex items-center space-x-2">
+                      <h4 className="font-bold text-sm text-verde-profundo">{theme.name}</h4>
+                      {theme.isDark && (
+                        <Badge variant="terracota" className="text-[10px]">Oscuro</Badge>
+                      )}
+                    </div>
+                    {isSelected && (
+                      <span className="w-5 h-5 rounded-full bg-verde-profundo text-crema flex items-center justify-center">
+                        <Check size={12} />
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-cafe/70 mb-3 leading-relaxed">{theme.description}</p>
+                  
+                  {/* Color Swatches */}
+                  <div className="flex items-center space-x-2 pt-2 border-t border-crema-dark/50">
+                    <span
+                      className="w-6 h-6 rounded-full border border-black/20 shadow-xs"
+                      style={{ backgroundColor: theme.crema }}
+                      title="Crema Principal"
+                    />
+                    <span
+                      className="w-6 h-6 rounded-full border border-black/20 shadow-xs"
+                      style={{ backgroundColor: theme.verdeProfundo }}
+                      title="Verde Profundo"
+                    />
+                    <span
+                      className="w-6 h-6 rounded-full border border-black/20 shadow-xs"
+                      style={{ backgroundColor: theme.terracota }}
+                      title="Terracota"
+                    />
+                    <span
+                      className="w-6 h-6 rounded-full border border-black/20 shadow-xs"
+                      style={{ backgroundColor: theme.mostaza }}
+                      title="Mostaza Acento"
+                    />
+                    <span
+                      className="w-6 h-6 rounded-full border border-black/20 shadow-xs"
+                      style={{ backgroundColor: theme.cafe }}
+                      title="Café Texto"
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="pt-3 flex justify-end space-x-3 border-t border-crema-dark">
+            <Button variant="terracota" onClick={() => {
+              if (onSuccessNotification) {
+                onSuccessNotification('Tema cromático aplicado exitosamente en todo el sitio.');
+              }
+              onClose();
+            }}>
+              Aplicar Tema
+            </Button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* 8. MODAL AÑADIR DOCUMENTOS */}
       <Modal
         isOpen={activeModal === 'addDocument'}
         onClose={onClose}
@@ -469,7 +742,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         </form>
       </Modal>
 
-      {/* 7. MODAL ADMINISTRAR ARCHIVOS Y FOTOGRAFÍAS */}
+      {/* 9. MODAL ADMINISTRAR ARCHIVOS Y FOTOGRAFÍAS */}
       <Modal
         isOpen={activeModal === 'managePhotos'}
         onClose={onClose}
