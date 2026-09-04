@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-crema: #FDFBF7;
+  --color-crema-dark: #F2EBE1;
+  --color-verde-profundo: #1C3F2B;
+  --color-terracota: #A84522;
+  --color-terracota-light: #C95B36;
+  --color-cafe: #4A3018;
+  --color-mostaza: #DCA74E;
+}
+
 @layer base {
   body {
     @apply bg-crema text-cafe font-sans;

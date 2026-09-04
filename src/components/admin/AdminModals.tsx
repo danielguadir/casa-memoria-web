@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { 
   UserPlus, UserMinus, FilePlus, Image as ImageIcon, 
-  Trash2, Upload, Users, Activity, Clock, Wrench, Type, Palette, FileText, Check, RotateCcw
+  Trash2, Upload, Users, Activity, Clock, Wrench, Type, Palette, FileText, Check, RotateCcw, Sliders
 } from 'lucide-react';
 import { Modal, Input, Button, Badge } from '@/components/design-system';
-import { useSiteSettings, FONT_PRESETS, THEME_PRESETS } from '@/context/SiteSettingsContext';
+import { useSiteSettings, FONT_PRESETS, THEME_PRESETS, ThemeColors } from '@/context/SiteSettingsContext';
 
 export type AdminModalType = 
   | 'createUser' 
@@ -32,7 +32,13 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
   onClose,
   onSuccessNotification,
 }) => {
-  const { siteContent, updatePageContent, selectedFontId, setFont, selectedThemeId, setTheme, resetToDefaults } = useSiteSettings();
+  const { 
+    siteContent, updatePageContent, 
+    selectedFontId, setFont, 
+    selectedThemeId, setTheme, 
+    activeColors, updateCustomColor, 
+    resetToDefaults 
+  } = useSiteSettings();
 
   // Create User state
   const [newUserName, setNewUserName] = useState('');
@@ -48,6 +54,8 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
 
   // Page Content Edit local state
   const [contentTab, setContentTab] = useState<'inicio' | 'convocatoria' | 'sobreProceso'>('inicio');
+  const [themeTab, setThemeTab] = useState<'presets' | 'custom'>('presets');
+  
   const [heroTitle, setHeroTitle] = useState(siteContent.heroTitle);
   const [heroSubtitle, setHeroSubtitle] = useState(siteContent.heroSubtitle);
   const [heroDesc, setHeroDesc] = useState(siteContent.heroDesc);
@@ -148,6 +156,16 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
   };
 
   const isEditContentOpen = activeModal === 'editPageContent' || activeModal === 'editPage';
+
+  const colorFields: { key: keyof ThemeColors; label: string; desc: string }[] = [
+    { key: 'crema', label: 'Fondo Principal (Crema)', desc: 'Color de fondo general de las secciones principales.' },
+    { key: 'cremaDark', label: 'Fondo Secundario (Crema Oscuro)', desc: 'Color de tarjetas, paneles y fondo de sección secundaria.' },
+    { key: 'verdeProfundo', label: 'Color Primario (Verde Profundo)', desc: 'Encabezados principales, marca y barra superior.' },
+    { key: 'terracota', label: 'Color Secundario (Terracota)', desc: 'Botones principales, acentos de marca y badges.' },
+    { key: 'terracotaLight', label: 'Terracota Claro', desc: 'Variante de acento brillante para estados hover y tarjetas.' },
+    { key: 'cafe', label: 'Color de Texto (Café)', desc: 'Tono principal de los párrafos y contenidos de lectura.' },
+    { key: 'mostaza', label: 'Color Acento (Mostaza)', desc: 'Detalles dorados, bordes y botones destacados.' },
+  ];
 
   return (
     <>
@@ -577,7 +595,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         </div>
       </Modal>
 
-      {/* 7. MODAL EDITAR TEMA / COLORES */}
+      {/* 7. MODAL EDITAR TEMA / COLORES Y PALETA PERSONALIZADA */}
       <Modal
         isOpen={activeModal === 'editTheme'}
         onClose={onClose}
@@ -587,80 +605,167 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
             <span>Personalizar Tema de Color</span>
           </div>
         }
-        subtitle="Elige la paleta cromática de la Casa de la Memoria"
+        subtitle="Los cambios de color se aplican en tiempo real en toda la página web"
         size="lg"
       >
         <div className="space-y-5 font-sans">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {THEME_PRESETS.map((theme) => {
-              const isSelected = theme.id === selectedThemeId;
-              return (
-                <div
-                  key={theme.id}
-                  onClick={() => setTheme(theme.id)}
-                  className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
-                    isSelected
-                      ? 'border-verde-profundo bg-verde-profundo/5 shadow-md'
-                      : 'border-crema-dark bg-white hover:border-mostaza/60'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <div className="flex items-center space-x-2">
-                      <h4 className="font-bold text-sm text-verde-profundo">{theme.name}</h4>
-                      {theme.isDark && (
-                        <Badge variant="terracota" className="text-[10px]">Oscuro</Badge>
-                      )}
-                    </div>
-                    {isSelected && (
-                      <span className="w-5 h-5 rounded-full bg-verde-profundo text-crema flex items-center justify-center">
-                        <Check size={12} />
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-xs text-cafe/70 mb-3 leading-relaxed">{theme.description}</p>
-                  
-                  {/* Color Swatches */}
-                  <div className="flex items-center space-x-2 pt-2 border-t border-crema-dark/50">
-                    <span
-                      className="w-6 h-6 rounded-full border border-black/20 shadow-xs"
-                      style={{ backgroundColor: theme.crema }}
-                      title="Crema Principal"
-                    />
-                    <span
-                      className="w-6 h-6 rounded-full border border-black/20 shadow-xs"
-                      style={{ backgroundColor: theme.verdeProfundo }}
-                      title="Verde Profundo"
-                    />
-                    <span
-                      className="w-6 h-6 rounded-full border border-black/20 shadow-xs"
-                      style={{ backgroundColor: theme.terracota }}
-                      title="Terracota"
-                    />
-                    <span
-                      className="w-6 h-6 rounded-full border border-black/20 shadow-xs"
-                      style={{ backgroundColor: theme.mostaza }}
-                      title="Mostaza Acento"
-                    />
-                    <span
-                      className="w-6 h-6 rounded-full border border-black/20 shadow-xs"
-                      style={{ backgroundColor: theme.cafe }}
-                      title="Café Texto"
-                    />
-                  </div>
-                </div>
-              );
-            })}
+          
+          {/* Sub-tabs for presets vs custom color pickers */}
+          <div className="flex border-b border-crema-dark space-x-2">
+            <button
+              type="button"
+              onClick={() => setThemeTab('presets')}
+              className={`py-2 px-4 text-xs font-bold rounded-t-xl transition-colors border-b-2 ${
+                themeTab === 'presets'
+                  ? 'border-verde-profundo text-verde-profundo bg-crema-dark/30'
+                  : 'border-transparent text-cafe/70 hover:text-verde-profundo'
+              }`}
+            >
+              Paletas Predeterminadas
+            </button>
+            <button
+              type="button"
+              onClick={() => setThemeTab('custom')}
+              className={`py-2 px-4 text-xs font-bold rounded-t-xl transition-colors border-b-2 flex items-center space-x-1.5 ${
+                themeTab === 'custom'
+                  ? 'border-terracota text-terracota bg-crema-dark/30'
+                  : 'border-transparent text-cafe/70 hover:text-verde-profundo'
+              }`}
+            >
+              <Sliders size={14} />
+              <span>Personalizar Paleta de Colores</span>
+            </button>
           </div>
 
-          <div className="pt-3 flex justify-end space-x-3 border-t border-crema-dark">
-            <Button variant="terracota" onClick={() => {
-              if (onSuccessNotification) {
-                onSuccessNotification('Tema cromático aplicado exitosamente en todo el sitio.');
-              }
-              onClose();
-            }}>
-              Aplicar Tema
-            </Button>
+          {/* TAB 1: PRESETS */}
+          {themeTab === 'presets' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in duration-200">
+              {THEME_PRESETS.map((theme) => {
+                const isSelected = theme.id === selectedThemeId;
+                return (
+                  <div
+                    key={theme.id}
+                    onClick={() => {
+                      setTheme(theme.id);
+                      if (onSuccessNotification) {
+                        onSuccessNotification(`Tema "${theme.name}" aplicado en tiempo real.`);
+                      }
+                    }}
+                    className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                      isSelected
+                        ? 'border-verde-profundo bg-verde-profundo/5 shadow-md ring-2 ring-verde-profundo/20'
+                        : 'border-crema-dark bg-white hover:border-mostaza/60'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1.5">
+                      <div className="flex items-center space-x-2">
+                        <h4 className="font-bold text-sm text-verde-profundo">{theme.name}</h4>
+                        {theme.isDark && (
+                          <Badge variant="terracota" className="text-[10px]">Oscuro</Badge>
+                        )}
+                      </div>
+                      {isSelected && (
+                        <span className="w-5 h-5 rounded-full bg-verde-profundo text-crema flex items-center justify-center shadow-xs">
+                          <Check size={12} />
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-cafe/70 mb-3 leading-relaxed">{theme.description}</p>
+                    
+                    {/* Color Swatches */}
+                    <div className="flex items-center space-x-2 pt-2 border-t border-crema-dark/50">
+                      <span
+                        className="w-6 h-6 rounded-full border border-black/20 shadow-xs"
+                        style={{ backgroundColor: theme.crema }}
+                        title="Crema Principal"
+                      />
+                      <span
+                        className="w-6 h-6 rounded-full border border-black/20 shadow-xs"
+                        style={{ backgroundColor: theme.verdeProfundo }}
+                        title="Verde Profundo"
+                      />
+                      <span
+                        className="w-6 h-6 rounded-full border border-black/20 shadow-xs"
+                        style={{ backgroundColor: theme.terracota }}
+                        title="Terracota"
+                      />
+                      <span
+                        className="w-6 h-6 rounded-full border border-black/20 shadow-xs"
+                        style={{ backgroundColor: theme.mostaza }}
+                        title="Mostaza Acento"
+                      />
+                      <span
+                        className="w-6 h-6 rounded-full border border-black/20 shadow-xs"
+                        style={{ backgroundColor: theme.cafe }}
+                        title="Café Texto"
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* TAB 2: CUSTOM COLOR PICKER */}
+          {themeTab === 'custom' && (
+            <div className="space-y-4 animate-in fade-in duration-200">
+              <p className="text-xs text-cafe/70 bg-crema-dark/40 p-3 rounded-xl border border-crema-dark">
+                Elige y ajusta cada color individualmente con el selector de color o ingresando el código hexadecimal. Todos los componentes de la página se actualizarán instantáneamente.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[340px] overflow-y-auto pr-1">
+                {colorFields.map((field) => {
+                  const currentColor = activeColors[field.key];
+                  return (
+                    <div key={field.key} className="p-3 bg-white rounded-xl border border-crema-dark flex items-center justify-between shadow-xs">
+                      <div>
+                        <p className="text-xs font-bold text-verde-profundo">{field.label}</p>
+                        <p className="text-[10px] text-cafe/60">{field.desc}</p>
+                      </div>
+
+                      <div className="flex items-center space-x-2 shrink-0 ml-2">
+                        <input
+                          type="color"
+                          value={currentColor}
+                          onChange={(e) => updateCustomColor(field.key, e.target.value)}
+                          className="w-8 h-8 rounded-lg cursor-pointer border border-crema-dark p-0.5 bg-transparent"
+                          title={`Seleccionar color para ${field.label}`}
+                        />
+                        <input
+                          type="text"
+                          value={currentColor}
+                          onChange={(e) => updateCustomColor(field.key, e.target.value)}
+                          className="w-20 px-2 py-1 text-xs font-mono rounded-lg border border-crema-dark bg-crema text-cafe focus:ring-1 focus:ring-verde-profundo"
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          <div className="pt-3 flex items-center justify-between border-t border-crema-dark">
+            <button
+              type="button"
+              onClick={resetToDefaults}
+              className="text-xs text-cafe/60 hover:text-terracota font-medium flex items-center space-x-1"
+            >
+              <RotateCcw size={14} />
+              <span>Restablecer Tema Original</span>
+            </button>
+
+            <div className="flex space-x-3">
+              <Button variant="ghost" onClick={onClose}>Cerrar</Button>
+              <Button variant="terracota" onClick={() => {
+                if (onSuccessNotification) {
+                  onSuccessNotification('Tema cromático aplicado en vivo a toda la página web.');
+                }
+                onClose();
+              }}>
+                Guardar y Aplicar
+              </Button>
+            </div>
           </div>
         </div>
       </Modal>

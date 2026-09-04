@@ -21,10 +21,7 @@ export interface FontOption {
   googleFontsUrl?: string;
 }
 
-export interface ThemeOption {
-  id: string;
-  name: string;
-  description: string;
+export interface ThemeColors {
   crema: string;
   cremaDark: string;
   verdeProfundo: string;
@@ -32,6 +29,12 @@ export interface ThemeOption {
   terracotaLight: string;
   cafe: string;
   mostaza: string;
+}
+
+export interface ThemeOption extends ThemeColors {
+  id: string;
+  name: string;
+  description: string;
   isDark?: boolean;
 }
 
@@ -135,22 +138,33 @@ interface SiteSettingsContextType {
   siteContent: SiteContent;
   selectedFontId: string;
   selectedThemeId: string;
+  activeColors: ThemeColors;
   currentFont: FontOption;
   currentTheme: ThemeOption;
   updatePageContent: (newContent: Partial<SiteContent>) => void;
   setFont: (fontId: string) => void;
   setTheme: (themeId: string) => void;
+  updateCustomColor: (colorKey: keyof ThemeColors, hexValue: string) => void;
   resetToDefaults: () => void;
 }
 
 const SiteSettingsContext = createContext<SiteSettingsContextType | undefined>(undefined);
 
-const LOCAL_STORAGE_KEY = 'casa_memoria_settings_v1';
+const LOCAL_STORAGE_KEY = 'casa_memoria_settings_v2';
 
 export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [siteContent, setSiteContent] = useState<SiteContent>(DEFAULT_CONTENT);
   const [selectedFontId, setSelectedFontId] = useState<string>('ancestral');
   const [selectedThemeId, setSelectedThemeId] = useState<string>('ancestral');
+  const [activeColors, setActiveColors] = useState<ThemeColors>({
+    crema: THEME_PRESETS[0].crema,
+    cremaDark: THEME_PRESETS[0].cremaDark,
+    verdeProfundo: THEME_PRESETS[0].verdeProfundo,
+    terracota: THEME_PRESETS[0].terracota,
+    terracotaLight: THEME_PRESETS[0].terracotaLight,
+    cafe: THEME_PRESETS[0].cafe,
+    mostaza: THEME_PRESETS[0].mostaza,
+  });
 
   // Load persisted settings from localStorage on initial client mount
   useEffect(() => {
@@ -161,6 +175,7 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
         if (parsed.siteContent) setSiteContent(parsed.siteContent);
         if (parsed.selectedFontId) setSelectedFontId(parsed.selectedFontId);
         if (parsed.selectedThemeId) setSelectedThemeId(parsed.selectedThemeId);
+        if (parsed.activeColors) setActiveColors(parsed.activeColors);
       }
     } catch (e) {
       console.warn('Could not read settings from localStorage', e);
@@ -172,32 +187,32 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     try {
       localStorage.setItem(
         LOCAL_STORAGE_KEY,
-        JSON.stringify({ siteContent, selectedFontId, selectedThemeId })
+        JSON.stringify({ siteContent, selectedFontId, selectedThemeId, activeColors })
       );
     } catch (e) {
       console.warn('Could not save settings to localStorage', e);
     }
-  }, [siteContent, selectedFontId, selectedThemeId]);
+  }, [siteContent, selectedFontId, selectedThemeId, activeColors]);
 
-  // Dynamically apply Theme CSS Variables to root document
+  // Dynamically apply active colors as CSS variables to root document
   useEffect(() => {
-    const theme = THEME_PRESETS.find((t) => t.id === selectedThemeId) || THEME_PRESETS[0];
     const root = document.documentElement;
 
-    root.style.setProperty('--color-crema', theme.crema);
-    root.style.setProperty('--color-crema-dark', theme.cremaDark);
-    root.style.setProperty('--color-verde-profundo', theme.verdeProfundo);
-    root.style.setProperty('--color-terracota', theme.terracota);
-    root.style.setProperty('--color-terracota-light', theme.terracotaLight);
-    root.style.setProperty('--color-cafe', theme.cafe);
-    root.style.setProperty('--color-mostaza', theme.mostaza);
+    root.style.setProperty('--color-crema', activeColors.crema);
+    root.style.setProperty('--color-crema-dark', activeColors.cremaDark);
+    root.style.setProperty('--color-verde-profundo', activeColors.verdeProfundo);
+    root.style.setProperty('--color-terracota', activeColors.terracota);
+    root.style.setProperty('--color-terracota-light', activeColors.terracotaLight);
+    root.style.setProperty('--color-cafe', activeColors.cafe);
+    root.style.setProperty('--color-mostaza', activeColors.mostaza);
 
-    if (theme.isDark) {
+    const themeObj = THEME_PRESETS.find((t) => t.id === selectedThemeId);
+    if (themeObj?.isDark) {
       root.classList.add('dark-mode');
     } else {
       root.classList.remove('dark-mode');
     }
-  }, [selectedThemeId]);
+  }, [activeColors, selectedThemeId]);
 
   // Dynamically inject Font link tag if external Google font is required
   useEffect(() => {
@@ -224,12 +239,38 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
   const setTheme = (themeId: string) => {
     setSelectedThemeId(themeId);
+    const themeObj = THEME_PRESETS.find((t) => t.id === themeId);
+    if (themeObj) {
+      setActiveColors({
+        crema: themeObj.crema,
+        cremaDark: themeObj.cremaDark,
+        verdeProfundo: themeObj.verdeProfundo,
+        terracota: themeObj.terracota,
+        terracotaLight: themeObj.terracotaLight,
+        cafe: themeObj.cafe,
+        mostaza: themeObj.mostaza,
+      });
+    }
+  };
+
+  const updateCustomColor = (colorKey: keyof ThemeColors, hexValue: string) => {
+    setSelectedThemeId('custom');
+    setActiveColors((prev) => ({ ...prev, [colorKey]: hexValue }));
   };
 
   const resetToDefaults = () => {
     setSiteContent(DEFAULT_CONTENT);
     setSelectedFontId('ancestral');
     setSelectedThemeId('ancestral');
+    setActiveColors({
+      crema: THEME_PRESETS[0].crema,
+      cremaDark: THEME_PRESETS[0].cremaDark,
+      verdeProfundo: THEME_PRESETS[0].verdeProfundo,
+      terracota: THEME_PRESETS[0].terracota,
+      terracotaLight: THEME_PRESETS[0].terracotaLight,
+      cafe: THEME_PRESETS[0].cafe,
+      mostaza: THEME_PRESETS[0].mostaza,
+    });
   };
 
   const currentFont = FONT_PRESETS.find((f) => f.id === selectedFontId) || FONT_PRESETS[0];
@@ -241,11 +282,13 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
         siteContent,
         selectedFontId,
         selectedThemeId,
+        activeColors,
         currentFont,
         currentTheme,
         updatePageContent,
         setFont,
         setTheme,
+        updateCustomColor,
         resetToDefaults,
       }}
     >

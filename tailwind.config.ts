@@ -9,13 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        crema: "#FDFBF7",
-        'crema-dark': "#F2EBE1",
-        'verde-profundo': "#1C3F2B", // conexión con territorio y montaña
-        terracota: "#A84522", // tierra, memoria, calidez
-        'terracota-light': "#C95B36",
-        cafe: "#4A3018", // identidad orgánica ancestral
-        mostaza: "#DCA74E", // acento cálido
+        crema: "var(--color-crema)",
+        'crema-dark': "var(--color-crema-dark)",
+        'verde-profundo': "var(--color-verde-profundo)",
+        terracota: "var(--color-terracota)",
+        'terracota-light': "var(--color-terracota-light)",
+        cafe: "var(--color-cafe)",
+        mostaza: "var(--color-mostaza)",
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'sans-serif'],
