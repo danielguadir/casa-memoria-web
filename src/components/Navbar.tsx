@@ -9,7 +9,15 @@ import { Button, Badge } from '@/components/design-system';
 const navLinks: { name: string; key: SectionType; href: string; dropdown?: { name: string; href: string }[] }[] = [
   { name: 'Inicio', key: 'inicio', href: '#' },
   { name: 'Nosotros', key: 'sobre-el-proceso', href: '#' },
-  { name: 'Convocatoria', key: 'convocatoria', href: '#' },
+  {
+    name: 'Tejidos de formación',
+    key: 'convocatoria',
+    href: '#',
+    dropdown: [
+      { name: 'Escuela de formación renacientes del gran Cumbal', href: '#' },
+      { name: 'Seminario en comunicación comunitaria', href: '#' }
+    ]
+  },
   {
     name: 'Memoria',
     key: 'memoria',
@@ -25,7 +33,7 @@ const navLinks: { name: string; key: SectionType; href: string; dropdown?: { nam
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isMemoriaOpen, setIsMemoriaOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const { 
     user, isLoggedIn, openLoginModal, openKioskModal, 
@@ -83,12 +91,14 @@ export default function Navbar() {
           <div className="hidden md:flex items-center space-x-3 lg:space-x-5">
             {navLinks.map((link) => {
               const isActive = activeSection === link.key && activeView === 'public' && link.href !== '#contacto';
+              const isDropdownOpen = openDropdown === link.name;
+
               return (
                 <div
                   key={link.name}
                   className="relative group h-full flex items-center"
-                  onMouseEnter={() => link.dropdown && setIsMemoriaOpen(true)}
-                  onMouseLeave={() => link.dropdown && setIsMemoriaOpen(false)}
+                  onMouseEnter={() => link.dropdown && setOpenDropdown(link.name)}
+                  onMouseLeave={() => link.dropdown && setOpenDropdown(null)}
                 >
                   {link.dropdown ? (
                     <div className="relative flex items-center">
@@ -100,20 +110,20 @@ export default function Navbar() {
                         `}
                       >
                         <span>{link.name}</span>
-                        <ChevronDown size={14} className={`transition-transform duration-300 ${isMemoriaOpen ? 'rotate-180' : ''}`} />
+                        <ChevronDown size={14} className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
                       </button>
 
                       {/* Dropdown Desktop */}
-                      {isMemoriaOpen && (
-                        <div className="absolute top-full left-0 w-48 bg-crema text-cafe rounded-b-xl shadow-xl border-t-2 border-terracota py-2 animate-in fade-in slide-in-from-top-2 z-[60]">
+                      {isDropdownOpen && (
+                        <div className="absolute top-full left-0 min-w-[260px] bg-crema text-cafe rounded-b-xl shadow-xl border-t-2 border-terracota py-2 animate-in fade-in slide-in-from-top-2 z-[60]">
                           {link.dropdown.map((item) => (
                             <button
                               key={item.name}
                               onClick={() => {
-                                handleNavClick('memoria');
-                                setIsMemoriaOpen(false);
+                                handleNavClick(link.key);
+                                setOpenDropdown(null);
                               }}
-                              className="w-full text-left px-4 py-2 hover:bg-crema-dark hover:text-terracota transition-colors text-sm font-medium"
+                              className="w-full text-left px-4 py-2.5 hover:bg-crema-dark hover:text-terracota transition-colors text-xs font-semibold leading-snug"
                             >
                               {item.name}
                             </button>
@@ -273,16 +283,34 @@ export default function Navbar() {
         <div className="md:hidden bg-verde-profundo border-t border-verde-profundo/80 animate-in fade-in duration-200">
           <div className="px-3 pt-2 pb-4 space-y-2">
             {navLinks.map((link) => (
-              <div key={link.name}>
+              <div key={link.name} className="space-y-1">
                 <button
                   onClick={() => {
                     handleNavClick(link.key, link.href);
-                    setIsOpen(false);
+                    if (!link.dropdown) setIsOpen(false);
                   }}
-                  className="w-full text-left px-3 py-2 rounded-lg text-base font-medium hover:bg-terracota hover:text-crema transition-colors text-crema"
+                  className="w-full text-left px-3 py-2 rounded-lg text-base font-medium hover:bg-terracota hover:text-crema transition-colors text-crema flex items-center justify-between"
                 >
-                  {link.name}
+                  <span>{link.name}</span>
+                  {link.dropdown && <ChevronDown size={16} />}
                 </button>
+
+                {link.dropdown && (
+                  <div className="ml-4 pl-3 border-l-2 border-mostaza/40 space-y-1 my-1">
+                    {link.dropdown.map((subItem) => (
+                      <button
+                        key={subItem.name}
+                        onClick={() => {
+                          handleNavClick(link.key);
+                          setIsOpen(false);
+                        }}
+                        className="w-full text-left px-2 py-1.5 text-xs text-crema/80 hover:text-mostaza block font-medium"
+                      >
+                        {subItem.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
 

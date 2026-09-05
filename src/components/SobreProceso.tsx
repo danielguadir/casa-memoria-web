@@ -96,53 +96,6 @@ export default function SobreProceso() {
                     ))}
                 </div>
 
-                {/* Highlight Section */}
-                <div className="mt-24 bg-verde-profundo/95 backdrop-blur-md text-crema rounded-3xl p-8 md:p-12 overflow-hidden relative shadow-2xl border border-crema/20">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-terracota/30 rounded-bl-full"></div>
-
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 relative z-10">
-
-                        <div className="space-y-6">
-                            <span className="text-mostaza font-bold text-sm tracking-widest uppercase bg-mostaza/20 px-3 py-1 rounded-full border border-mostaza/30">Próximo Evento</span>
-                            <h3 className="font-serif font-bold text-3xl text-crema tracking-wide drop-shadow">Actualización y formulación del PMGRD</h3>
-                            <p className="font-sans text-crema/90 text-sm leading-relaxed max-w-md italic">
-                                Plan Municipal de Gestión del Riesgo de Desastres y la Estrategia Municipal de Respuesta a Emergencias (EMRE).
-                            </p>
-
-                            <ul className="space-y-3 pt-4 text-sm bg-crema/5 p-6 rounded-xl border border-crema/10 shadow-inner backdrop-blur-sm">
-                                <li className="flex items-center space-x-3"><span className="text-mostaza font-bold min-w-16 opacity-90 underline decoration-mostaza/30">Fecha:</span> <span>Martes, 11 de noviembre de 2025</span></li>
-                                <li className="flex items-center space-x-3"><span className="text-mostaza font-bold min-w-16 opacity-90 underline decoration-mostaza/30">Hora:</span> <span>2:00pm</span></li>
-                                <li className="flex items-start space-x-3"><span className="text-mostaza font-bold min-w-16 opacity-90 underline decoration-mostaza/30">Lugar:</span> <span>Casa de la Memoria del Gran Cumbal, Cabildo de Cumbal, 3 piso.</span></li>
-                            </ul>
-                        </div>
-
-                        <div className="space-y-6 lg:border-l border-crema/20 lg:pl-12">
-                            <span className="text-terracota-light font-bold text-sm tracking-widest uppercase bg-terracota/30 px-3 py-1 rounded-full border border-terracota/30">Hito</span>
-                            <h3 className="font-serif font-bold text-2xl tracking-tight text-crema drop-shadow">IV Congreso Pedagógico Internacional</h3>
-                            <div className="w-12 h-1 bg-mostaza/60 rounded-full"></div>
-
-                            <p className="text-mostaza italic font-serif text-lg leading-relaxed drop-shadow-sm font-medium">
-                                &ldquo;Raíces pedagógicas para la diversidad y las comunidades de vida&rdquo;
-                            </p>
-
-                            <div className="font-sans text-sm space-y-4 text-crema/90 p-6 border border-crema/20 rounded-xl bg-black/20 backdrop-blur shadow-2xl">
-                                <p className="font-bold tracking-wide">Naciones invitadas: Colombia, México, Perú, Bolivia, Argentina, Ecuador y Uruguay</p>
-                                <div className="pt-2 flex flex-col space-y-2 font-semibold bg-verde-profundo/90 border border-mostaza/40 p-4 rounded-lg shadow-md">
-                                    <div className="flex items-center">
-                                        <span className="mr-2 filter drop-shadow-lg">📅</span> 1, 2 y 3 de febrero de 2026
-                                    </div>
-                                    <div className="flex items-start">
-                                        <span className="mr-2 pt-1 filter drop-shadow-lg">📍</span>
-                                        <span className="leading-tight">Territorio de Cumbal y Guachucal,<br />Departamento de Nariño – Colombia</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
             </div>
         </section>
     );
