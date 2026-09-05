@@ -1,10 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { Menu, X, LogOut, ChevronDown, ShieldCheck, LayoutDashboard, LogIn, Monitor } from 'lucide-react';
+import { Menu, X, LogOut, ChevronDown, ShieldCheck, LayoutDashboard, LogIn } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth, SectionType } from '@/context/AuthContext';
 import { Button, Badge } from '@/components/design-system';
+import InDevelopmentModal from '@/components/InDevelopmentModal';
 
 const navLinks: { name: string; key: SectionType; href: string; dropdown?: { name: string; href: string }[] }[] = [
   { name: 'Inicio', key: 'inicio', href: '#' },
@@ -16,6 +17,16 @@ const navLinks: { name: string; key: SectionType; href: string; dropdown?: { nam
     dropdown: [
       { name: 'Escuela de formación renacientes del gran Cumbal', href: '#' },
       { name: 'Seminario en comunicación comunitaria', href: '#' }
+    ]
+  },
+  {
+    name: 'Centro de documentación CMGC',
+    key: 'inicio',
+    href: '#',
+    dropdown: [
+      { name: 'Biblioteca especializada de pueblos indígenas', href: '#' },
+      { name: 'Archivo de Memoria Audiovisual', href: '#' },
+      { name: 'Archivos digitales', href: '#' }
     ]
   },
   {
@@ -34,9 +45,10 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [devModalItem, setDevModalItem] = useState<string | null>(null);
 
   const { 
-    user, isLoggedIn, openLoginModal, openKioskModal, 
+    user, isLoggedIn, openLoginModal, /* openKioskModal, */
     logout, activeView, setActiveView, activeSection, setActiveSection 
   } = useAuth();
 
@@ -55,300 +67,307 @@ export default function Navbar() {
     }
   };
 
+  const handleSubItemClick = (sectionKey: SectionType, subItemName: string) => {
+    handleNavClick(sectionKey);
+    setOpenDropdown(null);
+    setIsOpen(false);
+    setDevModalItem(subItemName);
+  };
+
   return (
-    <nav className="bg-verde-profundo text-crema sticky top-0 z-50 shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-20">
-          
-          {/* Logo & Brand Name */}
-          <div className="flex items-center">
-            <button 
-              onClick={() => handleNavClick('inicio')}
-              className="flex-shrink-0 flex items-center space-x-3 group text-left focus:outline-none"
-            >
-              <div className="relative w-13 h-13 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-mostaza bg-crema flex items-center justify-center shadow-md group-hover:scale-105 transition-transform shrink-0">
-                <Image
-                  src="/images/hero-logo.png"
-                  alt="Logo Casa de la Memoria"
-                  width={52}
-                  height={52}
-                  className="w-auto h-11 sm:h-12 object-contain p-0.5 scale-110"
-                  priority
-                />
-              </div>
-              <div className="hidden sm:block">
-                <span className="font-serif font-bold text-xl tracking-wide block leading-none">
-                  Casa de la Memoria
-                </span>
-                <span className="text-[10px] text-mostaza uppercase tracking-widest block mt-0.5 font-medium">
-                  Archivo & Salvaguarda
-                </span>
-              </div>
-            </button>
-          </div>
+    <>
+      <nav className="bg-verde-profundo text-crema sticky top-0 z-50 shadow-md">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-20">
+            
+            {/* Logo & Brand Name */}
+            <div className="flex items-center">
+              <button 
+                onClick={() => handleNavClick('inicio')}
+                className="flex-shrink-0 flex items-center space-x-3 group text-left focus:outline-none"
+              >
+                <div className="relative w-13 h-13 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-mostaza bg-crema flex items-center justify-center shadow-md group-hover:scale-105 transition-transform shrink-0">
+                  <Image
+                    src="/images/hero-logo.png"
+                    alt="Logo Casa de la Memoria"
+                    width={52}
+                    height={52}
+                    className="w-auto h-11 sm:h-12 object-contain p-0.5 scale-110"
+                    priority
+                  />
+                </div>
+                <div className="hidden sm:block">
+                  <span className="font-serif font-bold text-xl tracking-wide block leading-none">
+                    Casa de la Memoria
+                  </span>
+                  <span className="text-[10px] text-mostaza uppercase tracking-widest block mt-0.5 font-medium">
+                    Archivo & Salvaguarda
+                  </span>
+                </div>
+              </button>
+            </div>
 
-          {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center space-x-3 lg:space-x-5">
-            {navLinks.map((link) => {
-              const isActive = activeSection === link.key && activeView === 'public' && link.href !== '#contacto';
-              const isDropdownOpen = openDropdown === link.name;
+            {/* Desktop Navigation Links */}
+            <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.key && activeView === 'public' && link.href !== '#contacto';
+                const isDropdownOpen = openDropdown === link.name;
 
-              return (
-                <div
-                  key={link.name}
-                  className="relative group h-full flex items-center"
-                  onMouseEnter={() => link.dropdown && setOpenDropdown(link.name)}
-                  onMouseLeave={() => link.dropdown && setOpenDropdown(null)}
-                >
-                  {link.dropdown ? (
-                    <div className="relative flex items-center">
+                return (
+                  <div
+                    key={link.name}
+                    className="relative group h-full flex items-center"
+                    onMouseEnter={() => link.dropdown && setOpenDropdown(link.name)}
+                    onMouseLeave={() => link.dropdown && setOpenDropdown(null)}
+                  >
+                    {link.dropdown ? (
+                      <div className="relative flex items-center">
+                        <button
+                          onClick={() => handleNavClick(link.key)}
+                          className={`
+                            flex items-center space-x-1 transition-colors duration-300 font-medium text-xs lg:text-sm tracking-wide py-2 px-1 rounded-md
+                            ${isActive ? 'text-mostaza font-bold border-b-2 border-mostaza' : 'hover:text-mostaza'}
+                          `}
+                        >
+                          <span>{link.name}</span>
+                          <ChevronDown size={14} className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        {/* Dropdown Desktop */}
+                        {isDropdownOpen && (
+                          <div className="absolute top-full left-0 min-w-[280px] bg-crema text-cafe rounded-b-xl shadow-xl border-t-2 border-terracota py-2 animate-in fade-in slide-in-from-top-2 z-[60]">
+                            {link.dropdown.map((item) => (
+                              <button
+                                key={item.name}
+                                onClick={() => handleSubItemClick(link.key, item.name)}
+                                className="w-full text-left px-4 py-2.5 hover:bg-crema-dark hover:text-terracota transition-colors text-xs font-semibold leading-snug flex items-center justify-between group/sub"
+                              >
+                                <span>{item.name}</span>
+                                <span className="text-[10px] text-terracota/60 group-hover/sub:text-terracota">↗</span>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
                       <button
-                        onClick={() => handleNavClick(link.key)}
+                        onClick={() => handleNavClick(link.key, link.href)}
                         className={`
-                          flex items-center space-x-1 transition-colors duration-300 font-medium text-sm lg:text-base tracking-wide py-2
+                          transition-colors duration-300 font-medium text-xs lg:text-sm tracking-wide py-1 px-1 rounded-md
                           ${isActive ? 'text-mostaza font-bold border-b-2 border-mostaza' : 'hover:text-mostaza'}
                         `}
                       >
-                        <span>{link.name}</span>
-                        <ChevronDown size={14} className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                        {link.name}
                       </button>
-
-                      {/* Dropdown Desktop */}
-                      {isDropdownOpen && (
-                        <div className="absolute top-full left-0 min-w-[260px] bg-crema text-cafe rounded-b-xl shadow-xl border-t-2 border-terracota py-2 animate-in fade-in slide-in-from-top-2 z-[60]">
-                          {link.dropdown.map((item) => (
-                            <button
-                              key={item.name}
-                              onClick={() => {
-                                handleNavClick(link.key);
-                                setOpenDropdown(null);
-                              }}
-                              className="w-full text-left px-4 py-2.5 hover:bg-crema-dark hover:text-terracota transition-colors text-xs font-semibold leading-snug"
-                            >
-                              {item.name}
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => handleNavClick(link.key, link.href)}
-                      className={`
-                        transition-colors duration-300 font-medium text-sm lg:text-base tracking-wide py-1 px-1 rounded-md
-                        ${isActive ? 'text-mostaza font-bold border-b-2 border-mostaza' : 'hover:text-mostaza'}
-                      `}
-                    >
-                      {link.name}
-                    </button>
-                  )}
-                </div>
-              );
-            })}
-
-            {/* Public Kiosk Terminal Button */}
-            <Button
-              variant="mostaza"
-              size="sm"
-              onClick={openKioskModal}
-              leftIcon={<Monitor size={16} />}
-              className="shadow-sm font-bold animate-pulse hover:animate-none"
-              title="Abrir la Consulta Pública - Casa de la Memoria Cumbal"
-            >
-              Consulta Pública
-            </Button>
-
-            {/* Auth Buttons / Profile Menu */}
-            {!isLoggedIn ? (
-              <Button
-                variant="terracota"
-                size="sm"
-                onClick={openLoginModal}
-                leftIcon={<LogIn size={16} />}
-                className="shadow-sm font-semibold"
-              >
-                Ingresar
-              </Button>
-            ) : (
-              <div className="flex items-center space-x-3">
-                {/* Switch view button */}
-                <Button
-                  variant={activeView === 'admin' ? 'mostaza' : 'secondary'}
-                  size="sm"
-                  onClick={() => setActiveView(activeView === 'admin' ? 'public' : 'admin')}
-                  leftIcon={<LayoutDashboard size={16} />}
-                >
-                  {activeView === 'admin' ? 'Ver Sitio Web' : 'Panel Admin'}
-                </Button>
-
-                {/* Profile Avatar & Dropdown */}
-                <div className="relative">
-                  <button
-                    onClick={() => setIsProfileOpen(!isProfileOpen)}
-                    className="flex items-center space-x-2 bg-terracota/30 hover:bg-terracota/50 p-1.5 pr-3 rounded-full transition-all duration-300 border border-crema/30"
-                  >
-                    <div className="w-7 h-7 rounded-full bg-terracota flex items-center justify-center text-crema font-bold text-xs">
-                      {user?.name?.charAt(0) || 'A'}
-                    </div>
-                    <span className="text-xs font-semibold text-crema hidden lg:inline max-w-[100px] truncate">
-                      {user?.name}
-                    </span>
-                    <ChevronDown size={14} className={`transition-transform duration-300 ${isProfileOpen ? 'rotate-180' : ''}`} />
-                  </button>
-
-                  {/* Profile Dropdown */}
-                  {isProfileOpen && (
-                    <div className="absolute right-0 mt-2 w-56 bg-crema text-cafe rounded-xl shadow-2xl border border-crema-dark py-2 z-50 animate-in fade-in zoom-in-95">
-                      <div className="px-4 py-2 border-b border-crema-dark bg-crema-dark/30">
-                        <p className="text-xs text-cafe/50 uppercase tracking-widest font-bold">Sesión Activa</p>
-                        <p className="text-sm font-bold text-verde-profundo truncate">{user?.name}</p>
-                        <Badge variant="terracota" className="mt-1">
-                          {user?.role}
-                        </Badge>
-                      </div>
-                      
-                      <button 
-                        onClick={() => {
-                          setActiveView('admin');
-                          setIsProfileOpen(false);
-                        }}
-                        className="w-full text-left px-4 py-2.5 hover:bg-crema-dark hover:text-terracota transition-colors text-sm flex items-center space-x-2 font-medium"
-                      >
-                        <ShieldCheck size={16} />
-                        <span>Panel Administración</span>
-                      </button>
-
-                      <button 
-                        onClick={() => {
-                          logout();
-                          setIsProfileOpen(false);
-                        }}
-                        className="w-full text-left px-4 py-2.5 hover:bg-red-50 text-red-600 transition-colors text-sm flex items-center space-x-2 border-t border-crema-dark font-medium"
-                      >
-                        <LogOut size={16} />
-                        <span>Cerrar Sesión</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Mobile menu button & Mobile Kiosk trigger */}
-          <div className="flex items-center md:hidden space-x-2">
-            <Button
-              variant="mostaza"
-              size="sm"
-              onClick={openKioskModal}
-              leftIcon={<Monitor size={14} />}
-              className="text-xs px-2.5"
-            >
-              Consultar
-            </Button>
-
-            {!isLoggedIn ? (
-              <Button
-                variant="terracota"
-                size="sm"
-                onClick={openLoginModal}
-                leftIcon={<LogIn size={14} />}
-                className="text-xs px-2.5"
-              >
-                Ingresar
-              </Button>
-            ) : (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => setActiveView(activeView === 'admin' ? 'public' : 'admin')}
-                className="text-xs px-2.5"
-              >
-                {activeView === 'admin' ? 'Sitio' : 'Admin'}
-              </Button>
-            )}
-
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-crema hover:text-mostaza focus:outline-none p-1"
-            >
-              {isOpen ? <X size={26} /> : <Menu size={26} />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-verde-profundo border-t border-verde-profundo/80 animate-in fade-in duration-200">
-          <div className="px-3 pt-2 pb-4 space-y-2">
-            {navLinks.map((link) => (
-              <div key={link.name} className="space-y-1">
-                <button
-                  onClick={() => {
-                    handleNavClick(link.key, link.href);
-                    if (!link.dropdown) setIsOpen(false);
-                  }}
-                  className="w-full text-left px-3 py-2 rounded-lg text-base font-medium hover:bg-terracota hover:text-crema transition-colors text-crema flex items-center justify-between"
-                >
-                  <span>{link.name}</span>
-                  {link.dropdown && <ChevronDown size={16} />}
-                </button>
-
-                {link.dropdown && (
-                  <div className="ml-4 pl-3 border-l-2 border-mostaza/40 space-y-1 my-1">
-                    {link.dropdown.map((subItem) => (
-                      <button
-                        key={subItem.name}
-                        onClick={() => {
-                          handleNavClick(link.key);
-                          setIsOpen(false);
-                        }}
-                        className="w-full text-left px-2 py-1.5 text-xs text-crema/80 hover:text-mostaza block font-medium"
-                      >
-                        {subItem.name}
-                      </button>
-                    ))}
+                    )}
                   </div>
-                )}
-              </div>
-            ))}
+                );
+              })}
 
-            <div className="pt-2 border-t border-crema/10">
-              <Button
-                variant="mostaza"
-                size="md"
-                onClick={() => {
-                  openKioskModal();
-                  setIsOpen(false);
-                }}
-                leftIcon={<Monitor size={18} />}
-                fullWidth
-              >
-                Abrir Consulta Pública
-              </Button>
+              {/* 
+                DISEÑO MODAL CONSULTA PÚBLICA (PRESERVADO/GUARDADO PARA USO FUTURO SOLICITADO)
+                <Button
+                  variant="mostaza"
+                  size="sm"
+                  onClick={openKioskModal}
+                  leftIcon={<Monitor size={16} />}
+                  className="shadow-sm font-bold animate-pulse hover:animate-none"
+                  title="Abrir la Consulta Pública - Casa de la Memoria Cumbal"
+                >
+                  Consulta Pública
+                </Button>
+              */}
+
+              {/* Auth Buttons / Profile Menu */}
+              {!isLoggedIn ? (
+                <Button
+                  variant="terracota"
+                  size="sm"
+                  onClick={openLoginModal}
+                  leftIcon={<LogIn size={16} />}
+                  className="shadow-sm font-semibold text-xs"
+                >
+                  Ingresar
+                </Button>
+              ) : (
+                <div className="flex items-center space-x-2">
+                  {/* Switch view button */}
+                  <Button
+                    variant={activeView === 'admin' ? 'mostaza' : 'secondary'}
+                    size="sm"
+                    onClick={() => setActiveView(activeView === 'admin' ? 'public' : 'admin')}
+                    leftIcon={<LayoutDashboard size={14} />}
+                    className="text-xs"
+                  >
+                    {activeView === 'admin' ? 'Ver Sitio' : 'Panel Admin'}
+                  </Button>
+
+                  {/* Profile Avatar & Dropdown */}
+                  <div className="relative">
+                    <button
+                      onClick={() => setIsProfileOpen(!isProfileOpen)}
+                      className="flex items-center space-x-2 bg-terracota/30 hover:bg-terracota/50 p-1.5 pr-3 rounded-full transition-all duration-300 border border-crema/30"
+                    >
+                      <div className="w-7 h-7 rounded-full bg-terracota flex items-center justify-center text-crema font-bold text-xs">
+                        {user?.name?.charAt(0) || 'A'}
+                      </div>
+                      <span className="text-xs font-semibold text-crema hidden lg:inline max-w-[100px] truncate">
+                        {user?.name}
+                      </span>
+                      <ChevronDown size={14} className={`transition-transform duration-300 ${isProfileOpen ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    {/* Profile Dropdown */}
+                    {isProfileOpen && (
+                      <div className="absolute right-0 mt-2 w-56 bg-crema text-cafe rounded-xl shadow-2xl border border-crema-dark py-2 z-50 animate-in fade-in zoom-in-95">
+                        <div className="px-4 py-2 border-b border-crema-dark bg-crema-dark/30">
+                          <p className="text-xs text-cafe/50 uppercase tracking-widest font-bold">Sesión Activa</p>
+                          <p className="text-sm font-bold text-verde-profundo truncate">{user?.name}</p>
+                          <Badge variant="terracota" className="mt-1">
+                            {user?.role}
+                          </Badge>
+                        </div>
+                        
+                        <button 
+                          onClick={() => {
+                            setActiveView('admin');
+                            setIsProfileOpen(false);
+                          }}
+                          className="w-full text-left px-4 py-2.5 hover:bg-crema-dark hover:text-terracota transition-colors text-sm flex items-center space-x-2 font-medium"
+                        >
+                          <ShieldCheck size={16} />
+                          <span>Panel Administración</span>
+                        </button>
+
+                        <button 
+                          onClick={() => {
+                            logout();
+                            setIsProfileOpen(false);
+                          }}
+                          className="w-full text-left px-4 py-2.5 hover:bg-red-50 text-red-600 transition-colors text-sm flex items-center space-x-2 border-t border-crema-dark font-medium"
+                        >
+                          <LogOut size={16} />
+                          <span>Cerrar Sesión</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {isLoggedIn && (
-              <div className="border-t border-crema/10 mt-3 pt-3 space-y-2">
-                <div className="px-3 py-1">
-                  <p className="text-xs text-mostaza font-bold">Conectado como: {user?.name}</p>
-                </div>
-                <button
-                  onClick={() => {
-                    logout();
-                    setIsOpen(false);
-                  }}
-                  className="w-full text-left px-3 py-2 rounded-lg text-base font-medium flex items-center space-x-3 text-red-300 hover:bg-red-950/40"
+            {/* Mobile menu button */}
+            <div className="flex items-center md:hidden space-x-2">
+              {!isLoggedIn ? (
+                <Button
+                  variant="terracota"
+                  size="sm"
+                  onClick={openLoginModal}
+                  leftIcon={<LogIn size={14} />}
+                  className="text-xs px-2.5"
                 >
-                  <LogOut size={20} />
-                  <span>Cerrar Sesión</span>
-                </button>
-              </div>
-            )}
+                  Ingresar
+                </Button>
+              ) : (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setActiveView(activeView === 'admin' ? 'public' : 'admin')}
+                  className="text-xs px-2.5"
+                >
+                  {activeView === 'admin' ? 'Sitio' : 'Admin'}
+                </Button>
+              )}
+
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="text-crema hover:text-mostaza focus:outline-none p-1"
+              >
+                {isOpen ? <X size={26} /> : <Menu size={26} />}
+              </button>
+            </div>
           </div>
         </div>
-      )}
-    </nav>
+
+        {/* Mobile Menu */}
+        {isOpen && (
+          <div className="md:hidden bg-verde-profundo border-t border-verde-profundo/80 animate-in fade-in duration-200 max-h-[80vh] overflow-y-auto">
+            <div className="px-3 pt-2 pb-4 space-y-2">
+              {navLinks.map((link) => (
+                <div key={link.name} className="space-y-1">
+                  <button
+                    onClick={() => {
+                      handleNavClick(link.key, link.href);
+                      if (!link.dropdown) setIsOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-terracota hover:text-crema transition-colors text-crema flex items-center justify-between"
+                  >
+                    <span>{link.name}</span>
+                    {link.dropdown && <ChevronDown size={16} />}
+                  </button>
+
+                  {link.dropdown && (
+                    <div className="ml-4 pl-3 border-l-2 border-mostaza/40 space-y-1 my-1">
+                      {link.dropdown.map((subItem) => (
+                        <button
+                          key={subItem.name}
+                          onClick={() => handleSubItemClick(link.key, subItem.name)}
+                          className="w-full text-left px-2 py-1.5 text-xs text-crema/80 hover:text-mostaza block font-medium"
+                        >
+                          {subItem.name}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+
+              {/* 
+                DISEÑO CONSULTA PÚBLICA MÓVIL (GUARDADO PARA USO FUTURO SOLICITADO)
+                <div className="pt-2 border-t border-crema/10">
+                  <Button
+                    variant="mostaza"
+                    size="md"
+                    onClick={() => {
+                      openKioskModal();
+                      setIsOpen(false);
+                    }}
+                    leftIcon={<Monitor size={18} />}
+                    fullWidth
+                  >
+                    Abrir Consulta Pública
+                  </Button>
+                </div>
+              */}
+
+              {isLoggedIn && (
+                <div className="border-t border-crema/10 mt-3 pt-3 space-y-2">
+                  <div className="px-3 py-1">
+                    <p className="text-xs text-mostaza font-bold">Conectado como: {user?.name}</p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      logout();
+                      setIsOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-lg text-base font-medium flex items-center space-x-3 text-red-300 hover:bg-red-950/40"
+                  >
+                    <LogOut size={20} />
+                    <span>Cerrar Sesión</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </nav>
+
+      {/* Modal interactivo de acción en desarrollo */}
+      <InDevelopmentModal
+        isOpen={!!devModalItem}
+        onClose={() => setDevModalItem(null)}
+        itemName={devModalItem || undefined}
+      />
+    </>
   );
 }
