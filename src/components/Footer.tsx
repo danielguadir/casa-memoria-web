@@ -98,30 +98,38 @@ export default function Footer() {
               </p>
             </div>
 
-            {/* Mapa de Google Maps optimizado (50% tamaño reducido) sin bloqueos de iframe */}
-            <div className="pt-1 space-y-1.5">
-              <div className="relative w-full h-24 rounded-lg overflow-hidden border border-mostaza/30 shadow-md hover:border-mostaza transition-all group">
+            {/* Mapa Interactivo Libre de Bloqueos (OpenStreetMap) + Accesos Directos */}
+            <div className="pt-1 space-y-2">
+              <div className="relative w-full h-28 rounded-lg overflow-hidden border border-mostaza/30 shadow-md hover:border-mostaza transition-all group">
                 <iframe
                   title="Mapa Casa de la Memoria Cumbal"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3113.577!2d-77.7972746!3d0.9094342!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e295d004579bb55%3A0xec54b6d43db56cd7!2sCasa%20de%20la%20Memoria%20del%20Gran%20Cumbal!5e0!3m2!1ses!2sco!4v1710000000000!5m2!1ses!2sco"
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=-77.8020%2C0.9030%2C-77.7870%2C0.9160&layer=mapnik&marker=0.9094288%2C-77.7946997"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
-                  allowFullScreen={false}
                   loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="w-full h-full grayscale-[20%] contrast-[105%] group-hover:grayscale-0 transition-all duration-300"
+                  className="w-full h-full grayscale-[15%] contrast-[105%] group-hover:grayscale-0 transition-all duration-300"
                 />
               </div>
-              <div className="flex justify-end">
+              <div className="flex items-center justify-between text-xs font-sans pt-0.5">
                 <a
                   href="https://maps.app.goo.gl/jditokbDdconzYET6"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center space-x-1 text-xs text-mostaza hover:underline font-sans transition-all"
-                  title="Abrir ubicación en Google Maps"
+                  className="inline-flex items-center space-x-1 text-mostaza hover:underline transition-all"
+                  title="Abrir en Google Maps"
                 >
-                  <span>Abrir en Google Maps</span>
+                  <span>Google Maps</span>
+                  <ExternalLink size={12} />
+                </a>
+                <a
+                  href="https://earth.google.com/web/@0.9094288,-77.7946997,3050a,1000d,35y,0h,0t,0r"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-1 text-crema/80 hover:text-mostaza hover:underline transition-all"
+                  title="Explorar en Google Earth"
+                >
+                  <span>Google Earth</span>
                   <ExternalLink size={12} />
                 </a>
               </div>

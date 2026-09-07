@@ -20,11 +20,11 @@ const DEFAULT_SLIDES: CarouselSlide[] = [
   {
     id: 1,
     tag: 'Imagen 1',
-    category: 'Estrategias de Salvaguarda 2026',
+    category: 'Memoria',
     title: 'Territorio Sagrado del Gran Cumbal',
     bulletPoints: [
       'Preservación del Patrimonio y Cosmovisión Ancestral',
-      'Cartografía y Recuperación de Memorias Territoriales',
+      'Recuperación de Memorias Territoriales',
       'Archivo Histórico del Pueblo Indígena de los Pastos'
     ],
     ctaText: '¡Más información aquí!',
@@ -33,7 +33,7 @@ const DEFAULT_SLIDES: CarouselSlide[] = [
   {
     id: 2,
     tag: 'Imagen 2',
-    category: 'Formación Comunitaria y Saberes',
+    category: 'Comunidad',
     title: 'Escuela Renacientes del Gran Cumbal',
     bulletPoints: [
       'Círculos de Palabreo y Diálogo Intergeneracional',
@@ -46,7 +46,7 @@ const DEFAULT_SLIDES: CarouselSlide[] = [
   {
     id: 3,
     tag: 'Imagen 3',
-    category: 'Centro de Documentación CMGC',
+    category: 'Documentación CMGC',
     title: 'Archivo General & Repositorio Digital',
     bulletPoints: [
       'Biblioteca Especializada de Pueblos Indígenas',
@@ -118,32 +118,12 @@ export default function HeroCarousel() {
         {/* Full-width Container */}
         <div className="relative z-20 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full py-12 flex flex-col justify-between min-h-[440px] sm:min-h-[480px]">
           
-          {/* Top Row: Category Badge + Institutional Emblem Watermark */}
+          {/* Top Row: Category Badge (sin rótulo 'Imagen X' ni marca de agua a la derecha) */}
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <span className="px-3.5 py-1 rounded-full bg-[#a69cac] text-verde-profundo font-extrabold text-xs uppercase tracking-wider shadow-md">
-                {currentSlide.tag}
-              </span>
-              <span className="text-xs font-bold uppercase tracking-widest text-[#a69cac] hidden sm:inline-block">
+              <span className="px-4 py-1.5 rounded-full bg-[#a69cac] text-verde-profundo font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-md">
                 {currentSlide.category}
               </span>
-            </div>
-
-            {/* Institutional Seal Watermark */}
-            <div className="flex items-center space-x-3 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-2xl border border-white/15">
-              <div className="relative w-8 h-8 rounded-full overflow-hidden border border-[#a69cac] bg-crema flex items-center justify-center shrink-0">
-                <Image
-                  src="/images/hero-logo.png"
-                  alt="Sello Casa de la Memoria"
-                  width={30}
-                  height={30}
-                  className="w-auto h-6 object-contain"
-                />
-              </div>
-              <div className="text-left hidden sm:block">
-                <p className="text-[11px] font-bold font-serif leading-none text-crema">Casa de la Memoria</p>
-                <p className="text-[9px] text-[#a69cac] uppercase font-medium tracking-tighter">Gran Cumbal</p>
-              </div>
             </div>
           </div>
 
@@ -175,12 +155,8 @@ export default function HeroCarousel() {
             </div>
           </div>
 
-          {/* Bottom Bar: Indicators & Slide Counter */}
-          <div className="flex items-center justify-between pt-4 border-t border-crema/20">
-            <span className="text-xs font-bold text-crema/70 uppercase tracking-widest">
-              Espacio {currentIndex + 1} de {DEFAULT_SLIDES.length}
-            </span>
-
+          {/* Bottom Bar: Indicator Dots sin texto 'Espacio X de Y' */}
+          <div className="flex items-center justify-end pt-4 border-t border-crema/20">
             {/* Indicator Dots - #a69cac al pasar o cambiar de imagen */}
             <div className="flex items-center space-x-2">
               {DEFAULT_SLIDES.map((slide, idx) => (
@@ -191,7 +167,7 @@ export default function HeroCarousel() {
                     h-2.5 rounded-full transition-all duration-300 focus:outline-none
                     ${currentIndex === idx ? 'w-10 bg-[#a69cac]' : 'w-2.5 bg-crema/40 hover:bg-[#a69cac]/70'}
                   `}
-                  aria-label={`Ir a ${slide.tag}`}
+                  aria-label={`Ir a diapositiva ${idx + 1}`}
                 />
               ))}
             </div>
