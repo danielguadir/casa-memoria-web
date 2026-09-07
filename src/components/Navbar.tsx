@@ -21,7 +21,7 @@ const navLinks: { name: string; key: SectionType; href: string; dropdown?: { nam
   },
   {
     name: 'Centro de documentación CMGC',
-    key: 'inicio',
+    key: 'centro-documentacion',
     href: '#',
     dropdown: [
       { name: 'Biblioteca especializada de pueblos indígenas', href: '#' },

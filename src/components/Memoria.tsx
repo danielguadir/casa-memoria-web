@@ -1,21 +1,23 @@
+'use client';
+
 import { Film, Quote, Video, PenTool, Sprout, BookOpen, Save, HardDrive } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Memoria() {
     return (
-        <section id="memoria" className="py-24 bg-terracota text-crema relative overflow-hidden">
+        <section id="memoria" className="py-24 bg-verde-profundo text-crema relative overflow-hidden">
 
-            {/* Background visual elements - Identical approach to "Sobre el Proceso" */}
+            {/* Background visual elements */}
             <div className="absolute inset-0 z-0">
                 <Image
                     src="/images/piedra-m.jpg"
                     alt="Textura piedra ancestral"
                     fill
-                    className="object-cover object-center grayscale contrast-125 brightness-75 opacity-30 mix-blend-multiply"
+                    className="object-cover object-center grayscale contrast-125 brightness-75 opacity-25 mix-blend-multiply"
                     priority
                 />
                 {/* Soft fading to blend with section breaks */}
-                <div className="absolute inset-0 bg-gradient-to-b from-terracota via-transparent to-terracota z-10"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-verde-profundo via-verde-profundo/90 to-verde-profundo z-10"></div>
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
@@ -102,7 +104,7 @@ export default function Memoria() {
                     </a>
 
                     {/* Experiencia PACPI */}
-                    <div className="bg-crema-dark/30 backdrop-blur-md rounded-[2.5rem] p-10 lg:p-14 border-4 border-crema shadow-2xl relative h-full flex flex-col justify-center overflow-hidden group">
+                    <div className="bg-crema-dark/20 backdrop-blur-md rounded-[2.5rem] p-10 lg:p-14 border-4 border-crema/40 shadow-2xl relative h-full flex flex-col justify-center overflow-hidden group">
 
                         {/* Design accents */}
                         <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-40 h-40 bg-mostaza/20 rounded-full blur-3xl"></div>
@@ -116,7 +118,7 @@ export default function Memoria() {
                             </h3>
 
                             <div className="space-y-6">
-                                <p className="font-sans text-crema/90 text-lg leading-relaxed border-l-4 border-mostaza pl-6 font-bold bg-black/20 p-6 rounded-r-2xl shadow-xl text-balance">
+                                <p className="font-sans text-crema/90 text-lg leading-relaxed border-l-4 border-mostaza pl-6 font-bold bg-black/30 p-6 rounded-r-2xl shadow-xl text-balance">
                                     En el marco de la construcción de la Política Pública de Patrimonio Audiovisual – Capítulo Pueblos Indígenas (PACPI), tuvimos el honor de compartir nuestra experiencia en gestión y salvaguardia.
                                 </p>
 
@@ -126,7 +128,7 @@ export default function Memoria() {
                                         Este espacio permitió el diálogo de saberes, propuestas y el tejido colectivo en pro de la preservación de la Memoria audiovisual de nuestras comunidades.
                                     </p>
 
-                                    {/* Elegant Icon Row replacing basic emojis */}
+                                    {/* Elegant Icon Row */}
                                     <div className="flex space-x-6 mt-8 pt-6 border-t border-crema-dark/50">
                                         <div className="group/icon flex flex-col items-center">
                                             <Sprout size={24} className="text-verde-profundo group-hover/icon:text-terracota transition-colors" />

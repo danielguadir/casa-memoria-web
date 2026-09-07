@@ -3,6 +3,7 @@
 import Hero from '@/components/Hero';
 import SobreProceso from '@/components/SobreProceso';
 import Convocatoria from '@/components/Convocatoria';
+import CentroDocumentacion from '@/components/CentroDocumentacion';
 import Memoria from '@/components/Memoria';
 import AdminDashboard from '@/components/admin/AdminDashboard';
 import { useAuth } from '@/context/AuthContext';
@@ -23,6 +24,7 @@ export default function Home() {
       {activeSection === 'inicio' && <Hero />}
       {activeSection === 'sobre-el-proceso' && <SobreProceso />}
       {activeSection === 'convocatoria' && <Convocatoria />}
+      {activeSection === 'centro-documentacion' && <CentroDocumentacion />}
       {activeSection === 'memoria' && <Memoria />}
     </div>
   );
