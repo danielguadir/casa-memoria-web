@@ -66,18 +66,6 @@ export default function Footer() {
             <p className="text-sm font-sans leading-relaxed text-crema/80">
               Desarrollamos estrategias de salvaguarda y protección de las memorias y el patrimonio cultural de los pueblos indígenas del sur de Colombia.
             </p>
-          </div>
-
-          <div className="space-y-4">
-            <h4 className="font-serif font-semibold text-xl text-mostaza border-b border-mostaza/30 pb-2">Contacto y Ubicación</h4>
-            <div className="flex items-start space-x-3 text-sm">
-              <MapPin className="text-terracota flex-shrink-0 mt-1" size={20} />
-              <p className="font-sans leading-relaxed">
-                Cabildo de Cumbal. Barrio los prados,<br />
-                carrera 13/calle 19 esquina. Tercer piso,<br />
-                Cumbal, Nariño – Colombia.
-              </p>
-            </div>
 
             <div className="space-y-2 pt-2">
               <p className="text-xs font-semibold text-mostaza uppercase tracking-wider">Síguenos en Redes Sociales:</p>
@@ -100,32 +88,48 @@ export default function Footer() {
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-serif font-semibold text-xl text-mostaza border-b border-mostaza/30 pb-2 flex items-center justify-between">
-              <span>Ubicación en el Mapa</span>
-              <a
-                href="https://maps.app.goo.gl/jditokbDdconzYET6"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs font-sans text-crema/80 hover:text-mostaza flex items-center space-x-1 transition-colors"
-                title="Abrir en Google Maps"
-              >
-                <span>Google Maps</span>
-                <ExternalLink size={12} />
-              </a>
-            </h4>
-            <div className="relative w-full h-44 rounded-xl overflow-hidden border border-mostaza/30 shadow-lg hover:border-mostaza transition-all group">
-              <iframe
-                title="Mapa Casa de la Memoria Cumbal"
-                src="https://maps.google.com/maps?q=Casa+de+la+Memoria+del+Gran+Cumbal,+Cumbal,+Nari%C3%B1o&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="w-full h-full grayscale-[25%] contrast-[105%] group-hover:grayscale-0 transition-all duration-300"
-              />
+            <h4 className="font-serif font-semibold text-xl text-mostaza border-b border-mostaza/30 pb-2">Contacto y Ubicación</h4>
+            <div className="flex items-start space-x-3 text-sm">
+              <MapPin className="text-terracota flex-shrink-0 mt-1" size={20} />
+              <p className="font-sans leading-relaxed">
+                Cabildo de Cumbal. Barrio los prados,<br />
+                carrera 13/calle 19 esquina. Tercer piso,<br />
+                Cumbal, Nariño – Colombia.
+              </p>
             </div>
+
+            {/* Mapa de Google Maps optimizado (50% tamaño reducido) sin bloqueos de iframe */}
+            <div className="pt-1 space-y-1.5">
+              <div className="relative w-full h-24 rounded-lg overflow-hidden border border-mostaza/30 shadow-md hover:border-mostaza transition-all group">
+                <iframe
+                  title="Mapa Casa de la Memoria Cumbal"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3113.577!2d-77.7972746!3d0.9094342!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e295d004579bb55%3A0xec54b6d43db56cd7!2sCasa%20de%20la%20Memoria%20del%20Gran%20Cumbal!5e0!3m2!1ses!2sco!4v1710000000000!5m2!1ses!2sco"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen={false}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full h-full grayscale-[20%] contrast-[105%] group-hover:grayscale-0 transition-all duration-300"
+                />
+              </div>
+              <div className="flex justify-end">
+                <a
+                  href="https://maps.app.goo.gl/jditokbDdconzYET6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-1 text-xs text-mostaza hover:underline font-sans transition-all"
+                  title="Abrir ubicación en Google Maps"
+                >
+                  <span>Abrir en Google Maps</span>
+                  <ExternalLink size={12} />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h4 className="font-serif font-semibold text-xl text-mostaza border-b border-mostaza/30 pb-2">Redes de Apoyo</h4>
           </div>
 
         </div>
