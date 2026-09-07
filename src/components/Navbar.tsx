@@ -36,6 +36,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [expandedMobileMenu, setExpandedMobileMenu] = useState<string | null>(null);
   const [devModalItem, setDevModalItem] = useState<string | null>(null);
 
   const { 
@@ -61,8 +62,20 @@ export default function Navbar() {
   const handleSubItemClick = (sectionKey: SectionType, subItemName: string) => {
     handleNavClick(sectionKey);
     setOpenDropdown(null);
+    setExpandedMobileMenu(null);
     setIsOpen(false);
     setDevModalItem(subItemName);
+  };
+
+  const toggleMobileDropdown = (linkName: string) => {
+    setExpandedMobileMenu(prev => (prev === linkName ? null : linkName));
+  };
+
+  const handleMobileMenuToggle = () => {
+    setIsOpen(prev => {
+      if (!prev) setExpandedMobileMenu(null);
+      return !prev;
+    });
   };
 
   return (
@@ -271,8 +284,9 @@ export default function Navbar() {
               )}
 
               <button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={handleMobileMenuToggle}
                 className="text-crema hover:text-mostaza focus:outline-none p-1"
+                aria-label="Abrir menú de navegación"
               >
                 {isOpen ? <X size={26} /> : <Menu size={26} />}
               </button>
@@ -280,38 +294,63 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Accordion */}
         {isOpen && (
           <div className="md:hidden bg-verde-profundo border-t border-verde-profundo/80 animate-in fade-in duration-200 max-h-[80vh] overflow-y-auto">
-            <div className="px-3 pt-2 pb-4 space-y-2">
-              {navLinks.map((link) => (
-                <div key={link.name} className="space-y-1">
-                  <button
-                    onClick={() => {
-                      handleNavClick(link.key, link.href);
-                      if (!link.dropdown) setIsOpen(false);
-                    }}
-                    className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium hover:bg-terracota hover:text-crema transition-colors text-crema flex items-center justify-between"
-                  >
-                    <span>{link.name}</span>
-                    {link.dropdown && <ChevronDown size={16} />}
-                  </button>
+            <div className="px-3 pt-2 pb-4 space-y-1.5">
+              {navLinks.map((link) => {
+                const isMobileExpanded = expandedMobileMenu === link.name;
+                const isActive = activeSection === link.key && activeView === 'public' && link.href !== '#contacto';
 
-                  {link.dropdown && (
-                    <div className="ml-4 pl-3 border-l-2 border-mostaza/40 space-y-1 my-1">
-                      {link.dropdown.map((subItem) => (
-                        <button
-                          key={subItem.name}
-                          onClick={() => handleSubItemClick(link.key, subItem.name)}
-                          className="w-full text-left px-2 py-1.5 text-xs text-crema/80 hover:text-mostaza block font-medium"
-                        >
-                          {subItem.name}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
+                return (
+                  <div key={link.name} className="space-y-1">
+                    {link.dropdown ? (
+                      <button
+                        onClick={() => toggleMobileDropdown(link.name)}
+                        className={`
+                          w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors text-crema flex items-center justify-between
+                          ${isActive ? 'bg-terracota/30 text-mostaza font-bold' : 'hover:bg-terracota/20'}
+                        `}
+                      >
+                        <span>{link.name}</span>
+                        <ChevronDown 
+                          size={16} 
+                          className={`transition-transform duration-300 ${isMobileExpanded ? 'rotate-180 text-mostaza' : 'text-crema/70'}`} 
+                        />
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => {
+                          handleNavClick(link.key, link.href);
+                          setIsOpen(false);
+                        }}
+                        className={`
+                          w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors text-crema block
+                          ${isActive ? 'bg-terracota/30 text-mostaza font-bold' : 'hover:bg-terracota/20'}
+                        `}
+                      >
+                        {link.name}
+                      </button>
+                    )}
+
+                    {/* Desplegable en Móvil (Modo Acordeón) */}
+                    {link.dropdown && isMobileExpanded && (
+                      <div className="ml-3 pl-3 border-l-2 border-mostaza/50 space-y-1 my-1 py-1 animate-in fade-in slide-in-from-top-1 duration-200">
+                        {link.dropdown.map((subItem) => (
+                          <button
+                            key={subItem.name}
+                            onClick={() => handleSubItemClick(link.key, subItem.name)}
+                            className="w-full text-left px-3 py-2 text-xs text-crema/90 hover:bg-terracota/40 hover:text-mostaza rounded-md block font-medium transition-colors flex items-center justify-between"
+                          >
+                            <span>{subItem.name}</span>
+                            <span className="text-[10px] text-mostaza/70">↗</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
 
               {/* 
                 DISEÑO CONSULTA PÚBLICA MÓVIL (GUARDADO PARA USO FUTURO SOLICITADO)
