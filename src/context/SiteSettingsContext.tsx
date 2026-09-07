@@ -83,7 +83,7 @@ export const THEME_PRESETS: ThemeOption[] = [
     terracota: '#4B3C8C',
     terracotaLight: '#6B58B8',
     cafe: '#1A1438',
-    mostaza: '#DCA74E',
+    mostaza: '#a69cac',
   },
   {
     id: 'ancestral',

@@ -96,7 +96,7 @@ export default function HeroCarousel() {
 
   return (
     <div 
-      className="relative w-full overflow-hidden bg-verde-profundo text-crema group shadow-2xl border-y-4 border-mostaza"
+      className="relative w-full overflow-hidden bg-verde-profundo text-crema group shadow-2xl border-y-4 border-[#a69cac]"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -121,17 +121,17 @@ export default function HeroCarousel() {
           {/* Top Row: Category Badge + Institutional Emblem Watermark */}
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <span className="px-3.5 py-1 rounded-full bg-mostaza text-verde-profundo font-extrabold text-xs uppercase tracking-wider shadow-md">
+              <span className="px-3.5 py-1 rounded-full bg-[#a69cac] text-verde-profundo font-extrabold text-xs uppercase tracking-wider shadow-md">
                 {currentSlide.tag}
               </span>
-              <span className="text-xs font-bold uppercase tracking-widest text-mostaza/90 hidden sm:inline-block">
+              <span className="text-xs font-bold uppercase tracking-widest text-[#a69cac] hidden sm:inline-block">
                 {currentSlide.category}
               </span>
             </div>
 
-            {/* Institutional Seal Watermark (like Univalle Faculty Seal) */}
+            {/* Institutional Seal Watermark */}
             <div className="flex items-center space-x-3 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-2xl border border-white/15">
-              <div className="relative w-8 h-8 rounded-full overflow-hidden border border-mostaza bg-crema flex items-center justify-center shrink-0">
+              <div className="relative w-8 h-8 rounded-full overflow-hidden border border-[#a69cac] bg-crema flex items-center justify-center shrink-0">
                 <Image
                   src="/images/hero-logo.png"
                   alt="Sello Casa de la Memoria"
@@ -142,7 +142,7 @@ export default function HeroCarousel() {
               </div>
               <div className="text-left hidden sm:block">
                 <p className="text-[11px] font-bold font-serif leading-none text-crema">Casa de la Memoria</p>
-                <p className="text-[9px] text-mostaza uppercase font-medium tracking-tighter">Gran Cumbal</p>
+                <p className="text-[9px] text-[#a69cac] uppercase font-medium tracking-tighter">Gran Cumbal</p>
               </div>
             </div>
           </div>
@@ -157,7 +157,7 @@ export default function HeroCarousel() {
             <div className="space-y-2 pt-2">
               {currentSlide.bulletPoints.map((point, idx) => (
                 <div key={idx} className="flex items-start space-x-3 text-sm sm:text-base md:text-lg font-sans text-crema/90 font-medium drop-shadow-sm">
-                  <CheckCircle2 size={20} className="text-mostaza shrink-0 mt-1" />
+                  <CheckCircle2 size={20} className="text-[#a69cac] shrink-0 mt-1" />
                   <span>{point}</span>
                 </div>
               ))}
@@ -167,7 +167,7 @@ export default function HeroCarousel() {
             <div className="pt-4">
               <button
                 onClick={() => handleCtaClick(currentSlide)}
-                className="inline-flex items-center space-x-3 bg-terracota hover:bg-mostaza hover:text-verde-profundo text-crema font-extrabold text-base sm:text-lg px-8 py-3.5 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-crema/30 group/btn"
+                className="inline-flex items-center space-x-3 bg-terracota hover:bg-[#a69cac] hover:text-verde-profundo text-crema font-extrabold text-base sm:text-lg px-8 py-3.5 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-crema/30 group/btn"
               >
                 <span>{currentSlide.ctaText}</span>
                 <ArrowRight size={20} className="group-hover/btn:translate-x-1 transition-transform" />
@@ -181,7 +181,7 @@ export default function HeroCarousel() {
               Espacio {currentIndex + 1} de {DEFAULT_SLIDES.length}
             </span>
 
-            {/* Indicator Dots */}
+            {/* Indicator Dots - #a69cac al pasar o cambiar de imagen */}
             <div className="flex items-center space-x-2">
               {DEFAULT_SLIDES.map((slide, idx) => (
                 <button
@@ -189,7 +189,7 @@ export default function HeroCarousel() {
                   onClick={() => setCurrentIndex(idx)}
                   className={`
                     h-2.5 rounded-full transition-all duration-300 focus:outline-none
-                    ${currentIndex === idx ? 'w-10 bg-mostaza' : 'w-2.5 bg-crema/40 hover:bg-crema'}
+                    ${currentIndex === idx ? 'w-10 bg-[#a69cac]' : 'w-2.5 bg-crema/40 hover:bg-[#a69cac]/70'}
                   `}
                   aria-label={`Ir a ${slide.tag}`}
                 />
@@ -200,19 +200,19 @@ export default function HeroCarousel() {
         </div>
       </div>
 
-      {/* Extreme Left Arrow Button (Edge Positioned like Univalle) */}
+      {/* Extreme Left Arrow Button */}
       <button
         onClick={handlePrev}
-        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 rounded-full bg-black/40 hover:bg-mostaza text-crema hover:text-verde-profundo transition-all duration-300 shadow-2xl border border-white/20 focus:outline-none"
+        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 rounded-full bg-black/40 hover:bg-[#a69cac] text-crema hover:text-verde-profundo transition-all duration-300 shadow-2xl border border-white/20 focus:outline-none"
         aria-label="Anterior"
       >
         <ChevronLeft size={28} />
       </button>
 
-      {/* Extreme Right Arrow Button (Edge Positioned like Univalle) */}
+      {/* Extreme Right Arrow Button */}
       <button
         onClick={handleNext}
-        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 rounded-full bg-black/40 hover:bg-mostaza text-crema hover:text-verde-profundo transition-all duration-300 shadow-2xl border border-white/20 focus:outline-none"
+        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 rounded-full bg-black/40 hover:bg-[#a69cac] text-crema hover:text-verde-profundo transition-all duration-300 shadow-2xl border border-white/20 focus:outline-none"
         aria-label="Siguiente"
       >
         <ChevronRight size={28} />

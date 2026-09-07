@@ -80,7 +80,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="bg-verde-profundo text-crema sticky top-0 z-50 shadow-md">
+      <nav className="bg-verde-profundo text-crema sticky top-0 z-50 shadow-md border-b-2 border-[#a69cac]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20">
             
@@ -90,7 +90,8 @@ export default function Navbar() {
                 onClick={() => handleNavClick('inicio')}
                 className="flex-shrink-0 flex items-center space-x-3 group text-left focus:outline-none"
               >
-                <div className="relative w-13 h-13 sm:w-14 sm:h-14 rounded-full overflow-hidden border-2 border-mostaza bg-crema flex items-center justify-center shadow-md group-hover:scale-105 transition-transform shrink-0">
+                {/* Logo con contorno iluminado en #a69cac */}
+                <div className="relative w-13 h-13 sm:w-14 sm:h-14 rounded-full overflow-hidden border border-[#a69cac]/50 hover:border-[#a69cac] bg-crema flex items-center justify-center shadow-md group-hover:scale-105 group-hover:shadow-[0_0_14px_rgba(166,156,172,0.6)] transition-all shrink-0">
                   <Image
                     src="/images/hero-logo.png"
                     alt="Logo Casa de la Memoria"
@@ -100,12 +101,10 @@ export default function Navbar() {
                     priority
                   />
                 </div>
+                {/* Solo texto 'Casa de la Memoria' */}
                 <div className="hidden sm:block">
                   <span className="font-serif font-bold text-xl tracking-wide block leading-none">
                     Casa de la Memoria
-                  </span>
-                  <span className="text-[10px] text-mostaza uppercase tracking-widest block mt-0.5 font-medium">
-                    Archivo & Salvaguarda
                   </span>
                 </div>
               </button>
@@ -130,16 +129,16 @@ export default function Navbar() {
                           onClick={() => handleNavClick(link.key)}
                           className={`
                             flex items-center space-x-1 transition-colors duration-300 font-medium text-xs lg:text-sm tracking-wide py-2 px-1 rounded-md
-                            ${isActive ? 'text-mostaza font-bold border-b-2 border-mostaza' : 'hover:text-mostaza'}
+                            ${isActive ? 'text-[#a69cac] font-bold border-b-2 border-[#a69cac]' : 'hover:text-[#a69cac]'}
                           `}
                         >
                           <span>{link.name}</span>
-                          <ChevronDown size={14} className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                          <ChevronDown size={14} className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180 text-[#a69cac]' : ''}`} />
                         </button>
 
                         {/* Dropdown Desktop */}
                         {isDropdownOpen && (
-                          <div className="absolute top-full left-0 min-w-[280px] bg-crema text-cafe rounded-b-xl shadow-xl border-t-2 border-terracota py-2 animate-in fade-in slide-in-from-top-2 z-[60]">
+                          <div className="absolute top-full left-0 min-w-[280px] bg-crema text-cafe rounded-b-xl shadow-xl border-t-2 border-[#a69cac] py-2 animate-in fade-in slide-in-from-top-2 z-[60]">
                             {link.dropdown.map((item) => (
                               <button
                                 key={item.name}
@@ -147,7 +146,7 @@ export default function Navbar() {
                                 className="w-full text-left px-4 py-2.5 hover:bg-crema-dark hover:text-terracota transition-colors text-xs font-semibold leading-snug flex items-center justify-between group/sub"
                               >
                                 <span>{item.name}</span>
-                                <span className="text-[10px] text-terracota/60 group-hover/sub:text-terracota">↗</span>
+                                <span className="text-[10px] text-[#a69cac] group-hover/sub:text-terracota">↗</span>
                               </button>
                             ))}
                           </div>
@@ -158,7 +157,7 @@ export default function Navbar() {
                         onClick={() => handleNavClick(link.key, link.href)}
                         className={`
                           transition-colors duration-300 font-medium text-xs lg:text-sm tracking-wide py-1 px-1 rounded-md
-                          ${isActive ? 'text-mostaza font-bold border-b-2 border-mostaza' : 'hover:text-mostaza'}
+                          ${isActive ? 'text-[#a69cac] font-bold border-b-2 border-[#a69cac]' : 'hover:text-[#a69cac]'}
                         `}
                       >
                         {link.name}
@@ -167,20 +166,6 @@ export default function Navbar() {
                   </div>
                 );
               })}
-
-              {/* 
-                DISEÑO MODAL CONSULTA PÚBLICA (PRESERVADO/GUARDADO PARA USO FUTURO SOLICITADO)
-                <Button
-                  variant="mostaza"
-                  size="sm"
-                  onClick={openKioskModal}
-                  leftIcon={<Monitor size={16} />}
-                  className="shadow-sm font-bold animate-pulse hover:animate-none"
-                  title="Abrir la Consulta Pública - Casa de la Memoria Cumbal"
-                >
-                  Consulta Pública
-                </Button>
-              */}
 
               {/* Auth Buttons / Profile Menu */}
               {!isLoggedIn ? (
@@ -195,7 +180,6 @@ export default function Navbar() {
                 </Button>
               ) : (
                 <div className="flex items-center space-x-2">
-                  {/* Switch view button */}
                   <Button
                     variant={activeView === 'admin' ? 'mostaza' : 'secondary'}
                     size="sm"
@@ -285,7 +269,7 @@ export default function Navbar() {
 
               <button
                 onClick={handleMobileMenuToggle}
-                className="text-crema hover:text-mostaza focus:outline-none p-1"
+                className="text-crema hover:text-[#a69cac] focus:outline-none p-1"
                 aria-label="Abrir menú de navegación"
               >
                 {isOpen ? <X size={26} /> : <Menu size={26} />}
@@ -309,13 +293,13 @@ export default function Navbar() {
                         onClick={() => toggleMobileDropdown(link.name)}
                         className={`
                           w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors text-crema flex items-center justify-between
-                          ${isActive ? 'bg-terracota/30 text-mostaza font-bold' : 'hover:bg-terracota/20'}
+                          ${isActive ? 'bg-terracota/30 text-[#a69cac] font-bold' : 'hover:bg-terracota/20'}
                         `}
                       >
                         <span>{link.name}</span>
                         <ChevronDown 
                           size={16} 
-                          className={`transition-transform duration-300 ${isMobileExpanded ? 'rotate-180 text-mostaza' : 'text-crema/70'}`} 
+                          className={`transition-transform duration-300 ${isMobileExpanded ? 'rotate-180 text-[#a69cac]' : 'text-crema/70'}`} 
                         />
                       </button>
                     ) : (
@@ -326,24 +310,24 @@ export default function Navbar() {
                         }}
                         className={`
                           w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors text-crema block
-                          ${isActive ? 'bg-terracota/30 text-mostaza font-bold' : 'hover:bg-terracota/20'}
+                          ${isActive ? 'bg-terracota/30 text-[#a69cac] font-bold' : 'hover:bg-terracota/20'}
                         `}
                       >
                         {link.name}
                       </button>
                     )}
 
-                    {/* Desplegable en Móvil (Modo Acordeón) */}
+                    {/* Desplegable en Móvil */}
                     {link.dropdown && isMobileExpanded && (
-                      <div className="ml-3 pl-3 border-l-2 border-mostaza/50 space-y-1 my-1 py-1 animate-in fade-in slide-in-from-top-1 duration-200">
+                      <div className="ml-3 pl-3 border-l-2 border-[#a69cac]/50 space-y-1 my-1 py-1 animate-in fade-in slide-in-from-top-1 duration-200">
                         {link.dropdown.map((subItem) => (
                           <button
                             key={subItem.name}
                             onClick={() => handleSubItemClick(link.key, subItem.name)}
-                            className="w-full text-left px-3 py-2 text-xs text-crema/90 hover:bg-terracota/40 hover:text-mostaza rounded-md block font-medium transition-colors flex items-center justify-between"
+                            className="w-full text-left px-3 py-2 text-xs text-crema/90 hover:bg-terracota/40 hover:text-[#a69cac] rounded-md block font-medium transition-colors flex items-center justify-between"
                           >
                             <span>{subItem.name}</span>
-                            <span className="text-[10px] text-mostaza/70">↗</span>
+                            <span className="text-[10px] text-[#a69cac]">↗</span>
                           </button>
                         ))}
                       </div>
@@ -352,28 +336,10 @@ export default function Navbar() {
                 );
               })}
 
-              {/* 
-                DISEÑO CONSULTA PÚBLICA MÓVIL (GUARDADO PARA USO FUTURO SOLICITADO)
-                <div className="pt-2 border-t border-crema/10">
-                  <Button
-                    variant="mostaza"
-                    size="md"
-                    onClick={() => {
-                      openKioskModal();
-                      setIsOpen(false);
-                    }}
-                    leftIcon={<Monitor size={18} />}
-                    fullWidth
-                  >
-                    Abrir Consulta Pública
-                  </Button>
-                </div>
-              */}
-
               {isLoggedIn && (
                 <div className="border-t border-crema/10 mt-3 pt-3 space-y-2">
                   <div className="px-3 py-1">
-                    <p className="text-xs text-mostaza font-bold">Conectado como: {user?.name}</p>
+                    <p className="text-xs text-[#a69cac] font-bold">Conectado como: {user?.name}</p>
                   </div>
                   <button
                     onClick={() => {
