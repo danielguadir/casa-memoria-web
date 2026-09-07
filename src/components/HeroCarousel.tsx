@@ -2,36 +2,58 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight, Image as ImageIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, CheckCircle2, ArrowRight } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 
 export interface CarouselSlide {
   id: number;
   tag: string;
+  category: string;
   title: string;
-  description: string;
+  bulletPoints: string[];
+  ctaText: string;
   imageSrc: string;
+  actionKey?: string;
 }
 
 const DEFAULT_SLIDES: CarouselSlide[] = [
   {
     id: 1,
     tag: 'Imagen 1',
+    category: 'Estrategias de Salvaguarda 2026',
     title: 'Territorio Sagrado del Gran Cumbal',
-    description: 'Paisajes, volcanes y memoria viva del Pueblo Indígena de los Pastos.',
+    bulletPoints: [
+      'Preservación del Patrimonio y Cosmovisión Ancestral',
+      'Cartografía y Recuperación de Memorias Territoriales',
+      'Archivo Histórico del Pueblo Indígena de los Pastos'
+    ],
+    ctaText: '¡Más información aquí!',
     imageSrc: '/images/tesoros.png',
   },
   {
     id: 2,
     tag: 'Imagen 2',
-    title: 'Encuentro Comunitario y Tejido Social',
-    description: 'Círculos de palabreo, diálogo de saberes e integración cultural.',
+    category: 'Formación Comunitaria y Saberes',
+    title: 'Escuela Renacientes del Gran Cumbal',
+    bulletPoints: [
+      'Círculos de Palabreo y Diálogo Intergeneracional',
+      'Seminario en Comunicación Comunitaria y Medios Propios',
+      'Tejidos Pedagógicos para Comunidades de Vida'
+    ],
+    ctaText: '¡Conoce Tejidos de Formación!',
     imageSrc: '/images/grupo-gente.png',
   },
   {
     id: 3,
     tag: 'Imagen 3',
-    title: 'Archivo General y Salvaguarda',
-    description: 'Documentación histórica, acervo audiovisual y conservación del patrimonio.',
+    category: 'Centro de Documentación CMGC',
+    title: 'Archivo General & Repositorio Digital',
+    bulletPoints: [
+      'Biblioteca Especializada de Pueblos Indígenas',
+      'Archivo de Memoria Audiovisual y Registros Sonoros',
+      'Digitalización en Alta Resolución y Fondos del Cabildo'
+    ],
+    ctaText: '¡Explora el Centro de Documentación!',
     imageSrc: '/images/tesoros2.png',
   },
 ];
@@ -39,14 +61,15 @@ const DEFAULT_SLIDES: CarouselSlide[] = [
 export default function HeroCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const { openKioskModal, setActiveSection } = useAuth();
 
-  // Auto-play feature: Advance slide every 5 seconds if not hovered
+  // Auto-play feature: Switch slide every 6 seconds if not hovered
   useEffect(() => {
     if (isPaused) return;
 
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % DEFAULT_SLIDES.length);
-    }, 5000);
+    }, 6000);
 
     return () => clearInterval(timer);
   }, [isPaused]);
@@ -59,79 +82,142 @@ export default function HeroCarousel() {
     setCurrentIndex((prev) => (prev + 1) % DEFAULT_SLIDES.length);
   };
 
+  const handleCtaClick = (slide: CarouselSlide) => {
+    if (slide.id === 1) {
+      openKioskModal();
+    } else if (slide.id === 2) {
+      setActiveSection('convocatoria');
+    } else if (slide.id === 3) {
+      setActiveSection('centro-documentacion');
+    }
+  };
+
   const currentSlide = DEFAULT_SLIDES[currentIndex];
 
   return (
     <div 
-      className="relative max-w-5xl mx-auto w-full my-8 group"
+      className="relative w-full overflow-hidden bg-verde-profundo text-crema group shadow-2xl border-y-4 border-mostaza"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Carousel Container Card */}
-      <div className="relative h-72 sm:h-96 md:h-[420px] rounded-3xl overflow-hidden shadow-2xl border-4 border-mostaza/50 bg-verde-profundo">
-        {/* Background Slide Image with smooth transition */}
+      {/* Background Image Banner with full-bleed scale & fade */}
+      <div className="relative w-full min-h-[480px] sm:min-h-[520px] lg:min-h-[560px] flex items-center">
         <Image
           key={currentSlide.id}
           src={currentSlide.imageSrc}
           alt={currentSlide.title}
           fill
-          className="object-cover object-center opacity-60 transition-opacity duration-700 animate-in fade-in"
+          className="object-cover object-center opacity-40 transition-opacity duration-700 animate-in fade-in"
           priority
         />
 
-        {/* Gradient Overlay for Text Contrast */}
-        <div className="absolute inset-0 bg-gradient-to-t from-verde-profundo via-verde-profundo/40 to-transparent z-10"></div>
+        {/* Multi-layered Gradients for Univalle-style high readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-verde-profundo via-verde-profundo/90 sm:via-verde-profundo/80 to-transparent z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-verde-profundo via-transparent to-black/30 z-10"></div>
 
-        {/* Content Box */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 z-20 space-y-3 text-left">
-          {/* Badge Label: Imagen 1, Imagen 2, Imagen 3 */}
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-mostaza text-verde-profundo text-xs font-extrabold uppercase tracking-wider shadow-lg">
-            <ImageIcon size={14} />
-            <span>{currentSlide.tag}</span>
+        {/* Full-width Container */}
+        <div className="relative z-20 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full py-12 flex flex-col justify-between min-h-[440px] sm:min-h-[480px]">
+          
+          {/* Top Row: Category Badge + Institutional Emblem Watermark */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <span className="px-3.5 py-1 rounded-full bg-mostaza text-verde-profundo font-extrabold text-xs uppercase tracking-wider shadow-md">
+                {currentSlide.tag}
+              </span>
+              <span className="text-xs font-bold uppercase tracking-widest text-mostaza/90 hidden sm:inline-block">
+                {currentSlide.category}
+              </span>
+            </div>
+
+            {/* Institutional Seal Watermark (like Univalle Faculty Seal) */}
+            <div className="flex items-center space-x-3 bg-white/10 backdrop-blur-md px-3.5 py-1.5 rounded-2xl border border-white/15">
+              <div className="relative w-8 h-8 rounded-full overflow-hidden border border-mostaza bg-crema flex items-center justify-center shrink-0">
+                <Image
+                  src="/images/hero-logo.png"
+                  alt="Sello Casa de la Memoria"
+                  width={30}
+                  height={30}
+                  className="w-auto h-6 object-contain"
+                />
+              </div>
+              <div className="text-left hidden sm:block">
+                <p className="text-[11px] font-bold font-serif leading-none text-crema">Casa de la Memoria</p>
+                <p className="text-[9px] text-mostaza uppercase font-medium tracking-tighter">Gran Cumbal</p>
+              </div>
+            </div>
           </div>
 
-          <h3 className="font-serif font-bold text-2xl sm:text-4xl text-crema drop-shadow-md">
-            {currentSlide.title}
-          </h3>
+          {/* Main Slide Content Layout: Left Title & Bullets, Pill CTA */}
+          <div className="max-w-3xl space-y-5 my-auto text-left pt-4">
+            <h2 className="font-serif font-extrabold text-3xl sm:text-5xl lg:text-6xl text-crema tracking-tight drop-shadow-lg !leading-tight">
+              {currentSlide.title}
+            </h2>
 
-          <p className="font-sans text-sm sm:text-base text-crema/90 max-w-2xl font-medium drop-shadow-sm">
-            {currentSlide.description}
-          </p>
-        </div>
+            {/* Institutional Bullet Points */}
+            <div className="space-y-2 pt-2">
+              {currentSlide.bulletPoints.map((point, idx) => (
+                <div key={idx} className="flex items-start space-x-3 text-sm sm:text-base md:text-lg font-sans text-crema/90 font-medium drop-shadow-sm">
+                  <CheckCircle2 size={20} className="text-mostaza shrink-0 mt-1" />
+                  <span>{point}</span>
+                </div>
+              ))}
+            </div>
 
-        {/* Left Arrow Button */}
-        <button
-          onClick={handlePrev}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-2.5 sm:p-3 rounded-full bg-verde-profundo/80 text-crema hover:bg-mostaza hover:text-verde-profundo transition-all duration-300 shadow-xl border border-crema/20 focus:outline-none"
-          aria-label="Imagen anterior"
-        >
-          <ChevronLeft size={24} />
-        </button>
+            {/* Univalle-style Pill Call To Action Button */}
+            <div className="pt-4">
+              <button
+                onClick={() => handleCtaClick(currentSlide)}
+                className="inline-flex items-center space-x-3 bg-terracota hover:bg-mostaza hover:text-verde-profundo text-crema font-extrabold text-base sm:text-lg px-8 py-3.5 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-crema/30 group/btn"
+              >
+                <span>{currentSlide.ctaText}</span>
+                <ArrowRight size={20} className="group-hover/btn:translate-x-1 transition-transform" />
+              </button>
+            </div>
+          </div>
 
-        {/* Right Arrow Button */}
-        <button
-          onClick={handleNext}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-2.5 sm:p-3 rounded-full bg-verde-profundo/80 text-crema hover:bg-mostaza hover:text-verde-profundo transition-all duration-300 shadow-xl border border-crema/20 focus:outline-none"
-          aria-label="Imagen siguiente"
-        >
-          <ChevronRight size={24} />
-        </button>
+          {/* Bottom Bar: Indicators & Slide Counter */}
+          <div className="flex items-center justify-between pt-4 border-t border-crema/20">
+            <span className="text-xs font-bold text-crema/70 uppercase tracking-widest">
+              Espacio {currentIndex + 1} de {DEFAULT_SLIDES.length}
+            </span>
 
-        {/* Indicator Dots */}
-        <div className="absolute bottom-4 right-6 z-30 flex items-center space-x-2">
-          {DEFAULT_SLIDES.map((slide, idx) => (
-            <button
-              key={slide.id}
-              onClick={() => setCurrentIndex(idx)}
-              className={`
-                h-2.5 rounded-full transition-all duration-300 focus:outline-none
-                ${currentIndex === idx ? 'w-8 bg-mostaza' : 'w-2.5 bg-crema/50 hover:bg-crema'}
-              `}
-              aria-label={`Ir a ${slide.tag}`}
-            />
-          ))}
+            {/* Indicator Dots */}
+            <div className="flex items-center space-x-2">
+              {DEFAULT_SLIDES.map((slide, idx) => (
+                <button
+                  key={slide.id}
+                  onClick={() => setCurrentIndex(idx)}
+                  className={`
+                    h-2.5 rounded-full transition-all duration-300 focus:outline-none
+                    ${currentIndex === idx ? 'w-10 bg-mostaza' : 'w-2.5 bg-crema/40 hover:bg-crema'}
+                  `}
+                  aria-label={`Ir a ${slide.tag}`}
+                />
+              ))}
+            </div>
+          </div>
+
         </div>
       </div>
+
+      {/* Extreme Left Arrow Button (Edge Positioned like Univalle) */}
+      <button
+        onClick={handlePrev}
+        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 rounded-full bg-black/40 hover:bg-mostaza text-crema hover:text-verde-profundo transition-all duration-300 shadow-2xl border border-white/20 focus:outline-none"
+        aria-label="Anterior"
+      >
+        <ChevronLeft size={28} />
+      </button>
+
+      {/* Extreme Right Arrow Button (Edge Positioned like Univalle) */}
+      <button
+        onClick={handleNext}
+        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 p-3 sm:p-4 rounded-full bg-black/40 hover:bg-mostaza text-crema hover:text-verde-profundo transition-all duration-300 shadow-2xl border border-white/20 focus:outline-none"
+        aria-label="Siguiente"
+      >
+        <ChevronRight size={28} />
+      </button>
+
     </div>
   );
 }
