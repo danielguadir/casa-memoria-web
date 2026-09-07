@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Instagram, MapPin, Facebook } from 'lucide-react';
+import { Instagram, MapPin, Facebook, ExternalLink } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
 const socialLinks = [
@@ -100,7 +100,32 @@ export default function Footer() {
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-serif font-semibold text-xl text-mostaza border-b border-mostaza/30 pb-2">Redes de Apoyo</h4>
+            <h4 className="font-serif font-semibold text-xl text-mostaza border-b border-mostaza/30 pb-2 flex items-center justify-between">
+              <span>Ubicación en el Mapa</span>
+              <a
+                href="https://maps.app.goo.gl/jditokbDdconzYET6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-sans text-crema/80 hover:text-mostaza flex items-center space-x-1 transition-colors"
+                title="Abrir en Google Maps"
+              >
+                <span>Google Maps</span>
+                <ExternalLink size={12} />
+              </a>
+            </h4>
+            <div className="relative w-full h-44 rounded-xl overflow-hidden border border-mostaza/30 shadow-lg hover:border-mostaza transition-all group">
+              <iframe
+                title="Mapa Casa de la Memoria Cumbal"
+                src="https://maps.google.com/maps?q=Casa+de+la+Memoria+del+Gran+Cumbal,+Cumbal,+Nari%C3%B1o&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="w-full h-full grayscale-[25%] contrast-[105%] group-hover:grayscale-0 transition-all duration-300"
+              />
+            </div>
           </div>
 
         </div>
