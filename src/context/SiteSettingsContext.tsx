@@ -74,6 +74,18 @@ export const FONT_PRESETS: FontOption[] = [
 
 export const THEME_PRESETS: ThemeOption[] = [
   {
+    id: 'violeta-ceo',
+    name: 'Violeta Imperial (Oficial CEOs)',
+    description: 'Paleta corporativa solicitada (#281E52 Header y #4B3C8C Barra Secundaria).',
+    crema: '#F8F6FD',
+    cremaDark: '#EBE5F7',
+    verdeProfundo: '#281E52',
+    terracota: '#4B3C8C',
+    terracotaLight: '#6B58B8',
+    cafe: '#1A1438',
+    mostaza: '#DCA74E',
+  },
+  {
     id: 'ancestral',
     name: 'Tierra Ancestral (Original)',
     description: 'Colores de la tierra, vasijas de barro y tejidos tradicionales de Cumbal.',
@@ -155,7 +167,7 @@ const LOCAL_STORAGE_KEY = 'casa_memoria_settings_v2';
 export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [siteContent, setSiteContent] = useState<SiteContent>(DEFAULT_CONTENT);
   const [selectedFontId, setSelectedFontId] = useState<string>('ancestral');
-  const [selectedThemeId, setSelectedThemeId] = useState<string>('ancestral');
+  const [selectedThemeId, setSelectedThemeId] = useState<string>('violeta-ceo');
   const [activeColors, setActiveColors] = useState<ThemeColors>({
     crema: THEME_PRESETS[0].crema,
     cremaDark: THEME_PRESETS[0].cremaDark,
@@ -261,7 +273,7 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const resetToDefaults = () => {
     setSiteContent(DEFAULT_CONTENT);
     setSelectedFontId('ancestral');
-    setSelectedThemeId('ancestral');
+    setSelectedThemeId('violeta-ceo');
     setActiveColors({
       crema: THEME_PRESETS[0].crema,
       cremaDark: THEME_PRESETS[0].cremaDark,
