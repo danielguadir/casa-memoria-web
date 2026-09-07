@@ -10,7 +10,7 @@ export interface User {
   avatar?: string;
 }
 
-export type SectionType = 'inicio' | 'sobre-el-proceso' | 'convocatoria' | 'centro-documentacion' | 'memoria';
+export type SectionType = 'inicio' | 'sobre-el-proceso' | 'convocatoria' | 'centro-documentacion';
 
 interface AuthContextType {
   user: User | null;

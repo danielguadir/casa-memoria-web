@@ -29,15 +29,6 @@ const navLinks: { name: string; key: SectionType; href: string; dropdown?: { nam
       { name: 'Archivos digitales', href: '#' }
     ]
   },
-  {
-    name: 'Memoria',
-    key: 'memoria',
-    href: '#',
-    dropdown: [
-      { name: 'Documentales', href: '#' },
-      { name: 'Hallazgos', href: '#' }
-    ]
-  },
   { name: 'Contacto', key: 'inicio', href: '#contacto' },
 ];
 

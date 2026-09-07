@@ -1,222 +1,161 @@
 'use client';
 
 import React from 'react';
-import { BookOpen, Film, HardDrive, Quote, Video, Sprout, Save, Library, FileText, ArrowUpRight, Sparkles } from 'lucide-react';
+import { Film, Quote, Video, PenTool, Sprout, BookOpen, Save, HardDrive } from 'lucide-react';
 import Image from 'next/image';
 
 export default function CentroDocumentacion() {
   return (
-    <section id="centro-documentacion" className="py-24 bg-crema-dark text-cafe relative overflow-hidden">
+    <section id="centro-documentacion" className="py-24 bg-verde-profundo text-crema relative overflow-hidden">
 
-      {/* Background texture with subtle overlay for maximum contrast */}
+      {/* Background texture with soft gradient overlay */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/piedra-m.jpg"
-          alt="Textura ancestral"
+          alt="Textura piedra ancestral"
           fill
-          className="object-cover object-center grayscale opacity-15 mix-blend-multiply"
+          className="object-cover object-center grayscale contrast-125 brightness-75 opacity-25 mix-blend-multiply"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-crema-dark via-crema-dark/80 to-crema-dark z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-verde-profundo via-verde-profundo/90 to-verde-profundo z-10"></div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 space-y-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
 
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-5">
-          <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-verde-profundo/10 border border-verde-profundo/20 text-verde-profundo text-xs font-bold uppercase tracking-widest">
-            <Library className="w-4 h-4 text-terracota" />
-            <span>Fondo Físico & Digital</span>
+        {/* Header exacto de Memoria Visual y Sonora */}
+        <div className="text-center max-w-3xl mx-auto space-y-6 mb-16">
+          <div className="flex justify-center mb-4">
+            <div className="p-3 bg-crema/10 rounded-full backdrop-blur-sm border border-crema/20 shadow-xl">
+              <PenTool className="text-mostaza" size={32} />
+            </div>
           </div>
-
-          <h2 className="font-serif font-bold text-4xl lg:text-5xl text-verde-profundo tracking-tight drop-shadow-sm">
-            Centro de Documentación CMGC
+          <span className="text-mostaza font-bold text-sm tracking-widest uppercase">Patrimonio Vivo</span>
+          <h2 className="font-serif font-bold text-4xl lg:text-5xl text-crema tracking-tight drop-shadow-lg">
+            Memoria Visual y Sonora
           </h2>
+          <div className="w-24 h-1 bg-mostaza mx-auto rounded-full shadow-lg"></div>
 
-          <div className="w-24 h-1 bg-terracota mx-auto rounded-full shadow-sm"></div>
-
-          <p className="text-lg font-sans text-cafe/90 leading-relaxed font-semibold italic max-w-2xl mx-auto">
-            Espacio dedicado a la salvaguarda, conservación y consulta de la producción intelectual, audiovisual y comunitaria del Gran Cumbal y los Pueblos Indígenas de los Pastos.
+          <p className="text-lg md:text-xl font-sans text-crema/90 leading-relaxed max-w-2xl mx-auto font-semibold italic">
+            Archivos, relatos y tejido audiovisual que documentan la historia y el sentir del Pueblo Indígena de los Pastos.
           </p>
         </div>
 
-        {/* 3 Main Pillars Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
-          {/* Pillar 1: Biblioteca Especializada */}
-          <div className="bg-crema/95 backdrop-blur-md rounded-3xl p-8 border border-crema-dark/70 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
-            <div className="space-y-4">
-              <div className="w-14 h-14 bg-verde-profundo rounded-2xl flex items-center justify-center text-mostaza shadow-md group-hover:scale-110 transition-transform">
-                <BookOpen size={28} />
-              </div>
-              <span className="text-xs font-bold text-terracota uppercase tracking-wider block">Fondo Bibliográfico</span>
-              <h3 className="font-serif font-bold text-2xl text-verde-profundo">
-                Biblioteca Especializada de Pueblos Indígenas
-              </h3>
-              <p className="text-sm text-cafe/80 leading-relaxed font-medium">
-                Colección de monografías, planes de salvaguardia, jurisprudencia indígena, investigaciones de la comunidad e historia territorial de los Andes del sur de Colombia.
-              </p>
-            </div>
-            <div className="mt-8 pt-4 border-t border-crema-dark/60 flex items-center justify-between text-xs font-bold text-verde-profundo">
-              <span>Consulta de Catálogo</span>
-              <span className="w-7 h-7 rounded-full bg-verde-profundo/10 flex items-center justify-center text-terracota group-hover:bg-terracota group-hover:text-crema transition-colors">
-                <ArrowUpRight size={16} />
-              </span>
-            </div>
-          </div>
-
-          {/* Pillar 2: Archivo Audiovisual */}
-          <div className="bg-crema/95 backdrop-blur-md rounded-3xl p-8 border border-crema-dark/70 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
-            <div className="space-y-4">
-              <div className="w-14 h-14 bg-terracota rounded-2xl flex items-center justify-center text-crema shadow-md group-hover:scale-110 transition-transform">
-                <Film size={28} />
-              </div>
-              <span className="text-xs font-bold text-terracota uppercase tracking-wider block">Registro Sonoro y Fílmico</span>
-              <h3 className="font-serif font-bold text-2xl text-verde-profundo">
-                Archivo de Memoria Audiovisual
-              </h3>
-              <p className="text-sm text-cafe/80 leading-relaxed font-medium">
-                Acervo documental en video y audio que custodia relatos orales, registros de asambleas, procesos pedagógicos y piezas documentales de la Casa de la Memoria.
-              </p>
-            </div>
-            <div className="mt-8 pt-4 border-t border-crema-dark/60 flex items-center justify-between text-xs font-bold text-verde-profundo">
-              <span>Repositorio Audiovisual</span>
-              <span className="w-7 h-7 rounded-full bg-terracota/10 flex items-center justify-center text-terracota group-hover:bg-terracota group-hover:text-crema transition-colors">
-                <ArrowUpRight size={16} />
-              </span>
-            </div>
-          </div>
-
-          {/* Pillar 3: Archivos Digitales */}
-          <div className="bg-crema/95 backdrop-blur-md rounded-3xl p-8 border border-crema-dark/70 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group">
-            <div className="space-y-4">
-              <div className="w-14 h-14 bg-mostaza/30 border border-mostaza rounded-2xl flex items-center justify-center text-verde-profundo shadow-md group-hover:scale-110 transition-transform">
-                <HardDrive size={28} className="text-verde-profundo" />
-              </div>
-              <span className="text-xs font-bold text-terracota uppercase tracking-wider block">Preservación Digital</span>
-              <h3 className="font-serif font-bold text-2xl text-verde-profundo">
-                Archivos Digitales y Mapas Comunitarios
-              </h3>
-              <p className="text-sm text-cafe/80 leading-relaxed font-medium">
-                Digitalización en alta resolución de fotografías históricas, mapas cartográficos ancestrales, documentos del Cabildo y archivos en proceso de catalogación.
-              </p>
-            </div>
-            <div className="mt-8 pt-4 border-t border-crema-dark/60 flex items-center justify-between text-xs font-bold text-verde-profundo">
-              <span>Acceso a Repositorio</span>
-              <span className="w-7 h-7 rounded-full bg-mostaza/20 flex items-center justify-center text-verde-profundo group-hover:bg-verde-profundo group-hover:text-mostaza transition-colors">
-                <ArrowUpRight size={16} />
-              </span>
-            </div>
-          </div>
-
-        </div>
-
-        {/* Featured Content Display: Corto Documental & PACPI */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch pt-4">
+        {/* Contenido Audiovisual: Corto Documental + Proceso PACPI */}
+        <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-12 text-cafe items-center">
 
           {/* Card 1: Corto Documental - Facebook Reel */}
-          <a
-            href="https://www.facebook.com/reel/818082714699399"
-            target="_blank"
+          <a 
+            href="https://www.facebook.com/reel/818082714699399" 
+            target="_blank" 
             rel="noopener noreferrer"
-            className="block bg-crema rounded-3xl overflow-hidden shadow-xl border border-crema-dark relative group transform hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+            className="block bg-crema/95 backdrop-blur-sm rounded-[2.5rem] overflow-hidden shadow-2xl relative group transform hover:-translate-y-2 transition-all duration-500 border-b-8 border-mostaza cursor-pointer focus:outline-none focus:ring-4 focus:ring-mostaza/50"
             title="Ver corto documental 'Ecos del Gran Cumbal' en Facebook Reel"
           >
-            <div className="h-60 bg-verde-profundo relative overflow-hidden">
-              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-all duration-500 z-10"></div>
+            <div className="h-56 bg-verde-profundo relative overflow-hidden">
+              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-500 z-10"></div>
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
-                <div className="w-16 h-16 bg-mostaza group-hover:bg-terracota group-hover:scale-110 rounded-full flex items-center justify-center shadow-xl border-2 border-crema transition-all duration-300">
-                  <Film size={32} className="text-verde-profundo group-hover:text-crema ml-1 transition-colors" />
+                <div className="w-20 h-20 bg-mostaza/90 group-hover:bg-terracota group-hover:scale-110 rounded-full flex items-center justify-center animate-pulse group-hover:animate-none shadow-2xl border-4 border-crema/30 transition-all duration-300">
+                  <Film size={40} className="text-verde-profundo group-hover:text-crema ml-1 transition-colors" />
                 </div>
               </div>
               <Image
                 src="/images/tesoros2.png"
                 alt="Documental Ecos del Gran Cumbal"
                 fill
-                className="object-cover opacity-75 group-hover:scale-105 transition-transform duration-700"
+                className="object-cover opacity-60 group-hover:scale-110 transition-transform duration-700"
               />
-              <div className="absolute top-4 left-4 z-20">
-                <span className="px-3 py-1 bg-terracota text-crema font-bold text-xs rounded-full uppercase tracking-wider shadow-md">
-                  Estreno Audiovisual
-                </span>
-              </div>
             </div>
 
-            <div className="p-8 space-y-4 flex-grow flex flex-col justify-between">
-              <div>
-                <h3 className="font-serif font-bold text-2xl text-verde-profundo group-hover:text-terracota transition-colors">
-                  Ecos del Gran Cumbal
-                </h3>
-                <p className="font-sans text-cafe/80 text-sm leading-relaxed mt-2 italic border-l-2 border-terracota/40 pl-3">
-                  &ldquo;Senderos de Memoria y futuro&rdquo;, realizado con la participación del Instituto Humboldt y el Cabildo de Cumbal.
-                </p>
+            <div className="p-10">
+              <div className="flex items-center justify-between">
+                <span className="px-4 py-1.5 bg-terracota/10 text-terracota font-bold text-xs rounded-full uppercase tracking-widest border border-terracota/20">
+                  Estreno | Corto Documental
+                </span>
+                <span className="text-xs font-bold text-verde-profundo flex items-center gap-1 group-hover:text-terracota transition-colors">
+                  <span>Ver en Facebook</span>
+                  <span className="text-base">↗</span>
+                </span>
               </div>
 
-              <div className="bg-crema-dark/60 p-4 rounded-xl text-xs font-bold text-verde-profundo space-y-2 border border-crema-dark">
-                <div className="flex justify-between items-center">
-                  <span>📍 Ubicación:</span>
-                  <span className="text-cafe font-semibold">Casa de la Memoria del Gran Cumbal</span>
+              <h3 className="font-serif font-bold text-3xl text-verde-profundo mt-6 mb-3 tracking-tight group-hover:text-terracota transition-colors">
+                Ecos del Gran Cumbal
+              </h3>
+              <p className="font-sans text-cafe/80 text-base leading-relaxed italic mb-8 border-l-4 border-terracota/30 pl-4">
+                &ldquo;Senderos de Memoria y futuro&rdquo;, realizado por el Instituto Humboldt.
+              </p>
+
+              <div className="bg-crema-dark/50 p-6 rounded-2xl border border-crema-dark mb-6 text-sm font-bold shadow-inner">
+                <div className="flex justify-between items-center text-verde-profundo mb-3">
+                  <div className="flex items-center space-x-3">
+                    <span className="w-8 h-8 rounded-full bg-verde-profundo/10 flex items-center justify-center text-mostaza">📍</span>
+                    <span>Lugar:</span>
+                  </div>
+                  <span className="bg-verde-profundo text-crema px-3 py-1 rounded-lg text-xs font-bold">Casa de la Memoria</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span>🎬 Formato:</span>
-                  <span className="text-terracota font-bold">Corto Documental (Reel)</span>
+                <div className="flex justify-between items-center text-verde-profundo">
+                  <div className="flex items-center space-x-3">
+                    <span className="w-8 h-8 rounded-full bg-verde-profundo/10 flex items-center justify-center text-mostaza">⏰</span>
+                    <span>Hora:</span>
+                  </div>
+                  <span className="text-terracota font-extrabold uppercase tracking-tighter">5:00pm | ¡Ver Reel!</span>
                 </div>
               </div>
 
-              <div className="w-full bg-verde-profundo group-hover:bg-terracota text-crema font-bold text-xs uppercase tracking-wider py-3 rounded-xl transition-colors text-center flex items-center justify-center space-x-2">
-                <span>Ver en Facebook Reel</span>
-                <span>↗</span>
+              <div className="flex items-center justify-center space-x-2 bg-terracota group-hover:bg-verde-profundo text-crema font-extrabold text-sm uppercase tracking-widest py-3 px-6 rounded-xl transition-colors shadow-md mt-4">
+                <span>Ver Corto Documental en Facebook ↗</span>
               </div>
             </div>
           </a>
 
-          {/* Card 2: Proceso PACPI */}
-          <div className="bg-verde-profundo text-crema rounded-3xl p-8 lg:p-10 border border-verde-profundo shadow-xl relative overflow-hidden flex flex-col justify-between">
-            <div className="space-y-6 relative z-10">
-              <div className="flex items-center justify-between">
-                <span className="px-3 py-1 bg-mostaza/20 border border-mostaza/40 text-mostaza font-bold text-xs rounded-full uppercase tracking-wider">
-                  Política Pública PACPI
-                </span>
-                <Video size={28} className="text-mostaza" />
-              </div>
+          {/* Card 2: Experiencia PACPI */}
+          <div className="bg-crema-dark/20 backdrop-blur-md rounded-[2.5rem] p-10 lg:p-14 border-4 border-crema/40 shadow-2xl relative h-full flex flex-col justify-center overflow-hidden group">
 
-              <h3 className="font-serif font-bold text-3xl text-crema tracking-tight">
-                Patrimonio Audiovisual Indígena
+            {/* Design accents */}
+            <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-40 h-40 bg-mostaza/20 rounded-full blur-3xl"></div>
+            <div className="absolute top-8 right-8 w-24 h-24 bg-mostaza rounded-full flex items-center justify-center shadow-2xl border-4 border-crema z-10 transform group-hover:rotate-12 transition-transform duration-500">
+              <Video size={44} className="text-verde-profundo" />
+            </div>
+
+            <div className="space-y-8 text-crema relative z-10">
+              <h3 className="font-serif font-bold text-4xl text-crema drop-shadow-lg tracking-tight">
+                Proceso PACPI
               </h3>
 
-              <p className="font-sans text-crema/90 text-sm leading-relaxed border-l-4 border-mostaza pl-4 italic">
-                Construcción participativa de la Política Pública de Patrimonio Audiovisual – Capítulo Pueblos Indígenas (PACPI).
-              </p>
-
-              <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/15 space-y-3 text-xs leading-relaxed">
-                <Quote size={20} className="text-mostaza rotate-180" />
-                <p className="font-serif italic text-sm text-crema/95 font-medium">
-                  Este espacio fortalece el diálogo entre mayores, sabedores y jóvenes en pro de salvaguardar las voces ancestrales de las comunidades indígenas.
+              <div className="space-y-6">
+                <p className="font-sans text-crema/90 text-lg leading-relaxed border-l-4 border-mostaza pl-6 font-bold bg-black/30 p-6 rounded-r-2xl shadow-xl text-balance">
+                  En el marco de la construcción de la Política Pública de Patrimonio Audiovisual – Capítulo Pueblos Indígenas (PACPI), tuvimos el honor de compartir nuestra experiencia en gestión y salvaguardia.
                 </p>
 
-                <div className="flex space-x-4 pt-4 border-t border-white/10 text-center">
-                  <div className="flex-1">
-                    <Sprout className="w-5 h-5 mx-auto text-mostaza" />
-                    <span className="text-[10px] uppercase font-bold text-crema/70 mt-1 block">Semilla</span>
-                  </div>
-                  <div className="flex-1">
-                    <FileText className="w-5 h-5 mx-auto text-mostaza" />
-                    <span className="text-[10px] uppercase font-bold text-crema/70 mt-1 block">Saberes</span>
-                  </div>
-                  <div className="flex-1">
-                    <Save className="w-5 h-5 mx-auto text-mostaza" />
-                    <span className="text-[10px] uppercase font-bold text-crema/70 mt-1 block">Memoria</span>
+                <div className="font-sans text-cafe text-base leading-relaxed bg-crema/95 backdrop-blur-sm pt-8 pb-8 px-8 rounded-[2rem] border border-crema-dark shadow-2xl mt-8 relative">
+                  <Quote size={32} className="text-terracota/30 mb-4 rotate-180" />
+                  <p className="font-bold italic leading-relaxed text-lg text-verde-profundo">
+                    Este espacio permitió el diálogo de saberes, propuestas y el tejido colectivo en pro de la preservación de la Memoria audiovisual de nuestras comunidades.
+                  </p>
+
+                  {/* Icon Row */}
+                  <div className="flex space-x-6 mt-8 pt-6 border-t border-crema-dark/50">
+                    <div className="group/icon flex flex-col items-center">
+                      <Sprout size={24} className="text-verde-profundo group-hover/icon:text-terracota transition-colors" />
+                      <span className="text-[10px] mt-1 font-bold text-verde-profundo/50 uppercase tracking-tighter">Semilla</span>
+                    </div>
+                    <div className="group/icon flex flex-col items-center">
+                      <BookOpen size={24} className="text-verde-profundo group-hover/icon:text-terracota transition-colors" />
+                      <span className="text-[10px] mt-1 font-bold text-verde-profundo/50 uppercase tracking-tighter">Saberes</span>
+                    </div>
+                    <div className="group/icon flex flex-col items-center">
+                      <Save size={24} className="text-verde-profundo group-hover/icon:text-terracota transition-colors" />
+                      <span className="text-[10px] mt-1 font-bold text-verde-profundo/50 uppercase tracking-tighter">Memoria</span>
+                    </div>
+                    <div className="group/icon flex flex-col items-center">
+                      <HardDrive size={24} className="text-verde-profundo group-hover/icon:text-terracota transition-colors" />
+                      <span className="text-[10px] mt-1 font-bold text-verde-profundo/50 uppercase tracking-tighter">Archivo</span>
+                    </div>
                   </div>
                 </div>
               </div>
+
             </div>
 
-            <div className="pt-6 relative z-10">
-              <div className="inline-flex items-center space-x-2 text-xs font-bold text-mostaza">
-                <Sparkles className="w-4 h-4" />
-                <span>Gestión y Salvaguarda del Gran Cumbal</span>
-              </div>
-            </div>
           </div>
 
         </div>
