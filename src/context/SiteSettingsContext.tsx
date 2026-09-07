@@ -178,7 +178,7 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     mostaza: THEME_PRESETS[0].mostaza,
   });
 
-  // Load persisted settings from localStorage on initial client mount
+  // Load persisted settings from localStorage on initial client mount with auto-migration for mobile devices
   useEffect(() => {
     try {
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -186,8 +186,30 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
         const parsed = JSON.parse(saved);
         if (parsed.siteContent) setSiteContent(parsed.siteContent);
         if (parsed.selectedFontId) setSelectedFontId(parsed.selectedFontId);
-        if (parsed.selectedThemeId) setSelectedThemeId(parsed.selectedThemeId);
-        if (parsed.activeColors) setActiveColors(parsed.activeColors);
+        
+        // Auto-upgrade legacy theme selections or old green (#1C3F2B) to violeta-ceo
+        if (parsed.selectedThemeId && parsed.selectedThemeId !== 'ancestral' && parsed.selectedThemeId !== 'verde-cumbal') {
+          setSelectedThemeId(parsed.selectedThemeId);
+        } else {
+          setSelectedThemeId('violeta-ceo');
+        }
+
+        if (parsed.activeColors) {
+          if (parsed.activeColors.verdeProfundo === '#1C3F2B' || parsed.activeColors.verdeProfundo === '#0F3822') {
+            // Migrar automáticamente dispositivos móviles con caché del color verde antiguo
+            setActiveColors({
+              crema: THEME_PRESETS[0].crema,
+              cremaDark: THEME_PRESETS[0].cremaDark,
+              verdeProfundo: THEME_PRESETS[0].verdeProfundo,
+              terracota: THEME_PRESETS[0].terracota,
+              terracotaLight: THEME_PRESETS[0].terracotaLight,
+              cafe: THEME_PRESETS[0].cafe,
+              mostaza: THEME_PRESETS[0].mostaza,
+            });
+          } else {
+            setActiveColors(parsed.activeColors);
+          }
+        }
       }
     } catch (e) {
       console.warn('Could not read settings from localStorage', e);

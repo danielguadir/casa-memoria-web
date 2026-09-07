@@ -3,13 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --color-crema: #FDFBF7;
-  --color-crema-dark: #F2EBE1;
-  --color-verde-profundo: #1C3F2B;
-  --color-terracota: #A84522;
-  --color-terracota-light: #C95B36;
-  --color-cafe: #4A3018;
-  --color-mostaza: #DCA74E;
+  --color-crema: #F8F6FD;
+  --color-crema-dark: #EBE5F7;
+  --color-verde-profundo: #281E52;
+  --color-terracota: #4B3C8C;
+  --color-terracota-light: #6B58B8;
+  --color-cafe: #1A1438;
+  --color-mostaza: #a69cac;
 }
 
 @layer base {
