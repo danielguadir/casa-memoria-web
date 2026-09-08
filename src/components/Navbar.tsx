@@ -106,14 +106,14 @@ export default function Navbar() {
                 onClick={handleLogoClick}
                 className="flex-shrink-0 flex items-center space-x-3 group text-left focus:outline-none"
               >
-                {/* Logo con contorno iluminado en #a69cac */}
-                <div className="relative w-13 h-13 sm:w-14 sm:h-14 rounded-full overflow-hidden border border-[#a69cac]/50 hover:border-[#a69cac] bg-crema flex items-center justify-center shadow-md group-hover:scale-105 group-hover:shadow-[0_0_14px_rgba(166,156,172,0.6)] transition-all shrink-0">
+                {/* Logo compacto con contorno iluminado en #a69cac */}
+                <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border border-[#a69cac]/60 hover:border-[#a69cac] bg-crema flex items-center justify-center shadow-md group-hover:scale-105 group-hover:shadow-[0_0_12px_rgba(166,156,172,0.6)] transition-all shrink-0">
                   <Image
                     src="/images/hero-logo.png"
                     alt="Logo Casa de la Memoria"
-                    width={52}
-                    height={52}
-                    className="w-auto h-11 sm:h-12 object-contain p-0.5 scale-110"
+                    width={44}
+                    height={44}
+                    className="w-full h-full object-cover p-0"
                     priority
                   />
                 </div>
