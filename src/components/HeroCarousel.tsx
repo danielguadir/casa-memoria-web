@@ -46,7 +46,7 @@ const DEFAULT_SLIDES: CarouselSlide[] = [
     id: 3,
     tag: 'Imagen 3',
     category: 'Documentación CMGC',
-    title: 'Archivo General & Repositorio Digital',
+    title: 'Archivo',
     bulletPoints: [
       'Biblioteca Especializada de Pueblos Indígenas',
       'Archivo de Memoria'
