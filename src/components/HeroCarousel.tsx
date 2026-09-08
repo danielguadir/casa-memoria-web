@@ -36,9 +36,8 @@ const DEFAULT_SLIDES: CarouselSlide[] = [
     category: 'Comunidad',
     title: 'Escuela Renacientes del Gran Cumbal',
     bulletPoints: [
-      'Círculos de Palabreo y Diálogo Intergeneracional',
-      'Seminario en Comunicación Comunitaria y Medios Propios',
-      'Tejidos Pedagógicos para Comunidades de Vida'
+      'Círculos de Palabreo y Diálogo',
+      'Seminario en Comunicación Comunitaria y Medios Propios'
     ],
     ctaText: '¡Conoce Tejidos de Formación!',
     imageSrc: '/images/grupo-gente.png',
@@ -50,8 +49,7 @@ const DEFAULT_SLIDES: CarouselSlide[] = [
     title: 'Archivo General & Repositorio Digital',
     bulletPoints: [
       'Biblioteca Especializada de Pueblos Indígenas',
-      'Archivo de Memoria Audiovisual y Registros Sonoros',
-      'Digitalización en Alta Resolución y Fondos del Cabildo'
+      'Archivo de Memoria'
     ],
     ctaText: '¡Explora el Centro de Documentación!',
     imageSrc: '/images/tesoros2.png',

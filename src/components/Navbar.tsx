@@ -59,6 +59,22 @@ export default function Navbar() {
     }
   };
 
+  const handleLogoClick = () => {
+    setActiveSection('inicio');
+    if (activeView === 'admin') {
+      setActiveView('public');
+    }
+    setIsOpen(false);
+    setTimeout(() => {
+      const heroBodyEl = document.getElementById('inicio-presentacion');
+      if (heroBodyEl) {
+        heroBodyEl.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }, 50);
+  };
+
   const handleSubItemClick = (sectionKey: SectionType, subItemName: string) => {
     handleNavClick(sectionKey);
     setOpenDropdown(null);
@@ -87,7 +103,7 @@ export default function Navbar() {
             {/* Logo & Brand Name */}
             <div className="flex items-center">
               <button 
-                onClick={() => handleNavClick('inicio')}
+                onClick={handleLogoClick}
                 className="flex-shrink-0 flex items-center space-x-3 group text-left focus:outline-none"
               >
                 {/* Logo con contorno iluminado en #a69cac */}

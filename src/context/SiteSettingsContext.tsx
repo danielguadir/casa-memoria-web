@@ -138,7 +138,7 @@ export const THEME_PRESETS: ThemeOption[] = [
 
 const DEFAULT_CONTENT: SiteContent = {
   heroTitle: 'Casa de la Memoria Cumbal',
-  heroSubtitle: 'Centro cultural y Archivo General',
+  heroSubtitle: '',
   heroDesc: 'Desarrollamos estrategias de salvaguarda y protección de las memorias y el patrimonio cultural de los pueblos indígenas del sur de Colombia',
   convocatoriaTitle: 'Convocatoria Abierta 2026',
   convocatoriaDesc: 'Recepción de proyectos de investigación y materiales documentales para la salvaguarda territorial.',

@@ -16,20 +16,14 @@ export default function Hero() {
             {/* 1. Carrusel de Banners a Ancho Completo (Estilo Portal Univalle) */}
             <HeroCarousel />
 
-            {/* 2. Sección Institucional: Título, Subtítulo y Descripción */}
-            <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 pt-12 pb-6">
+            {/* 2. Sección Institucional: Título y Descripción */}
+            <div id="inicio-presentacion" className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 pt-12 pb-6">
                 
-                {/* Título, Subtítulo y Descripción */}
+                {/* Título y Descripción */}
                 <div className="space-y-4 max-w-4xl mx-auto">
                     <h1 className="font-serif font-extrabold text-3xl sm:text-5xl md:text-6xl text-verde-profundo drop-shadow-sm">
                         {siteContent.heroTitle}
                     </h1>
-
-                    {siteContent.heroSubtitle && (
-                        <p className="text-xs sm:text-sm font-bold uppercase tracking-widest text-terracota font-sans">
-                            {siteContent.heroSubtitle}
-                        </p>
-                    )}
 
                     <p className="text-base sm:text-lg md:text-xl font-sans text-cafe/90 max-w-3xl mx-auto leading-relaxed border-t border-b border-verde-profundo/20 py-4 font-medium">
                         {siteContent.heroDesc}
