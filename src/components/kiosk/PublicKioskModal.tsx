@@ -219,7 +219,7 @@ export const PublicKioskModal: React.FC<PublicKioskModalProps> = ({ isOpen, onCl
                 Consulta Pública de Archivos & Artefactos
               </h3>
               <p className="text-xs sm:text-sm text-cafe/70 leading-relaxed">
-                Escriba un código ID (ej. <code className="bg-crema-dark px-1.5 py-0.5 rounded font-mono font-bold text-terracota">AGN-ART-039</code>), un nombre de documento o una palabra clave en la barra superior para explorar.
+                Escriba un código ID, un nombre de documento o una palabra clave en la barra superior para consultar los registros del archivo.
               </p>
             </div>
 
@@ -227,7 +227,7 @@ export const PublicKioskModal: React.FC<PublicKioskModalProps> = ({ isOpen, onCl
             <div className="pt-2">
               <p className="text-xs font-semibold text-cafe/60 uppercase tracking-wider mb-2">Búsquedas sugeridas:</p>
               <div className="flex flex-wrap items-center justify-center gap-2 max-w-2xl mx-auto">
-                {['AGN-ART-039', 'AGN-FIS-001', 'Territorio', 'Cacique Juan Chiles', 'Sol de los Pastos', 'Fototeca Histórica', 'Inti Raymi'].map((chip) => (
+                {['Territorio', 'Cumbal', 'Memoria', 'Fototeca', 'Archivos Históricos', 'Comunidad'].map((chip) => (
                   <button
                     key={chip}
                     onClick={() => setSearchQuery(chip)}

@@ -21,7 +21,7 @@ const DEFAULT_SLIDES: CarouselSlide[] = [
     id: 1,
     tag: 'Imagen 1',
     category: 'Memoria',
-    title: 'Territorio Sagrado del Gran Cumbal',
+    title: 'Territorio',
     bulletPoints: [
       'Preservación del Patrimonio y Cosmovisión Ancestral',
       'Recuperación de Memorias Territoriales',
