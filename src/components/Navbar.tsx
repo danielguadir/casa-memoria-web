@@ -80,7 +80,9 @@ export default function Navbar() {
     setOpenDropdown(null);
     setExpandedMobileMenu(null);
     setIsOpen(false);
-    setDevModalItem(subItemName);
+    if (subItemName !== 'Archivos digitales') {
+      setDevModalItem(subItemName);
+    }
   };
 
   const toggleMobileDropdown = (linkName: string) => {
