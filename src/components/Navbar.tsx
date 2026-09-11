@@ -55,7 +55,13 @@ export default function Navbar() {
         footerEl.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const elementId = sectionKey === 'inicio' ? 'inicio' : sectionKey;
+      const el = document.getElementById(elementId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   };
 
