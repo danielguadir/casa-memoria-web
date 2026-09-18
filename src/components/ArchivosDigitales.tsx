@@ -10,7 +10,6 @@ import {
   User, 
   FileText, 
   Sparkles, 
-  Calendar, 
   Tag, 
   AlertCircle,
   Database,
