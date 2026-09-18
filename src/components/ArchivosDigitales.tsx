@@ -21,6 +21,7 @@ import {
 import { digitalArchiveData, DigitalDocument } from '@/data/digitalArchiveCatalog';
 import { Badge, Button } from '@/components/design-system';
 import { useAuth } from '@/context/AuthContext';
+import PdfViewerModal from '@/components/PdfViewerModal';
 
 export default function ArchivosDigitales() {
   const [digitalDocs, setDigitalDocs] = useState<DigitalDocument[]>(digitalArchiveData);
@@ -28,6 +29,7 @@ export default function ArchivosDigitales() {
     dig_001: 'sinopsis'
   });
   const [expandedDocId, setExpandedDocId] = useState<string | null>('dig_001');
+  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
 
   const { openKioskModal } = useAuth();
 
@@ -40,14 +42,7 @@ export default function ArchivosDigitales() {
     setDigitalDocs(prevDocs => 
       prevDocs.map(d => d.id === doc.id ? { ...d, viewsCount: d.viewsCount + 1 } : d)
     );
-
-    if (doc.pdfUrl) {
-      window.open(doc.pdfUrl, '_blank');
-    } else if (doc.driveUrl) {
-      window.open(doc.driveUrl, '_blank');
-    } else {
-      alert(`Accediendo a documento digital: ${doc.title}`);
-    }
+    setIsPdfModalOpen(true);
   };
 
   const setDocTab = (docId: string, tab: 'sinopsis' | 'capitulos' | 'autores' | 'ficha') => {
@@ -56,6 +51,8 @@ export default function ArchivosDigitales() {
       setExpandedDocId(docId);
     }
   };
+
+  const mainDoc = digitalDocs[0];
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
@@ -387,7 +384,7 @@ export default function ArchivosDigitales() {
 
                           <div>
                             <span className="font-bold text-verde-profundo block mb-0.5">Disponibilidad:</span>
-                            <p className="text-emerald-800 font-bold">Disponible para consulta digital y descarga PDF</p>
+                            <p className="text-emerald-800 font-bold">Disponible para consulta digital y lectura en línea</p>
                           </div>
                         </div>
 
@@ -453,6 +450,16 @@ export default function ArchivosDigitales() {
           );
         })}
       </div>
+
+      {/* Visor de PDF Integrado en la Aplicación Web (Sin Salir a Google Drive) */}
+      <PdfViewerModal
+        isOpen={isPdfModalOpen}
+        onClose={() => setIsPdfModalOpen(false)}
+        title={mainDoc.title}
+        previewUrl={mainDoc.previewUrl || 'https://drive.google.com/file/d/1k0QgJfFs3E65ASuHA7_lI5ZA8lAk_RlK/preview'}
+        driveUrl={mainDoc.driveUrl}
+        viewsCount={mainDoc.viewsCount}
+      />
 
     </div>
   );

@@ -105,10 +105,10 @@ export default function Footer() {
                   title="Mapa Casa de la Memoria Cumbal"
                   src="https://www.openstreetmap.org/export/embed.html?bbox=-77.8020%2C0.9030%2C-77.7870%2C0.9160&layer=mapnik&marker=0.9094288%2C-77.7946997"
                   width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
+                  height="145%"
+                  style={{ border: 0, marginTop: '-2px' }}
                   loading="lazy"
-                  className="w-full h-full grayscale-[15%] contrast-[105%] group-hover:grayscale-0 transition-all duration-300"
+                  className="w-full grayscale-[15%] contrast-[105%] group-hover:grayscale-0 transition-all duration-300"
                 />
               </div>
               <div className="flex items-center justify-between text-xs font-sans pt-0.5">
