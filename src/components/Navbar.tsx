@@ -24,8 +24,8 @@ const navLinks: { name: string; key: SectionType; path: string; dropdown?: { nam
     key: 'centro-documentacion',
     path: '/centro-documentacion',
     dropdown: [
-      { name: 'Biblioteca especializada de pueblos indígenas', path: '/centro-documentacion' },
-      { name: 'Archivo de Memoria Audiovisual', path: '/centro-documentacion' },
+      { name: 'Biblioteca especializada de pueblos indígenas', path: '/centro-documentacion/biblioteca' },
+      { name: 'Archivo de Memoria Audiovisual', path: '/centro-documentacion/audiovisual' },
       { name: 'Archivos digitales', path: '/centro-documentacion/archivos-digitales' }
     ]
   },
@@ -95,10 +95,6 @@ export default function Navbar() {
     setOpenDropdown(null);
     setExpandedMobileMenu(null);
     setIsOpen(false);
-
-    if (subItemName !== 'Archivos digitales') {
-      setDevModalItem(subItemName);
-    }
   };
 
   const toggleMobileDropdown = (linkName: string) => {

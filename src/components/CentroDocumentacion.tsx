@@ -18,8 +18,30 @@ export default function CentroDocumentacion({ initialTab = 'archivos-digitales' 
   const [devModalItem, setDevModalItem] = useState<string | null>(null);
 
   useEffect(() => {
-    setActiveTab(initialTab);
+    if (typeof window !== 'undefined') {
+      const path = window.location.pathname;
+      if (path.includes('/biblioteca')) {
+        setActiveTab('biblioteca');
+      } else if (path.includes('/audiovisual')) {
+        setActiveTab('audiovisual');
+      } else if (path.includes('/archivos-digitales')) {
+        setActiveTab('archivos-digitales');
+      } else if (initialTab) {
+        setActiveTab(initialTab);
+      }
+    }
   }, [initialTab]);
+
+  const handleTabChange = (tab: CentroTab) => {
+    setActiveTab(tab);
+    if (typeof window !== 'undefined') {
+      let path = '/centro-documentacion';
+      if (tab === 'archivos-digitales') path = '/centro-documentacion/archivos-digitales';
+      if (tab === 'audiovisual') path = '/centro-documentacion/audiovisual';
+      if (tab === 'biblioteca') path = '/centro-documentacion/biblioteca';
+      window.history.pushState(null, '', path);
+    }
+  };
 
   return (
     <section id="centro-documentacion" className="py-20 sm:py-24 bg-crema-dark text-cafe relative overflow-hidden">
@@ -62,7 +84,7 @@ export default function CentroDocumentacion({ initialTab = 'archivos-digitales' 
             
             {/* Pestaña: Archivos Digitales */}
             <button
-              onClick={() => setActiveTab('archivos-digitales')}
+              onClick={() => handleTabChange('archivos-digitales')}
               className={`
                 flex items-center space-x-2.5 px-5 py-3 rounded-xl font-bold text-xs sm:text-sm tracking-wide transition-all whitespace-nowrap
                 ${activeTab === 'archivos-digitales' 
@@ -78,7 +100,7 @@ export default function CentroDocumentacion({ initialTab = 'archivos-digitales' 
 
             {/* Pestaña: Archivo Audiovisual */}
             <button
-              onClick={() => setActiveTab('audiovisual')}
+              onClick={() => handleTabChange('audiovisual')}
               className={`
                 flex items-center space-x-2.5 px-5 py-3 rounded-xl font-bold text-xs sm:text-sm tracking-wide transition-all whitespace-nowrap
                 ${activeTab === 'audiovisual' 
@@ -93,7 +115,7 @@ export default function CentroDocumentacion({ initialTab = 'archivos-digitales' 
 
             {/* Pestaña: Biblioteca Especializada */}
             <button
-              onClick={() => setActiveTab('biblioteca')}
+              onClick={() => handleTabChange('biblioteca')}
               className={`
                 flex items-center space-x-2.5 px-5 py-3 rounded-xl font-bold text-xs sm:text-sm tracking-wide transition-all whitespace-nowrap
                 ${activeTab === 'biblioteca' 
@@ -104,6 +126,7 @@ export default function CentroDocumentacion({ initialTab = 'archivos-digitales' 
             >
               <Library size={18} className={activeTab === 'biblioteca' ? 'text-mostaza' : 'text-terracota'} />
               <span>Biblioteca Especializada</span>
+              <span className="ml-1 bg-mostaza-dark text-verde-profundo text-[10px] px-2 py-0.5 rounded-full font-mono font-bold">45</span>
             </button>
 
           </div>
