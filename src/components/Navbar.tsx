@@ -7,29 +7,29 @@ import { useAuth, SectionType } from '@/context/AuthContext';
 import { Button, Badge } from '@/components/design-system';
 import InDevelopmentModal from '@/components/InDevelopmentModal';
 
-const navLinks: { name: string; key: SectionType; href: string; dropdown?: { name: string; href: string }[] }[] = [
-  { name: 'Inicio', key: 'inicio', href: '#' },
-  { name: 'Nosotros', key: 'sobre-el-proceso', href: '#' },
+const navLinks: { name: string; key: SectionType; path: string; dropdown?: { name: string; path: string }[] }[] = [
+  { name: 'Inicio', key: 'inicio', path: '/' },
+  { name: 'Nosotros', key: 'sobre-el-proceso', path: '/nosotros' },
   {
     name: 'Tejidos de formación',
     key: 'convocatoria',
-    href: '#',
+    path: '/tejidos-de-formacion',
     dropdown: [
-      { name: 'Escuela de formación renacientes del gran Cumbal', href: '#' },
-      { name: 'Seminario en comunicación comunitaria', href: '#' }
+      { name: 'Escuela de formación renacientes del gran Cumbal', path: '/tejidos-de-formacion' },
+      { name: 'Seminario en comunicación comunitaria', path: '/tejidos-de-formacion' }
     ]
   },
   {
     name: 'Centro de documentación CMGC',
     key: 'centro-documentacion',
-    href: '#',
+    path: '/centro-documentacion',
     dropdown: [
-      { name: 'Biblioteca especializada de pueblos indígenas', href: '#' },
-      { name: 'Archivo de Memoria Audiovisual', href: '#' },
-      { name: 'Archivos digitales', href: '#' }
+      { name: 'Biblioteca especializada de pueblos indígenas', path: '/centro-documentacion' },
+      { name: 'Archivo de Memoria Audiovisual', path: '/centro-documentacion' },
+      { name: 'Archivos digitales', path: '/centro-documentacion/archivos-digitales' }
     ]
   },
-  { name: 'Contacto', key: 'inicio', href: '#contacto' },
+  { name: 'Contacto', key: 'inicio', path: '/contacto' },
 ];
 
 export default function Navbar() {
@@ -40,16 +40,22 @@ export default function Navbar() {
   const [devModalItem, setDevModalItem] = useState<string | null>(null);
 
   const { 
-    user, isLoggedIn, openLoginModal, /* openKioskModal, */
+    user, isLoggedIn, openLoginModal,
     logout, activeView, setActiveView, activeSection, setActiveSection 
   } = useAuth();
 
-  const handleNavClick = (sectionKey: SectionType, href?: string) => {
+  const handleNavClick = (sectionKey: SectionType, path: string = '/') => {
     setActiveSection(sectionKey);
     if (activeView === 'admin') {
       setActiveView('public');
     }
-    if (href === '#contacto') {
+    
+    // Actualizar URL limpia con barra diagonal /
+    if (typeof window !== 'undefined') {
+      window.history.pushState(null, '', path);
+    }
+
+    if (path === '/contacto') {
       const footerEl = document.getElementById('contacto');
       if (footerEl) {
         footerEl.scrollIntoView({ behavior: 'smooth' });
@@ -70,6 +76,9 @@ export default function Navbar() {
     if (activeView === 'admin') {
       setActiveView('public');
     }
+    if (typeof window !== 'undefined') {
+      window.history.pushState(null, '', '/');
+    }
     setIsOpen(false);
     setTimeout(() => {
       const heroBodyEl = document.getElementById('inicio-presentacion');
@@ -81,11 +90,12 @@ export default function Navbar() {
     }, 50);
   };
 
-  const handleSubItemClick = (sectionKey: SectionType, subItemName: string) => {
-    handleNavClick(sectionKey);
+  const handleSubItemClick = (sectionKey: SectionType, subItemName: string, path: string) => {
+    handleNavClick(sectionKey, path);
     setOpenDropdown(null);
     setExpandedMobileMenu(null);
     setIsOpen(false);
+
     if (subItemName !== 'Archivos digitales') {
       setDevModalItem(subItemName);
     }
@@ -112,9 +122,8 @@ export default function Navbar() {
             <div className="flex items-center">
               <button 
                 onClick={handleLogoClick}
-                className="flex-shrink-0 flex items-center space-x-3 group text-left focus:outline-none"
+                className="flex-shrink-0 flex items-center space-x-3 group text-left focus:outline-none cursor-pointer"
               >
-                {/* Logo compacto con contorno iluminado en #a69cac */}
                 <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border border-[#a69cac]/60 hover:border-[#a69cac] bg-crema flex items-center justify-center shadow-md group-hover:scale-105 group-hover:shadow-[0_0_12px_rgba(166,156,172,0.6)] transition-all shrink-0">
                   <Image
                     src="/images/hero-logo.png"
@@ -125,7 +134,6 @@ export default function Navbar() {
                     priority
                   />
                 </div>
-                {/* Solo texto 'Casa de la Memoria' */}
                 <div className="hidden sm:block">
                   <span className="font-serif font-bold text-xl tracking-wide block leading-none">
                     Casa de la Memoria
@@ -137,7 +145,7 @@ export default function Navbar() {
             {/* Desktop Navigation Links */}
             <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
               {navLinks.map((link) => {
-                const isActive = activeSection === link.key && activeView === 'public' && link.href !== '#contacto';
+                const isActive = activeSection === link.key && activeView === 'public' && link.path !== '/contacto';
                 const isDropdownOpen = openDropdown === link.name;
 
                 return (
@@ -150,9 +158,9 @@ export default function Navbar() {
                     {link.dropdown ? (
                       <div className="relative flex items-center">
                         <button
-                          onClick={() => handleNavClick(link.key)}
+                          onClick={() => handleNavClick(link.key, link.path)}
                           className={`
-                            flex items-center space-x-1 transition-colors duration-300 font-medium text-xs lg:text-sm tracking-wide py-2 px-1 rounded-md
+                            flex items-center space-x-1 transition-colors duration-300 font-medium text-xs lg:text-sm tracking-wide py-2 px-1 rounded-md cursor-pointer
                             ${isActive ? 'text-[#a69cac] font-bold border-b-2 border-[#a69cac]' : 'hover:text-[#a69cac]'}
                           `}
                         >
@@ -166,8 +174,8 @@ export default function Navbar() {
                             {link.dropdown.map((item) => (
                               <button
                                 key={item.name}
-                                onClick={() => handleSubItemClick(link.key, item.name)}
-                                className="w-full text-left px-4 py-2.5 hover:bg-crema-dark hover:text-terracota transition-colors text-xs font-semibold leading-snug flex items-center justify-between group/sub"
+                                onClick={() => handleSubItemClick(link.key, item.name, item.path)}
+                                className="w-full text-left px-4 py-2.5 hover:bg-crema-dark hover:text-terracota transition-colors text-xs font-semibold leading-snug flex items-center justify-between group/sub cursor-pointer"
                               >
                                 <span>{item.name}</span>
                                 <span className="text-[10px] text-[#a69cac] group-hover/sub:text-terracota">↗</span>
@@ -178,9 +186,9 @@ export default function Navbar() {
                       </div>
                     ) : (
                       <button
-                        onClick={() => handleNavClick(link.key, link.href)}
+                        onClick={() => handleNavClick(link.key, link.path)}
                         className={`
-                          transition-colors duration-300 font-medium text-xs lg:text-sm tracking-wide py-1 px-1 rounded-md
+                          transition-colors duration-300 font-medium text-xs lg:text-sm tracking-wide py-1 px-1 rounded-md cursor-pointer
                           ${isActive ? 'text-[#a69cac] font-bold border-b-2 border-[#a69cac]' : 'hover:text-[#a69cac]'}
                         `}
                       >
@@ -218,7 +226,7 @@ export default function Navbar() {
                   <div className="relative">
                     <button
                       onClick={() => setIsProfileOpen(!isProfileOpen)}
-                      className="flex items-center space-x-2 bg-terracota/30 hover:bg-terracota/50 p-1.5 pr-3 rounded-full transition-all duration-300 border border-crema/30"
+                      className="flex items-center space-x-2 bg-terracota/30 hover:bg-terracota/50 p-1.5 pr-3 rounded-full transition-all duration-300 border border-crema/30 cursor-pointer"
                     >
                       <div className="w-7 h-7 rounded-full bg-terracota flex items-center justify-center text-crema font-bold text-xs">
                         {user?.name?.charAt(0) || 'A'}
@@ -245,7 +253,7 @@ export default function Navbar() {
                             setActiveView('admin');
                             setIsProfileOpen(false);
                           }}
-                          className="w-full text-left px-4 py-2.5 hover:bg-crema-dark hover:text-terracota transition-colors text-sm flex items-center space-x-2 font-medium"
+                          className="w-full text-left px-4 py-2.5 hover:bg-crema-dark hover:text-terracota transition-colors text-sm flex items-center space-x-2 font-medium cursor-pointer"
                         >
                           <ShieldCheck size={16} />
                           <span>Panel Administración</span>
@@ -256,7 +264,7 @@ export default function Navbar() {
                             logout();
                             setIsProfileOpen(false);
                           }}
-                          className="w-full text-left px-4 py-2.5 hover:bg-red-50 text-red-600 transition-colors text-sm flex items-center space-x-2 border-t border-crema-dark font-medium"
+                          className="w-full text-left px-4 py-2.5 hover:bg-red-50 text-red-600 transition-colors text-sm flex items-center space-x-2 border-t border-crema-dark font-medium cursor-pointer"
                         >
                           <LogOut size={16} />
                           <span>Cerrar Sesión</span>
@@ -293,7 +301,7 @@ export default function Navbar() {
 
               <button
                 onClick={handleMobileMenuToggle}
-                className="text-crema hover:text-[#a69cac] focus:outline-none p-1"
+                className="text-crema hover:text-[#a69cac] focus:outline-none p-1 cursor-pointer"
                 aria-label="Abrir menú de navegación"
               >
                 {isOpen ? <X size={26} /> : <Menu size={26} />}
@@ -308,7 +316,7 @@ export default function Navbar() {
             <div className="px-3 pt-2 pb-4 space-y-1.5">
               {navLinks.map((link) => {
                 const isMobileExpanded = expandedMobileMenu === link.name;
-                const isActive = activeSection === link.key && activeView === 'public' && link.href !== '#contacto';
+                const isActive = activeSection === link.key && activeView === 'public' && link.path !== '/contacto';
 
                 return (
                   <div key={link.name} className="space-y-1">
@@ -316,7 +324,7 @@ export default function Navbar() {
                       <button
                         onClick={() => toggleMobileDropdown(link.name)}
                         className={`
-                          w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors text-crema flex items-center justify-between
+                          w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors text-crema flex items-center justify-between cursor-pointer
                           ${isActive ? 'bg-terracota/30 text-[#a69cac] font-bold' : 'hover:bg-terracota/20'}
                         `}
                       >
@@ -329,11 +337,11 @@ export default function Navbar() {
                     ) : (
                       <button
                         onClick={() => {
-                          handleNavClick(link.key, link.href);
+                          handleNavClick(link.key, link.path);
                           setIsOpen(false);
                         }}
                         className={`
-                          w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors text-crema block
+                          w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors text-crema block cursor-pointer
                           ${isActive ? 'bg-terracota/30 text-[#a69cac] font-bold' : 'hover:bg-terracota/20'}
                         `}
                       >
@@ -347,8 +355,8 @@ export default function Navbar() {
                         {link.dropdown.map((subItem) => (
                           <button
                             key={subItem.name}
-                            onClick={() => handleSubItemClick(link.key, subItem.name)}
-                            className="w-full text-left px-3 py-2 text-xs text-crema/90 hover:bg-terracota/40 hover:text-[#a69cac] rounded-md block font-medium transition-colors flex items-center justify-between"
+                            onClick={() => handleSubItemClick(link.key, subItem.name, subItem.path)}
+                            className="w-full text-left px-3 py-2 text-xs text-crema/90 hover:bg-terracota/40 hover:text-[#a69cac] rounded-md block font-medium transition-colors flex items-center justify-between cursor-pointer"
                           >
                             <span>{subItem.name}</span>
                             <span className="text-[10px] text-[#a69cac]">↗</span>
@@ -370,7 +378,7 @@ export default function Navbar() {
                       logout();
                       setIsOpen(false);
                     }}
-                    className="w-full text-left px-3 py-2 rounded-lg text-base font-medium flex items-center space-x-3 text-red-300 hover:bg-red-950/40"
+                    className="w-full text-left px-3 py-2 rounded-lg text-base font-medium flex items-center space-x-3 text-red-300 hover:bg-red-950/40 cursor-pointer"
                   >
                     <LogOut size={20} />
                     <span>Cerrar Sesión</span>
@@ -382,7 +390,7 @@ export default function Navbar() {
         )}
       </nav>
 
-      {/* Modal interactivo de acción en desarrollo */}
+      {/* Modal interactivo para ítems adicionales en desarrollo */}
       <InDevelopmentModal
         isOpen={!!devModalItem}
         onClose={() => setDevModalItem(null)}
