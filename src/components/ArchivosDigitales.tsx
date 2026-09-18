@@ -21,7 +21,7 @@ import {
 import { digitalArchiveData, DigitalDocument } from '@/data/digitalArchiveCatalog';
 import { Badge, Button } from '@/components/design-system';
 import { useAuth } from '@/context/AuthContext';
-import PdfViewerModal from '@/components/PdfViewerModal';
+import FlipbookModal from '@/components/FlipbookModal';
 
 export default function ArchivosDigitales() {
   const [digitalDocs, setDigitalDocs] = useState<DigitalDocument[]>(digitalArchiveData);
@@ -29,7 +29,7 @@ export default function ArchivosDigitales() {
     dig_001: 'sinopsis'
   });
   const [expandedDocId, setExpandedDocId] = useState<string | null>('dig_001');
-  const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
+  const [isFlipbookOpen, setIsFlipbookOpen] = useState(false);
 
   const { openKioskModal } = useAuth();
 
@@ -42,7 +42,7 @@ export default function ArchivosDigitales() {
     setDigitalDocs(prevDocs => 
       prevDocs.map(d => d.id === doc.id ? { ...d, viewsCount: d.viewsCount + 1 } : d)
     );
-    setIsPdfModalOpen(true);
+    setIsFlipbookOpen(true);
   };
 
   const setDocTab = (docId: string, tab: 'sinopsis' | 'capitulos' | 'autores' | 'ficha') => {
@@ -384,7 +384,7 @@ export default function ArchivosDigitales() {
 
                           <div>
                             <span className="font-bold text-verde-profundo block mb-0.5">Disponibilidad:</span>
-                            <p className="text-emerald-800 font-bold">Disponible para consulta digital y lectura en línea</p>
+                            <p className="text-emerald-800 font-bold">Disponible para consulta digital y lectura Flipbook en línea</p>
                           </div>
                         </div>
 
@@ -407,7 +407,7 @@ export default function ArchivosDigitales() {
                   </div>
                 )}
 
-                {/* Acciones Principales: Leer Documento PDF & Consulta en Kiosco Modal */}
+                {/* Acciones Principales: Leer Documento en Flipbook & Consulta en Kiosco Modal */}
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 border-t border-crema-dark/60">
                   
                   {/* Toggle Ver Más / Ver Menos */}
@@ -426,7 +426,7 @@ export default function ArchivosDigitales() {
                       size="md"
                       onClick={openKioskModal}
                       leftIcon={<Search size={16} />}
-                      className="w-full sm:w-auto px-5 py-2.5 font-semibold text-xs"
+                      className="w-full sm:w-auto px-5 py-2.5 font-semibold text-xs cursor-pointer"
                     >
                       Abrir Consulta Pública
                     </Button>
@@ -437,9 +437,9 @@ export default function ArchivosDigitales() {
                       onClick={() => handleReadDocument(doc)}
                       leftIcon={<BookOpen size={18} />}
                       rightIcon={<ExternalLink size={16} className="opacity-75" />}
-                      className="w-full sm:w-auto px-6 py-3 font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all"
+                      className="w-full sm:w-auto px-6 py-3 font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
                     >
-                      Leer Documento PDF
+                      Leer en Visor Flipbook (Univalle Style)
                     </Button>
                   </div>
 
@@ -451,14 +451,17 @@ export default function ArchivosDigitales() {
         })}
       </div>
 
-      {/* Visor de PDF Integrado en la Aplicación Web (Sin Salir a Google Drive) */}
-      <PdfViewerModal
-        isOpen={isPdfModalOpen}
-        onClose={() => setIsPdfModalOpen(false)}
+      {/* Visor Flipbook Interactivo Integrado Estilo Biblioteca Digital Univalle */}
+      <FlipbookModal
+        isOpen={isFlipbookOpen}
+        onClose={() => setIsFlipbookOpen(false)}
         title={mainDoc.title}
-        previewUrl={mainDoc.previewUrl || 'https://drive.google.com/file/d/1k0QgJfFs3E65ASuHA7_lI5ZA8lAk_RlK/preview'}
-        driveUrl={mainDoc.driveUrl}
+        author={mainDoc.author}
+        publisher={mainDoc.publisher}
+        pdfUrl={mainDoc.pdfUrl}
+        drivePreviewUrl={mainDoc.previewUrl || 'https://drive.google.com/file/d/1k0QgJfFs3E65ASuHA7_lI5ZA8lAk_RlK/preview'}
         viewsCount={mainDoc.viewsCount}
+        chapters={mainDoc.chapters}
       />
 
     </div>
