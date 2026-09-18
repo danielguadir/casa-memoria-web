@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Film, PenTool, MapPin, Clock, ExternalLink, FileText, Library, Sparkles } from 'lucide-react';
+import { Film, PenTool, MapPin, Clock, ExternalLink, FileText, Library } from 'lucide-react';
 import Image from 'next/image';
 import ArchivosDigitales from '@/components/ArchivosDigitales';
+import BibliotecaEspecializada from '@/components/BibliotecaEspecializada';
 import InDevelopmentModal from '@/components/InDevelopmentModal';
 
 export type CentroTab = 'archivos-digitales' | 'audiovisual' | 'biblioteca';
@@ -198,23 +199,7 @@ export default function CentroDocumentacion({ initialTab = 'archivos-digitales' 
 
         {/* CONTENIDO 3: BIBLIOTECA ESPECIALIZADA */}
         {activeTab === 'biblioteca' && (
-          <div className="max-w-4xl mx-auto bg-crema/95 backdrop-blur-md rounded-3xl p-8 lg:p-12 shadow-xl border border-crema-dark text-center space-y-6 animate-in fade-in duration-300">
-            <div className="w-16 h-16 bg-mostaza/20 rounded-full flex items-center justify-center text-mostaza mx-auto border-2 border-mostaza">
-              <Sparkles className="w-8 h-8 text-terracota animate-pulse" />
-            </div>
-            <h3 className="font-serif font-bold text-3xl text-verde-profundo">
-              Biblioteca Especializada de Pueblos Indígenas
-            </h3>
-            <p className="text-cafe/80 text-sm max-w-xl mx-auto leading-relaxed">
-              Catálogo físico e índice bibliográfico especializado en los Pueblos Indígenas del sur de Colombia y la región Andina.
-            </p>
-            <button
-              onClick={() => setDevModalItem('Biblioteca especializada de pueblos indígenas')}
-              className="px-6 py-3 bg-verde-profundo text-crema font-bold text-xs uppercase tracking-wider rounded-xl hover:bg-terracota transition-colors shadow-md"
-            >
-              Consultar Índice Físico (En desarrollo)
-            </button>
-          </div>
+          <BibliotecaEspecializada />
         )}
 
       </div>
