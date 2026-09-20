@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import LoginModal from '@/components/LoginModal';
 import PublicKioskWrapper from '@/components/kiosk/PublicKioskWrapper';
+import AnimatedMemoryLogo from '@/components/AnimatedMemoryLogo';
 import { AuthProvider } from '@/context/AuthContext';
 import { SiteSettingsProvider } from '@/context/SiteSettingsContext';
 
@@ -30,6 +31,7 @@ export default function RootLayout({
             <Navbar />
             <LoginModal />
             <PublicKioskWrapper />
+            <AnimatedMemoryLogo />
             <main className="flex-grow">
               {children}
             </main>
