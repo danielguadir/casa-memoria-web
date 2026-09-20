@@ -1,11 +1,11 @@
 'use client';
 
-import Image from 'next/image';
 import { Menu, X, LogOut, ChevronDown, ShieldCheck, LayoutDashboard, LogIn } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth, SectionType } from '@/context/AuthContext';
 import { Button, Badge } from '@/components/design-system';
 import InDevelopmentModal from '@/components/InDevelopmentModal';
+import BrandIdentity from '@/components/BrandIdentity';
 
 const navLinks: { name: string; key: SectionType; path: string; dropdown?: { name: string; path: string }[] }[] = [
   { name: 'Inicio', key: 'inicio', path: '/' },
@@ -116,26 +116,7 @@ export default function Navbar() {
             
             {/* Logo & Brand Name */}
             <div className="flex items-center">
-              <button 
-                onClick={handleLogoClick}
-                className="flex-shrink-0 flex items-center space-x-3 group text-left focus:outline-none cursor-pointer"
-              >
-                <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border border-[#a69cac]/60 hover:border-[#a69cac] bg-crema flex items-center justify-center shadow-md group-hover:scale-105 group-hover:shadow-[0_0_12px_rgba(166,156,172,0.6)] transition-all shrink-0">
-                  <Image
-                    src="/images/hero-logo.png"
-                    alt="Logo Casa de la Memoria"
-                    width={44}
-                    height={44}
-                    className="w-full h-full object-cover p-0"
-                    priority
-                  />
-                </div>
-                <div className="hidden sm:block">
-                  <span className="font-serif font-bold text-xl tracking-wide block leading-none">
-                    Casa de la Memoria
-                  </span>
-                </div>
-              </button>
+              <BrandIdentity onLogoClick={handleLogoClick} />
             </div>
 
             {/* Desktop Navigation Links */}
