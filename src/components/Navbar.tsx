@@ -137,7 +137,7 @@ export default function Navbar() {
                         <button
                           onClick={() => handleNavClick(link.key, link.path)}
                           className={`
-                            flex items-center space-x-1 transition-colors duration-300 font-oswald font-medium text-xs lg:text-sm tracking-[1.2px] uppercase py-2 px-1 rounded-md cursor-pointer
+                            flex items-center space-x-1 transition-colors duration-300 font-medium text-xs lg:text-sm tracking-wide py-2 px-1 rounded-md cursor-pointer
                             ${isActive ? 'text-[#a69cac] font-bold border-b-2 border-[#a69cac]' : 'hover:text-[#a69cac]'}
                           `}
                         >
@@ -152,7 +152,7 @@ export default function Navbar() {
                               <button
                                 key={item.name}
                                 onClick={() => handleSubItemClick(link.key, item.name, item.path)}
-                                className="w-full text-left px-4 py-2.5 hover:bg-crema-dark hover:text-terracota transition-colors font-oswald font-medium text-xs tracking-wider uppercase leading-snug flex items-center justify-between group/sub cursor-pointer"
+                                className="w-full text-left px-4 py-2.5 hover:bg-crema-dark hover:text-terracota transition-colors text-xs font-semibold leading-snug flex items-center justify-between group/sub cursor-pointer"
                               >
                                 <span>{item.name}</span>
                                 <span className="text-[10px] text-[#a69cac] group-hover/sub:text-terracota">↗</span>
@@ -165,7 +165,7 @@ export default function Navbar() {
                       <button
                         onClick={() => handleNavClick(link.key, link.path)}
                         className={`
-                          transition-colors duration-300 font-oswald font-medium text-xs lg:text-sm tracking-[1.2px] uppercase py-1 px-1 rounded-md cursor-pointer
+                          transition-colors duration-300 font-medium text-xs lg:text-sm tracking-wide py-1 px-1 rounded-md cursor-pointer
                           ${isActive ? 'text-[#a69cac] font-bold border-b-2 border-[#a69cac]' : 'hover:text-[#a69cac]'}
                         `}
                       >
@@ -301,7 +301,7 @@ export default function Navbar() {
                       <button
                         onClick={() => toggleMobileDropdown(link.name)}
                         className={`
-                          w-full text-left px-3.5 py-2.5 rounded-lg font-oswald font-medium text-sm tracking-wider uppercase transition-colors text-crema flex items-center justify-between cursor-pointer
+                          w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors text-crema flex items-center justify-between cursor-pointer
                           ${isActive ? 'bg-terracota/30 text-[#a69cac] font-bold' : 'hover:bg-terracota/20'}
                         `}
                       >
@@ -318,7 +318,7 @@ export default function Navbar() {
                           setIsOpen(false);
                         }}
                         className={`
-                          w-full text-left px-3.5 py-2.5 rounded-lg font-oswald font-medium text-sm tracking-wider uppercase transition-colors text-crema block cursor-pointer
+                          w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors text-crema block cursor-pointer
                           ${isActive ? 'bg-terracota/30 text-[#a69cac] font-bold' : 'hover:bg-terracota/20'}
                         `}
                       >
@@ -333,7 +333,7 @@ export default function Navbar() {
                           <button
                             key={subItem.name}
                             onClick={() => handleSubItemClick(link.key, subItem.name, subItem.path)}
-                            className="w-full text-left px-3 py-2 font-oswald font-medium text-xs tracking-wider uppercase text-crema/90 hover:bg-terracota/40 hover:text-[#a69cac] rounded-md block transition-colors flex items-center justify-between cursor-pointer"
+                            className="w-full text-left px-3 py-2 text-xs text-crema/90 hover:bg-terracota/40 hover:text-[#a69cac] rounded-md block font-medium transition-colors flex items-center justify-between cursor-pointer"
                           >
                             <span>{subItem.name}</span>
                             <span className="text-[10px] text-[#a69cac]">↗</span>
