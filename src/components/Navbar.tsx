@@ -111,15 +111,13 @@ export default function Navbar() {
   return (
     <>
       <nav className="bg-verde-profundo text-crema sticky top-0 z-50 shadow-md border-b-2 border-[#a69cac]">
-        {/* Superior Social Bar (Estilo portal oficial Mincultura) */}
+        {/* Superior Social Bar (Solo redes sociales) */}
         <div className="hidden sm:block border-b border-crema/10 bg-black/15 py-1 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto flex justify-between items-center text-xs">
-            <span className="text-[11px] text-crema/70 font-medium tracking-wide">
-              República de Colombia • Casa de la Memoria Cumbal
-            </span>
-            <SocialHeaderBar variant="header" showSiteMap={true} />
+          <div className="max-w-7xl mx-auto flex justify-end items-center">
+            <SocialHeaderBar variant="header" />
           </div>
         </div>
+
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20">
@@ -376,8 +374,9 @@ export default function Navbar() {
               {/* Redes Sociales en vista móvil */}
               <div className="border-t border-crema/10 mt-3 pt-3 px-2 flex flex-col items-center space-y-2">
                 <p className="text-[11px] text-[#a69cac] font-semibold uppercase tracking-wider">Redes Sociales</p>
-                <SocialHeaderBar variant="mobile" showSiteMap={true} className="justify-center" />
+                <SocialHeaderBar variant="mobile" className="justify-center" />
               </div>
+
             </div>
           </div>
         )}
