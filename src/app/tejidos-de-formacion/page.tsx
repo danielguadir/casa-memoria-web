@@ -1,13 +1,12 @@
 'use client';
 
-import Home from '@/app/page';
-import { useEffect } from 'react';
+import Convocatoria from '@/components/Convocatoria';
 
 export default function TejidosPage() {
-  useEffect(() => {
-    const el = document.getElementById('convocatoria');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  }, []);
-
-  return <Home />;
+  return (
+    <div className="animate-in fade-in duration-300">
+      <Convocatoria />
+    </div>
+  );
 }
+

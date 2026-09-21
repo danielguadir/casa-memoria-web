@@ -1,9 +1,6 @@
 'use client';
 
 import Hero from '@/components/Hero';
-import SobreProceso from '@/components/SobreProceso';
-import Convocatoria from '@/components/Convocatoria';
-import CentroDocumentacion from '@/components/CentroDocumentacion';
 import AdminDashboard from '@/components/admin/AdminDashboard';
 import { useAuth } from '@/context/AuthContext';
 
@@ -21,9 +18,7 @@ export default function Home() {
   return (
     <div className="animate-in fade-in duration-300 space-y-0">
       <Hero />
-      <SobreProceso />
-      <Convocatoria />
-      <CentroDocumentacion />
     </div>
   );
 }
+

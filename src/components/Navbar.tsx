@@ -2,6 +2,7 @@
 
 import { Menu, X, LogOut, ChevronDown, ShieldCheck, LayoutDashboard, LogIn } from 'lucide-react';
 import { useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuth, SectionType } from '@/context/AuthContext';
 import { Button, Badge } from '@/components/design-system';
 import InDevelopmentModal from '@/components/InDevelopmentModal';
@@ -33,6 +34,9 @@ const navLinks: { name: string; key: SectionType; path: string; dropdown?: { nam
 ];
 
 export default function Navbar() {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -41,7 +45,7 @@ export default function Navbar() {
 
   const { 
     user, isLoggedIn, openLoginModal,
-    logout, activeView, setActiveView, activeSection, setActiveSection 
+    logout, activeView, setActiveView, setActiveSection 
   } = useAuth();
 
   const handleNavClick = (sectionKey: SectionType, path: string = '/') => {
@@ -49,23 +53,17 @@ export default function Navbar() {
     if (activeView === 'admin') {
       setActiveView('public');
     }
-    
-    // Actualizar URL limpia con barra diagonal /
-    if (typeof window !== 'undefined') {
-      window.history.pushState(null, '', path);
-    }
 
     if (path === '/contacto') {
       const footerEl = document.getElementById('contacto');
       if (footerEl) {
         footerEl.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        router.push('/#contacto');
       }
     } else {
-      const elementId = sectionKey === 'inicio' ? 'inicio' : sectionKey;
-      const el = document.getElementById(elementId);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      } else {
+      router.push(path);
+      if (typeof window !== 'undefined') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
@@ -76,19 +74,20 @@ export default function Navbar() {
     if (activeView === 'admin') {
       setActiveView('public');
     }
-    if (typeof window !== 'undefined') {
-      window.history.pushState(null, '', '/');
-    }
+    router.push('/');
     setIsOpen(false);
-    setTimeout(() => {
-      const heroBodyEl = document.getElementById('inicio-presentacion');
-      if (heroBodyEl) {
-        heroBodyEl.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }, 50);
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
+
+  const isLinkActive = (linkPath: string) => {
+    if (activeView !== 'public') return false;
+    if (linkPath === '/contacto') return false;
+    if (linkPath === '/') return pathname === '/';
+    return pathname === linkPath || pathname.startsWith(linkPath + '/');
+  };
+
 
   const handleSubItemClick = (sectionKey: SectionType, subItemName: string, path: string) => {
     handleNavClick(sectionKey, path);
@@ -122,7 +121,7 @@ export default function Navbar() {
             {/* Desktop Navigation Links */}
             <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
               {navLinks.map((link) => {
-                const isActive = activeSection === link.key && activeView === 'public' && link.path !== '/contacto';
+                const isActive = isLinkActive(link.path);
                 const isDropdownOpen = openDropdown === link.name;
 
                 return (
@@ -293,7 +292,7 @@ export default function Navbar() {
             <div className="px-3 pt-2 pb-4 space-y-1.5">
               {navLinks.map((link) => {
                 const isMobileExpanded = expandedMobileMenu === link.name;
-                const isActive = activeSection === link.key && activeView === 'public' && link.path !== '/contacto';
+                const isActive = isLinkActive(link.path);
 
                 return (
                   <div key={link.name} className="space-y-1">

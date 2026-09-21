@@ -1,13 +1,12 @@
 'use client';
 
-import Home from '@/app/page';
-import { useEffect } from 'react';
+import CentroDocumentacion from '@/components/CentroDocumentacion';
 
 export default function ArchivosDigitalesPage() {
-  useEffect(() => {
-    const el = document.getElementById('centro-documentacion');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  }, []);
-
-  return <Home />;
+  return (
+    <div className="animate-in fade-in duration-300">
+      <CentroDocumentacion initialTab="archivos-digitales" />
+    </div>
+  );
 }
+
