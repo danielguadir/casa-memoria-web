@@ -21,11 +21,11 @@ interface BrandIdentityProps {
 export default function BrandIdentity({ onLogoClick, className = '' }: BrandIdentityProps) {
   const [offset, setOffset] = useState(0);
 
-  // Parámetros derivados para la franja de 7 segmentos SVG sin números mágicos
+  // Parámetros derivados: largo individual de segmento reducido un 50% (de 32 a 16)
   const segmentCount = 7;
-  const segmentWidth = 32;
-  const gap = 4;
-  const totalWidth = segmentCount * segmentWidth + (segmentCount - 1) * gap; // 7 * 32 + 6 * 4 = 248
+  const segmentWidth = 16;
+  const gap = 3.5;
+  const totalWidth = segmentCount * segmentWidth + (segmentCount - 1) * gap; // 7 * 16 + 6 * 3.5 = 133
 
   useEffect(() => {
     // Respect prefers-reduced-motion settings
@@ -72,7 +72,7 @@ export default function BrandIdentity({ onLogoClick, className = '' }: BrandIden
           DEL GRAN CUMBAL
         </div>
 
-        {/* Franja decorativa de 7 segmentos SVG sin deformación por preserveAspectRatio="none" */}
+        {/* Franja decorativa de 7 segmentos SVG con largo individual reducido un 50% */}
         <div className="w-full mt-0.5 sm:mt-1 overflow-hidden">
           <svg
             viewBox={`0 0 ${totalWidth} 4`}
