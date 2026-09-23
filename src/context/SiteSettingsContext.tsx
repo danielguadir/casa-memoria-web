@@ -187,16 +187,16 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
         if (parsed.siteContent) setSiteContent(parsed.siteContent);
         if (parsed.selectedFontId) setSelectedFontId(parsed.selectedFontId);
         
-        // Auto-upgrade legacy theme selections or old green (#1C3F2B) to violeta-ceo
-        if (parsed.selectedThemeId && parsed.selectedThemeId !== 'ancestral' && parsed.selectedThemeId !== 'verde-cumbal') {
+        // Auto-upgrade legacy theme selections or old green/blue to violeta-ceo
+        if (parsed.selectedThemeId && parsed.selectedThemeId !== 'ancestral' && parsed.selectedThemeId !== 'verde-cumbal' && parsed.selectedThemeId !== 'azul-institucional') {
           setSelectedThemeId(parsed.selectedThemeId);
         } else {
           setSelectedThemeId('violeta-ceo');
         }
 
         if (parsed.activeColors) {
-          if (parsed.activeColors.verdeProfundo === '#1C3F2B' || parsed.activeColors.verdeProfundo === '#0F3822') {
-            // Migrar automáticamente dispositivos móviles con caché del color verde antiguo
+          if (parsed.activeColors.verdeProfundo === '#1C3F2B' || parsed.activeColors.verdeProfundo === '#0F3822' || parsed.activeColors.verdeProfundo === '#011D54') {
+            // Limpiar automáticamente caché de colores antiguos o azulosos
             setActiveColors({
               crema: THEME_PRESETS[0].crema,
               cremaDark: THEME_PRESETS[0].cremaDark,
