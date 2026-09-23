@@ -61,7 +61,7 @@ export const socialLinks: SocialLink[] = [
   {
     id: 'whatsapp',
     name: 'WhatsApp',
-    href: 'https://wa.me/573150000000',
+    href: 'https://wa.me/573207282854?text=Un%20saludo%2C%20Casa%20de%20la%20Memoria%20Cumbal',
     ariaLabel: 'Contactar por WhatsApp a Casa de la Memoria',
     colorClass: 'bg-[#25D366] text-white hover:bg-emerald-600 shadow-sm',
     icon: (
