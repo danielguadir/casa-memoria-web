@@ -21,6 +21,12 @@ interface BrandIdentityProps {
 export default function BrandIdentity({ onLogoClick, className = '' }: BrandIdentityProps) {
   const [offset, setOffset] = useState(0);
 
+  // Parámetros derivados para la franja de 7 segmentos SVG sin números mágicos
+  const segmentCount = 7;
+  const segmentWidth = 32;
+  const gap = 4;
+  const totalWidth = segmentCount * segmentWidth + (segmentCount - 1) * gap; // 7 * 32 + 6 * 4 = 248
+
   useEffect(() => {
     // Respect prefers-reduced-motion settings
     if (typeof window !== 'undefined') {
@@ -29,7 +35,7 @@ export default function BrandIdentity({ onLogoClick, className = '' }: BrandIden
     }
 
     const interval = setInterval(() => {
-      setOffset((prev) => (prev + 1) % 7);
+      setOffset((prev) => (prev + 1) % segmentCount);
     }, 3000);
 
     return () => clearInterval(interval);
@@ -42,7 +48,7 @@ export default function BrandIdentity({ onLogoClick, className = '' }: BrandIden
       className={`flex items-center space-x-2.5 sm:space-x-3.5 group select-none text-left focus:outline-none cursor-pointer ${className}`}
       title="Casa de la Memoria del Gran Cumbal"
     >
-      {/* Símbolo circular Isotipo a la izquierda */}
+      {/* Isotipo circular a la izquierda */}
       <div className="relative w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full overflow-hidden border border-[#a69cac]/60 group-hover:border-[#a69cac] bg-crema flex items-center justify-center shadow-md group-hover:scale-105 group-hover:shadow-[0_0_12px_rgba(166,156,172,0.6)] transition-all shrink-0">
         <Image
           src="/images/hero-logo.png"
@@ -54,39 +60,37 @@ export default function BrandIdentity({ onLogoClick, className = '' }: BrandIden
         />
       </div>
 
-      {/* Contenedor del Texto + Franja Multicolor (Ajustado exactamente al ancho compacto del texto) */}
+      {/* Bloque de Texto Institucional + Franja Multicolor Compacta */}
       <div className="inline-flex flex-col justify-center w-fit">
-        {/* Renglón 1: CASA DE LA MEMORIA (18 caracteres - Ajustado al borde derecho del renglón 2) */}
-        <div className="font-oswald font-medium uppercase text-crema tracking-[1.55px] sm:tracking-[1.8px] leading-[1.05] text-[10.5px] xs:text-[11.5px] sm:text-xs md:text-[13.5px] lg:text-[14.5px] group-hover:text-mostaza transition-colors whitespace-nowrap">
+        {/* Renglón 1: CASA DE LA MEMORIA (Tolerancia natural y tamaño contenido) */}
+        <div className="font-oswald font-medium uppercase text-crema tracking-wide leading-none text-[10.5px] xs:text-[11.5px] sm:text-xs md:text-[13px] lg:text-[14px] group-hover:text-mostaza transition-colors whitespace-nowrap">
           CASA DE LA MEMORIA
         </div>
 
-        {/* Renglón 2: DEL GRAN CUMBAL (15 caracteres - Ajuste de ancho equivalente al renglón 1) */}
-        <div className="font-oswald font-bold uppercase text-crema tracking-[1.7px] sm:tracking-[1.95px] leading-[1.05] text-[11px] xs:text-[12px] sm:text-[13.2px] md:text-[14.5px] lg:text-[15.8px] group-hover:text-mostaza transition-colors whitespace-nowrap mt-0.5">
+        {/* Renglón 2: DEL GRAN CUMBAL (Mayor tamaño y peso para alineación óptica natural) */}
+        <div className="font-oswald font-bold uppercase text-crema tracking-wider leading-none text-[11.5px] xs:text-[12.5px] sm:text-[13.5px] md:text-[15px] lg:text-[16.5px] group-hover:text-mostaza transition-colors whitespace-nowrap mt-0.5 sm:mt-1">
           DEL GRAN CUMBAL
         </div>
 
-        {/* Franja decorativa de 7 segmentos SVG ajustada de forma compacta al ancho del texto */}
-        <div className="w-full mt-1 sm:mt-1.5 overflow-hidden">
+        {/* Franja decorativa de 7 segmentos SVG sin deformación por preserveAspectRatio="none" */}
+        <div className="w-full mt-0.5 sm:mt-1 overflow-hidden">
           <svg
-            viewBox="0 0 269 4"
-            className="w-full h-[3px] sm:h-[4px] block"
-            preserveAspectRatio="none"
+            viewBox={`0 0 ${totalWidth} 4`}
+            className="w-full h-auto block"
+            preserveAspectRatio="xMidYMid meet"
             aria-hidden="true"
           >
-            {Array.from({ length: 7 }).map((_, i) => {
-              const colorIndex = (i - offset + 7) % 7;
+            {Array.from({ length: segmentCount }).map((_, i) => {
+              const colorIndex = (i - offset + segmentCount) % segmentCount;
               const color = SEGMENT_COLORS[colorIndex];
-              const rectWidth = 35;
-              const gap = 3.8;
-              const xPos = i * (rectWidth + gap);
+              const xPos = i * (segmentWidth + gap);
 
               return (
                 <rect
                   key={i}
                   x={xPos}
                   y={0}
-                  width={rectWidth}
+                  width={segmentWidth}
                   height={4}
                   rx={1}
                   fill={color}
