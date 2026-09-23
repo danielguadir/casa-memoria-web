@@ -18,11 +18,11 @@ export const metadata: Metadata = {
   description: 'Centro cultural y Archivo General. Desarrollamos estrategias de salvaguarda y protección de las memorias y el patrimonio cultural del sur de Colombia.',
   icons: {
     icon: [
-      { url: '/images/hero-logo.png', type: 'image/png' },
-      { url: '/icon.png', type: 'image/png' },
+      { url: '/images/hero-logo.png?v=3', type: 'image/png' },
+      { url: '/icon.png?v=3', type: 'image/png' },
     ],
-    shortcut: '/images/hero-logo.png',
-    apple: '/images/hero-logo.png',
+    shortcut: '/images/hero-logo.png?v=3',
+    apple: '/images/hero-logo.png?v=3',
   },
 };
 
@@ -33,6 +33,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={`${inter.variable} ${lora.variable} ${oswald.variable}`}>
+      <head>
+        <link rel="icon" href="/images/hero-logo.png?v=3" type="image/png" sizes="any" />
+        <link rel="shortcut icon" href="/images/hero-logo.png?v=3" type="image/png" />
+        <link rel="apple-touch-icon" href="/images/hero-logo.png?v=3" />
+      </head>
       <body className="flex flex-col min-h-screen bg-crema text-cafe antialiased">
         <SiteSettingsProvider>
           <AuthProvider>
