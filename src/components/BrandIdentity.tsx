@@ -54,22 +54,22 @@ export default function BrandIdentity({ onLogoClick, className = '' }: BrandIden
         />
       </div>
 
-      {/* Contenedor del Texto + Franja Multicolor (Ajustado exactamente al ancho del texto) */}
+      {/* Contenedor del Texto + Franja Multicolor (Ajustado exactamente al ancho compacto del texto) */}
       <div className="inline-flex flex-col justify-center w-fit">
-        {/* Renglón 1: CASA DE LA MEMORIA (18 caracteres - Tamaño ligeramente menor) */}
-        <div className="font-oswald font-medium uppercase text-crema tracking-[1.1px] sm:tracking-[1.3px] leading-[1.05] text-[10px] xs:text-[11px] sm:text-xs md:text-[13px] lg:text-[14px] group-hover:text-mostaza transition-colors whitespace-nowrap">
+        {/* Renglón 1: CASA DE LA MEMORIA (18 caracteres - Ajustado al borde derecho del renglón 2) */}
+        <div className="font-oswald font-medium uppercase text-crema tracking-[1.55px] sm:tracking-[1.8px] leading-[1.05] text-[10.5px] xs:text-[11.5px] sm:text-xs md:text-[13.5px] lg:text-[14.5px] group-hover:text-mostaza transition-colors whitespace-nowrap">
           CASA DE LA MEMORIA
         </div>
 
-        {/* Renglón 2: DEL GRAN CUMBAL (15 caracteres - Tamaño ligeramente mayor para encajar exacto con el de arriba) */}
-        <div className="font-oswald font-bold uppercase text-crema tracking-[1.7px] sm:tracking-[2.0px] leading-[1.05] text-[11px] xs:text-[12px] sm:text-[13.5px] md:text-[14.8px] lg:text-[16px] group-hover:text-mostaza transition-colors whitespace-nowrap mt-0.5">
+        {/* Renglón 2: DEL GRAN CUMBAL (15 caracteres - Ajuste de ancho equivalente al renglón 1) */}
+        <div className="font-oswald font-bold uppercase text-crema tracking-[1.7px] sm:tracking-[1.95px] leading-[1.05] text-[11px] xs:text-[12px] sm:text-[13.2px] md:text-[14.5px] lg:text-[15.8px] group-hover:text-mostaza transition-colors whitespace-nowrap mt-0.5">
           DEL GRAN CUMBAL
         </div>
 
-        {/* Franja decorativa de 7 segmentos SVG ajustada al ancho del texto */}
+        {/* Franja decorativa de 7 segmentos SVG ajustada de forma compacta al ancho del texto */}
         <div className="w-full mt-1 sm:mt-1.5 overflow-hidden">
           <svg
-            viewBox="0 0 280 4"
+            viewBox="0 0 269 4"
             className="w-full h-[3px] sm:h-[4px] block"
             preserveAspectRatio="none"
             aria-hidden="true"
@@ -77,8 +77,8 @@ export default function BrandIdentity({ onLogoClick, className = '' }: BrandIden
             {Array.from({ length: 7 }).map((_, i) => {
               const colorIndex = (i - offset + 7) % 7;
               const color = SEGMENT_COLORS[colorIndex];
-              const rectWidth = 36.5;
-              const gap = 4;
+              const rectWidth = 35;
+              const gap = 3.8;
               const xPos = i * (rectWidth + gap);
 
               return (
