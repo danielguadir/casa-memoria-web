@@ -21,11 +21,11 @@ interface BrandIdentityProps {
 export default function BrandIdentity({ onLogoClick, className = '' }: BrandIdentityProps) {
   const [offset, setOffset] = useState(0);
 
-  // Parámetros derivados: largo individual de segmento reducido un 50% (de 32 a 16)
+  // Parámetros derivados: espesor/grosor vertical reducido al 50% (height 2.5px) para evitar franjas gruesas
   const segmentCount = 7;
-  const segmentWidth = 16;
-  const gap = 3.5;
-  const totalWidth = segmentCount * segmentWidth + (segmentCount - 1) * gap; // 7 * 16 + 6 * 3.5 = 133
+  const segmentWidth = 31.5;
+  const gap = 4;
+  const totalWidth = segmentCount * segmentWidth + (segmentCount - 1) * gap; // 248.5
 
   useEffect(() => {
     // Respect prefers-reduced-motion settings
@@ -60,7 +60,7 @@ export default function BrandIdentity({ onLogoClick, className = '' }: BrandIden
         />
       </div>
 
-      {/* Bloque de Texto Institucional + Franja Multicolor Compacta */}
+      {/* Bloque de Texto Institucional + Franja Multicolor Fina */}
       <div className="inline-flex flex-col justify-center w-fit">
         {/* Renglón 1: CASA DE LA MEMORIA (Tolerancia natural y tamaño contenido) */}
         <div className="font-oswald font-medium uppercase text-crema tracking-wide leading-none text-[10.5px] xs:text-[11.5px] sm:text-xs md:text-[13px] lg:text-[14px] group-hover:text-mostaza transition-colors whitespace-nowrap">
@@ -72,12 +72,12 @@ export default function BrandIdentity({ onLogoClick, className = '' }: BrandIden
           DEL GRAN CUMBAL
         </div>
 
-        {/* Franja decorativa de 7 segmentos SVG con largo individual reducido un 50% */}
-        <div className="w-full mt-0.5 sm:mt-1 overflow-hidden">
+        {/* Franja decorativa de 7 segmentos SVG delgada (espesor reducido un 50% a 2.5px sin estirarse hacia abajo) */}
+        <div className="w-full mt-1 overflow-hidden">
           <svg
-            viewBox={`0 0 ${totalWidth} 4`}
-            className="w-full h-auto block"
-            preserveAspectRatio="xMidYMid meet"
+            viewBox={`0 0 ${totalWidth} 2.5`}
+            className="w-full h-[2.5px] sm:h-[3px] block"
+            preserveAspectRatio="none"
             aria-hidden="true"
           >
             {Array.from({ length: segmentCount }).map((_, i) => {
@@ -91,8 +91,8 @@ export default function BrandIdentity({ onLogoClick, className = '' }: BrandIden
                   x={xPos}
                   y={0}
                   width={segmentWidth}
-                  height={4}
-                  rx={1}
+                  height={2.5}
+                  rx={0.75}
                   fill={color}
                   style={{
                     transition: 'fill 1000ms ease-in-out',
