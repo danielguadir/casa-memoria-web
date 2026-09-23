@@ -16,6 +16,14 @@ const oswald = Oswald({ subsets: ['latin'], weight: ['500', '600'], variable: '-
 export const metadata: Metadata = {
   title: 'Casa de la Memoria Cumbal - Archivo & Salvaguarda',
   description: 'Centro cultural y Archivo General. Desarrollamos estrategias de salvaguarda y protección de las memorias y el patrimonio cultural del sur de Colombia.',
+  icons: {
+    icon: [
+      { url: '/images/hero-logo.png', type: 'image/png' },
+      { url: '/icon.png', type: 'image/png' },
+    ],
+    shortcut: '/images/hero-logo.png',
+    apple: '/images/hero-logo.png',
+  },
 };
 
 export default function RootLayout({
