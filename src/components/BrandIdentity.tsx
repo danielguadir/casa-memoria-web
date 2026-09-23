@@ -43,7 +43,7 @@ export default function BrandIdentity({ onLogoClick, className = '' }: BrandIden
       title="Casa de la Memoria del Gran Cumbal"
     >
       {/* Símbolo circular Isotipo a la izquierda */}
-      <div className="relative w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full overflow-hidden border border-crema/40 group-hover:border-crema bg-crema flex items-center justify-center shadow-md group-hover:scale-105 transition-all shrink-0">
+      <div className="relative w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full overflow-hidden border border-[#a69cac]/60 group-hover:border-[#a69cac] bg-crema flex items-center justify-center shadow-md group-hover:scale-105 group-hover:shadow-[0_0_12px_rgba(166,156,172,0.6)] transition-all shrink-0">
         <Image
           src="/images/hero-logo.png"
           alt="Isotipo Casa de la Memoria del Gran Cumbal"
@@ -54,19 +54,19 @@ export default function BrandIdentity({ onLogoClick, className = '' }: BrandIden
         />
       </div>
 
-      {/* Bloque de Texto Institucional Serif + Franja Multicolor de 7 Segmentos */}
-      <div className="flex flex-col justify-center">
-        {/* Nombre Institucional en 2 renglones con tipografía Serif oficial */}
-        <div className="font-serif tracking-wider uppercase leading-none select-none">
-          <span className="block font-semibold text-crema text-[11px] xs:text-[12px] sm:text-[13px] md:text-[15px] lg:text-[16px] tracking-[0.08em] whitespace-nowrap">
-            CASA DE LA MEMORIA
-          </span>
-          <span className="block font-medium text-crema/80 text-[10px] xs:text-[11px] sm:text-[12px] md:text-[13px] lg:text-[14px] tracking-[0.12em] whitespace-nowrap mt-0.5">
-            DEL GRAN CUMBAL
-          </span>
+      {/* Contenedor del Texto + Franja Multicolor (Ajustado exactamente al ancho del texto) */}
+      <div className="inline-flex flex-col justify-center w-fit">
+        {/* Renglón 1: CASA DE LA MEMORIA (18 caracteres - Tamaño ligeramente menor) */}
+        <div className="font-oswald font-medium uppercase text-crema tracking-[1.1px] sm:tracking-[1.3px] leading-[1.05] text-[10px] xs:text-[11px] sm:text-xs md:text-[13px] lg:text-[14px] group-hover:text-mostaza transition-colors whitespace-nowrap">
+          CASA DE LA MEMORIA
         </div>
 
-        {/* Franja decorativa de 7 segmentos rectangulares alineada al ancho del texto */}
+        {/* Renglón 2: DEL GRAN CUMBAL (15 caracteres - Tamaño ligeramente mayor para encajar exacto con el de arriba) */}
+        <div className="font-oswald font-bold uppercase text-crema tracking-[1.7px] sm:tracking-[2.0px] leading-[1.05] text-[11px] xs:text-[12px] sm:text-[13.5px] md:text-[14.8px] lg:text-[16px] group-hover:text-mostaza transition-colors whitespace-nowrap mt-0.5">
+          DEL GRAN CUMBAL
+        </div>
+
+        {/* Franja decorativa de 7 segmentos SVG ajustada al ancho del texto */}
         <div className="w-full mt-1 sm:mt-1.5 overflow-hidden">
           <svg
             viewBox="0 0 280 4"
