@@ -7,13 +7,13 @@ import ArchivosDigitales from '@/components/ArchivosDigitales';
 import BibliotecaEspecializada from '@/components/BibliotecaEspecializada';
 import InDevelopmentModal from '@/components/InDevelopmentModal';
 
-export type CentroTab = 'archivos-digitales' | 'audiovisual' | 'biblioteca';
+export type CentroTab = 'landing' | 'archivos-digitales' | 'audiovisual' | 'biblioteca';
 
 interface CentroDocumentacionProps {
   initialTab?: CentroTab;
 }
 
-export default function CentroDocumentacion({ initialTab = 'archivos-digitales' }: CentroDocumentacionProps) {
+export default function CentroDocumentacion({ initialTab = 'landing' }: CentroDocumentacionProps) {
   const [activeTab, setActiveTab] = useState<CentroTab>(initialTab);
   const [devModalItem, setDevModalItem] = useState<string | null>(null);
 
@@ -46,7 +46,7 @@ export default function CentroDocumentacion({ initialTab = 'archivos-digitales' 
   return (
     <section id="centro-documentacion" className="py-20 sm:py-24 bg-crema-dark text-cafe relative overflow-hidden">
 
-      {/* Background Image - Idéntico al estilo ancestral */}
+      {/* Background Image - Estilo ancestral */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/piedra-m.jpg"
@@ -74,63 +74,155 @@ export default function CentroDocumentacion({ initialTab = 'archivos-digitales' 
           <div className="w-24 h-1 bg-terracota mx-auto rounded-full shadow-md"></div>
 
           <p className="text-lg md:text-xl font-sans text-cafe/90 leading-relaxed max-w-2xl mx-auto font-semibold italic">
-            Archivos, relatos, literatura etnográfica y tejido audiovisual que documentan la historia y el sentir del Pueblo Indígena de los Pastos.
+            Aquí encontrarás toda la documentación, archivos, relatos, literatura etnográfica y tejido audiovisual que documentan la historia y el sentir del Pueblo Indígena de los Pastos.
           </p>
         </div>
 
-        {/* Pestañas de Navegación de Subsecciones */}
-        <div className="flex justify-center mb-12">
-          <div className="inline-flex p-1.5 bg-crema/90 backdrop-blur-md rounded-2xl border border-crema-dark shadow-lg max-w-full overflow-x-auto gap-1">
+        {/* Pestañas de Navegación de Subsecciones (solo cuando se navega dentro) */}
+        {activeTab !== 'landing' && (
+          <div className="flex justify-center mb-12">
+            <div className="inline-flex p-1.5 bg-crema/90 backdrop-blur-md rounded-2xl border border-crema-dark shadow-lg max-w-full overflow-x-auto gap-1">
+              
+              {/* Botón Inicio / Resumen */}
+              <button
+                onClick={() => handleTabChange('landing')}
+                className="flex items-center space-x-2 px-4 py-3 rounded-xl font-bold text-xs sm:text-sm tracking-wide transition-all whitespace-nowrap text-cafe/80 hover:text-verde-profundo hover:bg-crema-dark/60"
+              >
+                <span>← Volver al Menú Principal</span>
+              </button>
+
+              {/* Pestaña: Archivos Digitales */}
+              <button
+                onClick={() => handleTabChange('archivos-digitales')}
+                className={`
+                  flex items-center space-x-2.5 px-5 py-3 rounded-xl font-bold text-xs sm:text-sm tracking-wide transition-all whitespace-nowrap
+                  ${activeTab === 'archivos-digitales' 
+                    ? 'bg-verde-profundo text-crema shadow-md scale-[1.02]' 
+                    : 'text-cafe/80 hover:text-verde-profundo hover:bg-crema-dark/60'
+                  }
+                `}
+              >
+                <FileText size={18} className={activeTab === 'archivos-digitales' ? 'text-mostaza' : 'text-terracota'} />
+                <span>Archivos Digitales</span>
+                <span className="ml-1 bg-terracota text-crema text-[10px] px-2 py-0.5 rounded-full font-mono">1</span>
+              </button>
+
+              {/* Pestaña: Archivo Audiovisual */}
+              <button
+                onClick={() => handleTabChange('audiovisual')}
+                className={`
+                  flex items-center space-x-2.5 px-5 py-3 rounded-xl font-bold text-xs sm:text-sm tracking-wide transition-all whitespace-nowrap
+                  ${activeTab === 'audiovisual' 
+                    ? 'bg-verde-profundo text-crema shadow-md scale-[1.02]' 
+                    : 'text-cafe/80 hover:text-verde-profundo hover:bg-crema-dark/60'
+                  }
+                `}
+              >
+                <Film size={18} className={activeTab === 'audiovisual' ? 'text-mostaza' : 'text-terracota'} />
+                <span>Memoria Audiovisual</span>
+              </button>
+
+              {/* Pestaña: Biblioteca Especializada */}
+              <button
+                onClick={() => handleTabChange('biblioteca')}
+                className={`
+                  flex items-center space-x-2.5 px-5 py-3 rounded-xl font-bold text-xs sm:text-sm tracking-wide transition-all whitespace-nowrap
+                  ${activeTab === 'biblioteca' 
+                    ? 'bg-verde-profundo text-crema shadow-md scale-[1.02]' 
+                    : 'text-cafe/80 hover:text-verde-profundo hover:bg-crema-dark/60'
+                  }
+                `}
+              >
+                <Library size={18} className={activeTab === 'biblioteca' ? 'text-mostaza' : 'text-terracota'} />
+                <span>Biblioteca Especializada</span>
+                <span className="ml-1 bg-mostaza-dark text-verde-profundo text-[10px] px-2 py-0.5 rounded-full font-mono font-bold">45</span>
+              </button>
+
+            </div>
+          </div>
+        )}
+
+        {/* VISTA PORTADA LANDING: Tarjetas Interactivas de Accesos Directos */}
+        {activeTab === 'landing' && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto animate-in fade-in duration-300">
             
-            {/* Pestaña: Archivos Digitales */}
-            <button
+            {/* Tarjeta 1: Archivos Digitales */}
+            <div
               onClick={() => handleTabChange('archivos-digitales')}
-              className={`
-                flex items-center space-x-2.5 px-5 py-3 rounded-xl font-bold text-xs sm:text-sm tracking-wide transition-all whitespace-nowrap
-                ${activeTab === 'archivos-digitales' 
-                  ? 'bg-verde-profundo text-crema shadow-md scale-[1.02]' 
-                  : 'text-cafe/80 hover:text-verde-profundo hover:bg-crema-dark/60'
-                }
-              `}
+              className="bg-crema/90 backdrop-blur-md rounded-3xl p-8 border border-crema-dark shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col justify-between group"
             >
-              <FileText size={18} className={activeTab === 'archivos-digitales' ? 'text-mostaza' : 'text-terracota'} />
-              <span>Archivos Digitales</span>
-              <span className="ml-1 bg-terracota text-crema text-[10px] px-2 py-0.5 rounded-full font-mono">1</span>
-            </button>
+              <div>
+                <div className="w-14 h-14 bg-terracota/10 rounded-2xl flex items-center justify-center mb-6 text-terracota group-hover:bg-terracota group-hover:text-crema transition-colors">
+                  <FileText size={28} />
+                </div>
+                <span className="text-xs font-bold text-terracota uppercase tracking-wider block mb-1">
+                  Monografías & Investigaciones
+                </span>
+                <h3 className="font-serif font-bold text-2xl text-verde-profundo mb-3 group-hover:text-terracota transition-colors">
+                  Archivos Digitales
+                </h3>
+                <p className="text-cafe/80 text-sm leading-relaxed">
+                  Colección digitalizada de monografías, textos de investigación etnográfica y archivos históricos del Pueblo Indígena de los Pastos.
+                </p>
+              </div>
+              <div className="mt-8 pt-4 border-t border-crema-dark/50 flex items-center justify-between text-terracota font-bold text-sm">
+                <span>Explorar Archivos (1)</span>
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </div>
+            </div>
 
-            {/* Pestaña: Archivo Audiovisual */}
-            <button
+            {/* Tarjeta 2: Memoria Audiovisual */}
+            <div
               onClick={() => handleTabChange('audiovisual')}
-              className={`
-                flex items-center space-x-2.5 px-5 py-3 rounded-xl font-bold text-xs sm:text-sm tracking-wide transition-all whitespace-nowrap
-                ${activeTab === 'audiovisual' 
-                  ? 'bg-verde-profundo text-crema shadow-md scale-[1.02]' 
-                  : 'text-cafe/80 hover:text-verde-profundo hover:bg-crema-dark/60'
-                }
-              `}
+              className="bg-crema/90 backdrop-blur-md rounded-3xl p-8 border border-crema-dark shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col justify-between group"
             >
-              <Film size={18} className={activeTab === 'audiovisual' ? 'text-mostaza' : 'text-terracota'} />
-              <span>Memoria Audiovisual</span>
-            </button>
+              <div>
+                <div className="w-14 h-14 bg-mostaza/20 rounded-2xl flex items-center justify-center mb-6 text-verde-profundo group-hover:bg-verde-profundo group-hover:text-mostaza transition-colors">
+                  <Film size={28} />
+                </div>
+                <span className="text-xs font-bold text-terracota uppercase tracking-wider block mb-1">
+                  Cortos & Tesoros Sonoros
+                </span>
+                <h3 className="font-serif font-bold text-2xl text-verde-profundo mb-3 group-hover:text-terracota transition-colors">
+                  Memoria Audiovisual
+                </h3>
+                <p className="text-cafe/80 text-sm leading-relaxed">
+                  Registros audiovisuales comunitarios, documentales y memoria oral realizados con la participación de la comunidad.
+                </p>
+              </div>
+              <div className="mt-8 pt-4 border-t border-crema-dark/50 flex items-center justify-between text-verde-profundo font-bold text-sm">
+                <span>Ver Cortometrajes</span>
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </div>
+            </div>
 
-            {/* Pestaña: Biblioteca Especializada */}
-            <button
+            {/* Tarjeta 3: Biblioteca Especializada */}
+            <div
               onClick={() => handleTabChange('biblioteca')}
-              className={`
-                flex items-center space-x-2.5 px-5 py-3 rounded-xl font-bold text-xs sm:text-sm tracking-wide transition-all whitespace-nowrap
-                ${activeTab === 'biblioteca' 
-                  ? 'bg-verde-profundo text-crema shadow-md scale-[1.02]' 
-                  : 'text-cafe/80 hover:text-verde-profundo hover:bg-crema-dark/60'
-                }
-              `}
+              className="bg-crema/90 backdrop-blur-md rounded-3xl p-8 border border-crema-dark shadow-xl hover:shadow-2xl hover:-translate-y-1.5 transition-all duration-300 cursor-pointer flex flex-col justify-between group"
             >
-              <Library size={18} className={activeTab === 'biblioteca' ? 'text-mostaza' : 'text-terracota'} />
-              <span>Biblioteca Especializada</span>
-              <span className="ml-1 bg-mostaza-dark text-verde-profundo text-[10px] px-2 py-0.5 rounded-full font-mono font-bold">45</span>
-            </button>
+              <div>
+                <div className="w-14 h-14 bg-verde-profundo/10 rounded-2xl flex items-center justify-center mb-6 text-verde-profundo group-hover:bg-verde-profundo group-hover:text-crema transition-colors">
+                  <Library size={28} />
+                </div>
+                <span className="text-xs font-bold text-terracota uppercase tracking-wider block mb-1">
+                  Acervo Físico Consultable
+                </span>
+                <h3 className="font-serif font-bold text-2xl text-verde-profundo mb-3 group-hover:text-terracota transition-colors">
+                  Biblioteca Especializada
+                </h3>
+                <p className="text-cafe/80 text-sm leading-relaxed">
+                  Catálogo bibliográfico físico disponible para lectura y consulta especializada en las instalaciones de la Casa de la Memoria.
+                </p>
+              </div>
+              <div className="mt-8 pt-4 border-t border-crema-dark/50 flex items-center justify-between text-verde-profundo font-bold text-sm">
+                <span>Consultar Biblioteca (45)</span>
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </div>
+            </div>
 
           </div>
-        </div>
+        )}
 
         {/* CONTENIDO 1: ARCHIVOS DIGITALES */}
         {activeTab === 'archivos-digitales' && (
