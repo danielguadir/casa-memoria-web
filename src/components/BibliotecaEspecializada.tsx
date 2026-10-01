@@ -1,28 +1,33 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { Search, BookOpen, Tag, Filter, User, Info, CheckCircle2, FileSpreadsheet, X, Hash } from 'lucide-react';
-import { bepimpCatalogData, BepimpItem, getAllBepimpKeywords, getAllBepimpCategories } from '@/data/bepimpCatalog';
+import { Search, BookOpen, User, Info, CheckCircle2, FileSpreadsheet, X, Hash, FolderOpen, ChevronRight } from 'lucide-react';
+import { bepimpCatalogData, BepimpItem, getAllBepimpCategories } from '@/data/bepimpCatalog';
 
 export default function BibliotecaEspecializada() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todas');
-  const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null);
   const [selectedItemModal, setSelectedItemModal] = useState<BepimpItem | null>(null);
 
-  const keywordsList = useMemo(() => getAllBepimpKeywords(), []);
+  // Dynamic category list starting with 'Todas'
   const categoriesList = useMemo(() => ['Todas', ...getAllBepimpCategories()], []);
 
-  // Filter items dynamically
+  // Compute item counts per category for scalable sidebar metrics
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {
+      Todas: bepimpCatalogData.length,
+    };
+    bepimpCatalogData.forEach((item) => {
+      counts[item.category] = (counts[item.category] || 0) + 1;
+    });
+    return counts;
+  }, []);
+
+  // Filter items dynamically by category and search query
   const filteredCatalog = useMemo(() => {
     return bepimpCatalogData.filter((item) => {
       // Filter by category
       if (selectedCategory !== 'Todas' && item.category !== selectedCategory) {
-        return false;
-      }
-
-      // Filter by keyword chip
-      if (selectedKeyword && !item.keywords.some(k => k.toUpperCase() === selectedKeyword.toUpperCase())) {
         return false;
       }
 
@@ -40,12 +45,11 @@ export default function BibliotecaEspecializada() {
 
       return matchCode || matchTitle || matchAuthor || matchPublisher || matchCollection || matchIsbn || matchKeywords;
     });
-  }, [searchQuery, selectedCategory, selectedKeyword]);
+  }, [searchQuery, selectedCategory]);
 
   const clearFilters = () => {
     setSearchQuery('');
     setSelectedCategory('Todas');
-    setSelectedKeyword(null);
   };
 
   return (
@@ -65,7 +69,7 @@ export default function BibliotecaEspecializada() {
               Biblioteca Especializada en Pueblos Indígenas, Memoria y Paz
             </h3>
             <p className="text-cafe/80 text-sm sm:text-base max-w-3xl leading-relaxed">
-              Catálogo físico bibliográfico custodiado en la Casa de la Memoria del Gran Cumbal. Consulta las fichas de los ejemplares por palabra clave, código, título o autor.
+              Catálogo físico bibliográfico custodiado en la Casa de la Memoria del Gran Cumbal. Consulta las fichas de los ejemplares por categoría, código, título o autor.
             </p>
           </div>
 
@@ -93,208 +97,204 @@ export default function BibliotecaEspecializada() {
         </div>
       </div>
 
-      {/* Buscador y Filtros por Palabras Clave */}
-      <div className="bg-crema/90 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-crema-dark space-y-6">
+      {/* Main Scalable Layout: Left Sidebar (Categories) + Right Main Body */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
         
-        {/* Search Input Bar */}
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-terracota">
-            <Search size={22} />
-          </div>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Buscar por código (ej: BEPIMP00030-1), palabra clave (ej: CUMBAL, HISTORIA), título o autor..."
-            className="w-full pl-12 pr-10 py-4 bg-crema text-cafe font-medium text-sm sm:text-base rounded-xl border-2 border-crema-dark/80 focus:border-verde-profundo focus:outline-none focus:ring-2 focus:ring-verde-profundo/20 transition-all shadow-inner placeholder-cafe/50"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="absolute inset-y-0 right-0 pr-4 flex items-center text-cafe/50 hover:text-terracota transition-colors"
-            >
-              <X size={20} />
-            </button>
-          )}
-        </div>
-
-        {/* Categories Bar */}
-        <div className="space-y-3">
-          <div className="flex items-center space-x-2 text-xs font-bold text-verde-profundo uppercase tracking-wider">
-            <Filter size={14} className="text-terracota" />
-            <span>Filtrar por Categoría:</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {categoriesList.map((cat) => {
-              const isActive = selectedCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => {
-                    setSelectedCategory(cat);
-                  }}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                    isActive
-                      ? 'bg-verde-profundo text-crema shadow-md scale-[1.03]'
-                      : 'bg-crema-dark/60 text-cafe/80 hover:bg-crema-dark hover:text-verde-profundo'
-                  }`}
-                >
-                  {cat}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Keywords Chips */}
-        <div className="space-y-3 pt-2 border-t border-crema-dark/60">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 text-xs font-bold text-verde-profundo uppercase tracking-wider">
-              <Tag size={14} className="text-mostaza-dark" />
-              <span>Palabras Clave Frecuentes:</span>
+        {/* LEFT SIDEBAR: Categories Menu */}
+        <aside className="lg:col-span-1 bg-crema/90 backdrop-blur-md rounded-2xl p-5 shadow-lg border border-crema-dark space-y-5 lg:sticky lg:top-24">
+          <div className="flex items-center justify-between pb-3 border-b border-crema-dark">
+            <div className="flex items-center space-x-2.5 text-verde-profundo font-serif font-bold text-lg">
+              <FolderOpen size={20} className="text-terracota shrink-0" />
+              <span>Categorías</span>
             </div>
-            {(selectedKeyword || selectedCategory !== 'Todas' || searchQuery) && (
+            {(selectedCategory !== 'Todas' || searchQuery) && (
               <button
                 onClick={clearFilters}
                 className="text-xs font-bold text-terracota hover:underline flex items-center space-x-1"
+                title="Restablecer filtros"
               >
-                <X size={12} />
-                <span>Limpiar filtros</span>
+                <X size={14} />
+                <span>Limpiar</span>
               </button>
             )}
           </div>
-          
-          <div className="flex flex-wrap gap-1.5 max-h-32 overflow-y-auto pr-2 custom-scrollbar">
-            {keywordsList.map((kw) => {
-              const isSelected = selectedKeyword === kw;
+
+          <nav className="space-y-1.5 max-h-[70vh] overflow-y-auto pr-1 custom-scrollbar">
+            {categoriesList.map((cat) => {
+              const isActive = selectedCategory === cat;
+              const count = categoryCounts[cat] || 0;
+
               return (
                 <button
-                  key={kw}
-                  onClick={() => {
-                    setSelectedKeyword(isSelected ? null : kw);
-                  }}
-                  className={`px-3 py-1 rounded-lg text-[11px] font-bold transition-all border ${
-                    isSelected
-                      ? 'bg-terracota text-crema border-terracota shadow-sm scale-105'
-                      : 'bg-crema border-crema-dark text-cafe/80 hover:border-mostaza hover:text-verde-profundo'
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all group ${
+                    isActive
+                      ? 'bg-verde-profundo text-crema shadow-md scale-[1.02]'
+                      : 'bg-crema-dark/40 text-cafe/80 hover:bg-crema-dark hover:text-verde-profundo border border-crema-dark/50'
                   }`}
                 >
-                  #{kw}
+                  <div className="flex items-center space-x-2 truncate">
+                    <ChevronRight 
+                      size={14} 
+                      className={`transition-transform duration-200 shrink-0 ${
+                        isActive ? 'text-mostaza translate-x-0.5' : 'text-cafe/40 group-hover:text-verde-profundo group-hover:translate-x-0.5'
+                      }`} 
+                    />
+                    <span className="truncate tracking-wide">{cat}</span>
+                  </div>
+                  <span
+                    className={`ml-2 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold shrink-0 ${
+                      isActive 
+                        ? 'bg-mostaza text-verde-profundo font-extrabold' 
+                        : 'bg-crema-dark text-cafe/70 group-hover:bg-crema group-hover:text-verde-profundo'
+                    }`}
+                  >
+                    {count}
+                  </span>
                 </button>
               );
             })}
-          </div>
-        </div>
+          </nav>
+        </aside>
 
-      </div>
-
-      {/* Results Header */}
-      <div className="flex items-center justify-between px-2">
-        <p className="text-sm font-bold text-cafe/80">
-          Mostrando <span className="text-verde-profundo font-extrabold">{filteredCatalog.length}</span> registros en la Biblioteca Especializada.
-        </p>
-        {selectedKeyword && (
-          <span className="text-xs bg-terracota/10 text-terracota font-bold px-3 py-1 rounded-full border border-terracota/20">
-            Filtro palabra clave: #{selectedKeyword}
-          </span>
-        )}
-      </div>
-
-      {/* Catalog Grid */}
-      {filteredCatalog.length === 0 ? (
-        <div className="bg-crema/90 rounded-3xl p-12 text-center border border-crema-dark space-y-4">
-          <BookOpen size={48} className="text-cafe/40 mx-auto" />
-          <h4 className="font-serif font-bold text-2xl text-verde-profundo">No se encontraron registros</h4>
-          <p className="text-cafe/70 text-sm max-w-md mx-auto">
-            No se hallaron items que coincidan con la búsqueda. Intenta limpiar los filtros o buscar con otro término clave.
-          </p>
-          <button
-            onClick={clearFilters}
-            className="px-6 py-2.5 bg-verde-profundo text-crema text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-terracota transition-colors"
-          >
-            Restablecer Buscador
-          </button>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCatalog.map((item) => (
-            <div
-              key={item.id}
-              className="bg-crema/95 backdrop-blur-md rounded-2xl p-6 border border-crema-dark shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1"
-            >
-              <div className="space-y-4">
-                
-                {/* Header Badge & Code */}
-                <div className="flex items-center justify-between border-b border-crema-dark/60 pb-3">
-                  <span className="px-3 py-1 bg-verde-profundo text-crema font-mono font-bold text-xs rounded-lg shadow-sm flex items-center space-x-1">
-                    <Hash size={12} className="text-mostaza" />
-                    <span>{item.code}</span>
-                  </span>
-                  <span className="px-2.5 py-1 bg-terracota/10 text-terracota font-bold text-[11px] rounded-full border border-terracota/20">
-                    {item.category}
-                  </span>
-                </div>
-
-                {/* Title & Author */}
-                <div className="space-y-1.5">
-                  <h4 className="font-serif font-bold text-lg text-verde-profundo group-hover:text-terracota transition-colors line-clamp-2">
-                    {item.title}
-                  </h4>
-                  <div className="flex items-center space-x-1.5 text-xs font-bold text-cafe/80">
-                    <User size={13} className="text-terracota shrink-0" />
-                    <span className="truncate">{item.author}</span>
-                  </div>
-                </div>
-
-                {/* Details Badges */}
-                <div className="bg-crema-dark/50 p-3 rounded-xl space-y-2 text-xs text-cafe/80 border border-crema-dark/60">
-                  <div className="flex items-center justify-between">
-                    <span className="font-semibold">Colección:</span>
-                    <span className="font-bold text-verde-profundo truncate max-w-[160px]">{item.collection}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="font-semibold">Año / Edición:</span>
-                    <span className="font-bold text-cafe">{item.year} ({item.publisher})</span>
-                  </div>
-                  {item.isbn && item.isbn !== 'No contiene' && (
-                    <div className="flex items-center justify-between text-[11px]">
-                      <span className="font-semibold">ISBN:</span>
-                      <span className="font-mono text-cafe/90">{item.isbn}</span>
-                    </div>
-                  )}
-                  {item.pages && (
-                    <div className="flex items-center justify-between text-[11px]">
-                      <span className="font-semibold">Páginas:</span>
-                      <span className="font-bold text-cafe">{item.pages} págs.</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Keyword Chips preview */}
-                <div className="flex flex-wrap gap-1">
-                  {item.keywords.map((kw, i) => (
-                    <span key={i} className="text-[10px] font-bold text-verde-profundo bg-crema-dark/80 px-2 py-0.5 rounded border border-crema-dark">
-                      #{kw}
-                    </span>
-                  ))}
-                </div>
+        {/* RIGHT MAIN BODY: Search Input, Metrics Header & Catalog Grid */}
+        <main className="lg:col-span-3 space-y-6">
+          
+          {/* Top Search Bar */}
+          <div className="bg-crema/90 backdrop-blur-md rounded-2xl p-4 sm:p-5 shadow-lg border border-crema-dark">
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-terracota">
+                <Search size={22} />
               </div>
-
-              {/* Action Button */}
-              <div className="pt-4 border-t border-crema-dark/60 mt-4">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Buscar por código (ej: BEPIMP00030-1), título, autor o tema..."
+                className="w-full pl-12 pr-10 py-3.5 bg-crema text-cafe font-medium text-sm sm:text-base rounded-xl border-2 border-crema-dark/80 focus:border-verde-profundo focus:outline-none focus:ring-2 focus:ring-verde-profundo/20 transition-all shadow-inner placeholder-cafe/50"
+              />
+              {searchQuery && (
                 <button
-                  onClick={() => setSelectedItemModal(item)}
-                  className="w-full flex items-center justify-center space-x-2 bg-verde-profundo/90 hover:bg-verde-profundo text-crema text-xs font-bold uppercase tracking-wider py-2.5 px-4 rounded-xl transition-all shadow-md group-hover:bg-terracota"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-cafe/50 hover:text-terracota transition-colors"
                 >
-                  <Info size={14} />
-                  <span>Ver Ficha de Inventario</span>
+                  <X size={20} />
                 </button>
-              </div>
-
+              )}
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+
+          {/* Results Header Info */}
+          <div className="flex flex-wrap items-center justify-between gap-3 px-2">
+            <div className="flex items-center space-x-2 text-sm font-bold text-cafe/80">
+              <span>Mostrando</span>
+              <span className="text-verde-profundo font-extrabold text-base bg-verde-profundo/10 px-2.5 py-0.5 rounded-lg border border-verde-profundo/20">
+                {filteredCatalog.length}
+              </span>
+              <span>registros</span>
+              {selectedCategory !== 'Todas' && (
+                <span className="text-xs bg-terracota/10 text-terracota font-bold px-3 py-1 rounded-full border border-terracota/20 ml-2">
+                  Categoría: {selectedCategory}
+                </span>
+              )}
+            </div>
+            
+            {searchQuery && (
+              <span className="text-xs text-cafe/70 italic">
+                Filtrado por término: &quot;{searchQuery}&quot;
+              </span>
+            )}
+          </div>
+
+          {/* Catalog Grid */}
+          {filteredCatalog.length === 0 ? (
+            <div className="bg-crema/90 rounded-3xl p-12 text-center border border-crema-dark space-y-4 shadow-sm">
+              <BookOpen size={48} className="text-cafe/40 mx-auto" />
+              <h4 className="font-serif font-bold text-2xl text-verde-profundo">No se encontraron registros</h4>
+              <p className="text-cafe/70 text-sm max-w-md mx-auto">
+                No se hallaron items que coincidan con la búsqueda en la categoría <strong>{selectedCategory}</strong>.
+              </p>
+              <button
+                onClick={clearFilters}
+                className="px-6 py-2.5 bg-verde-profundo text-crema text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-terracota transition-colors"
+              >
+                Restablecer Filtros
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {filteredCatalog.map((item) => (
+                <div
+                  key={item.id}
+                  className="bg-crema/95 backdrop-blur-md rounded-2xl p-5 border border-crema-dark shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1"
+                >
+                  <div className="space-y-4">
+                    
+                    {/* Header Badge & Code */}
+                    <div className="flex items-center justify-between border-b border-crema-dark/60 pb-3">
+                      <span className="px-3 py-1 bg-verde-profundo text-crema font-mono font-bold text-xs rounded-lg shadow-sm flex items-center space-x-1">
+                        <Hash size={12} className="text-mostaza" />
+                        <span>{item.code}</span>
+                      </span>
+                      <span className="px-2.5 py-1 bg-terracota/10 text-terracota font-bold text-[11px] rounded-full border border-terracota/20">
+                        {item.category}
+                      </span>
+                    </div>
+
+                    {/* Title & Author */}
+                    <div className="space-y-1.5">
+                      <h4 className="font-serif font-bold text-lg text-verde-profundo group-hover:text-terracota transition-colors line-clamp-2 leading-snug">
+                        {item.title}
+                      </h4>
+                      <div className="flex items-center space-x-1.5 text-xs font-bold text-cafe/80">
+                        <User size={13} className="text-terracota shrink-0" />
+                        <span className="truncate">{item.author}</span>
+                      </div>
+                    </div>
+
+                    {/* Details Badges */}
+                    <div className="bg-crema-dark/50 p-3 rounded-xl space-y-2 text-xs text-cafe/80 border border-crema-dark/60">
+                      <div className="flex items-center justify-between">
+                        <span className="font-semibold">Colección:</span>
+                        <span className="font-bold text-verde-profundo truncate max-w-[150px]">{item.collection}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="font-semibold">Año / Edición:</span>
+                        <span className="font-bold text-cafe">{item.year} ({item.publisher})</span>
+                      </div>
+                      {item.isbn && item.isbn !== 'No contiene' && (
+                        <div className="flex items-center justify-between text-[11px]">
+                          <span className="font-semibold">ISBN:</span>
+                          <span className="font-mono text-cafe/90">{item.isbn}</span>
+                        </div>
+                      )}
+                      {item.pages && (
+                        <div className="flex items-center justify-between text-[11px]">
+                          <span className="font-semibold">Páginas:</span>
+                          <span className="font-bold text-cafe">{item.pages} págs.</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Action Button */}
+                  <div className="pt-4 border-t border-crema-dark/60 mt-4">
+                    <button
+                      onClick={() => setSelectedItemModal(item)}
+                      className="w-full flex items-center justify-center space-x-2 bg-verde-profundo/90 hover:bg-verde-profundo text-crema text-xs font-bold uppercase tracking-wider py-2.5 px-4 rounded-xl transition-all shadow-md group-hover:bg-terracota"
+                    >
+                      <Info size={14} />
+                      <span>Ver Ficha de Inventario</span>
+                    </button>
+                  </div>
+
+                </div>
+              ))}
+            </div>
+          )}
+        </main>
+      </div>
 
       {/* Modal de Ficha Técnica de Inventario */}
       {selectedItemModal && (
@@ -345,20 +345,6 @@ export default function BibliotecaEspecializada() {
                 <p><strong className="text-cafe">Ejemplares Registrados:</strong> {selectedItemModal.copies}</p>
                 <p><strong className="text-cafe">Tipo Cubierta:</strong> {selectedItemModal.coverType}</p>
                 <p><strong className="text-cafe">Estado Físico:</strong> <span className="text-verde-profundo font-bold">{selectedItemModal.physicalCondition}</span></p>
-              </div>
-            </div>
-
-            {/* Keywords in Modal */}
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-verde-profundo uppercase tracking-wider">
-                Palabras Clave Asociadas:
-              </span>
-              <div className="flex flex-wrap gap-2">
-                {selectedItemModal.keywords.map((kw, idx) => (
-                  <span key={idx} className="px-3 py-1 bg-verde-profundo text-crema font-bold text-xs rounded-lg">
-                    #{kw}
-                  </span>
-                ))}
               </div>
             </div>
 
