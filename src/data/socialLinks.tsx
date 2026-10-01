@@ -66,7 +66,7 @@ export const socialLinks: SocialLink[] = [
   {
     id: 'tiktok',
     name: 'TikTok',
-    href: 'https://www.tiktok.com/@casadelamemoriagrancumbal',
+    href: 'https://www.tiktok.com/@casadememoria_grancumbal',
     ariaLabel: 'Visitar perfil de TikTok de Casa de la Memoria Gran Cumbal',
     brandBg: '#000000',
     brandShadow: 'rgba(0, 242, 254, 0.5)',
