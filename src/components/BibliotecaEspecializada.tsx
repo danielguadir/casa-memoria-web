@@ -158,7 +158,7 @@ export default function BibliotecaEspecializada() {
           </nav>
         </aside>
 
-        {/* RIGHT MAIN BODY: Search Input, Metrics Header & Catalog Grid */}
+        {/* RIGHT MAIN BODY: Search Input, Metrics Header & Catalog Table */}
         <main className="lg:col-span-3 space-y-6">
           
           {/* Top Search Bar */}
@@ -207,7 +207,7 @@ export default function BibliotecaEspecializada() {
             )}
           </div>
 
-          {/* Catalog Grid */}
+          {/* Catalog Table */}
           {filteredCatalog.length === 0 ? (
             <div className="bg-crema/90 rounded-3xl p-12 text-center border border-crema-dark space-y-4 shadow-sm">
               <BookOpen size={48} className="text-cafe/40 mx-auto" />
@@ -223,74 +223,83 @@ export default function BibliotecaEspecializada() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {filteredCatalog.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-crema/95 backdrop-blur-md rounded-2xl p-5 border border-crema-dark shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1"
-                >
-                  <div className="space-y-4">
-                    
-                    {/* Header Badge & Code */}
-                    <div className="flex items-center justify-between border-b border-crema-dark/60 pb-3">
-                      <span className="px-3 py-1 bg-verde-profundo text-crema font-mono font-bold text-xs rounded-lg shadow-sm flex items-center space-x-1">
-                        <Hash size={12} className="text-mostaza" />
-                        <span>{item.code}</span>
-                      </span>
-                      <span className="px-2.5 py-1 bg-terracota/10 text-terracota font-bold text-[11px] rounded-full border border-terracota/20">
-                        {item.category}
-                      </span>
-                    </div>
+            <div className="bg-crema/90 backdrop-blur-md rounded-2xl border border-crema-dark shadow-lg overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="bg-verde-profundo text-crema text-xs font-serif font-bold tracking-wider uppercase border-b border-verde-profundo/80">
+                      <th scope="col" className="py-3.5 px-4 w-32">Código</th>
+                      <th scope="col" className="py-3.5 px-4">Título y Autor</th>
+                      <th scope="col" className="py-3.5 px-4 hidden sm:table-cell">Categoría / Colección</th>
+                      <th scope="col" className="py-3.5 px-4 hidden md:table-cell">Año</th>
+                      <th scope="col" className="py-3.5 px-4 text-right w-28">Ficha</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-crema-dark/60 text-xs">
+                    {filteredCatalog.map((item) => (
+                      <tr 
+                        key={item.id} 
+                        className="hover:bg-crema-dark/40 transition-colors duration-150 group"
+                      >
+                        {/* Código */}
+                        <td className="py-3.5 px-4 whitespace-nowrap align-top">
+                          <span className="inline-flex items-center space-x-1 font-mono font-bold text-verde-profundo bg-verde-profundo/10 px-2.5 py-1 rounded-lg border border-verde-profundo/20 text-[11px]">
+                            <Hash size={11} className="text-terracota" />
+                            <span>{item.code}</span>
+                          </span>
+                        </td>
 
-                    {/* Title & Author */}
-                    <div className="space-y-1.5">
-                      <h4 className="font-serif font-bold text-lg text-verde-profundo group-hover:text-terracota transition-colors line-clamp-2 leading-snug">
-                        {item.title}
-                      </h4>
-                      <div className="flex items-center space-x-1.5 text-xs font-bold text-cafe/80">
-                        <User size={13} className="text-terracota shrink-0" />
-                        <span className="truncate">{item.author}</span>
-                      </div>
-                    </div>
+                        {/* Título & Autor */}
+                        <td className="py-3.5 px-4 align-top">
+                          <div className="space-y-0.5 pr-2">
+                            <h4 className="font-serif font-bold text-sm text-verde-profundo group-hover:text-terracota transition-colors leading-snug">
+                              {item.title}
+                            </h4>
+                            <div className="flex items-center space-x-1 text-[11px] font-semibold text-cafe/75">
+                              <User size={12} className="text-terracota shrink-0" />
+                              <span>{item.author}</span>
+                            </div>
+                          </div>
+                        </td>
 
-                    {/* Details Badges */}
-                    <div className="bg-crema-dark/50 p-3 rounded-xl space-y-2 text-xs text-cafe/80 border border-crema-dark/60">
-                      <div className="flex items-center justify-between">
-                        <span className="font-semibold">Colección:</span>
-                        <span className="font-bold text-verde-profundo truncate max-w-[150px]">{item.collection}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="font-semibold">Año / Edición:</span>
-                        <span className="font-bold text-cafe">{item.year} ({item.publisher})</span>
-                      </div>
-                      {item.isbn && item.isbn !== 'No contiene' && (
-                        <div className="flex items-center justify-between text-[11px]">
-                          <span className="font-semibold">ISBN:</span>
-                          <span className="font-mono text-cafe/90">{item.isbn}</span>
-                        </div>
-                      )}
-                      {item.pages && (
-                        <div className="flex items-center justify-between text-[11px]">
-                          <span className="font-semibold">Páginas:</span>
-                          <span className="font-bold text-cafe">{item.pages} págs.</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                        {/* Categoría / Colección */}
+                        <td className="py-3.5 px-4 align-top hidden sm:table-cell whitespace-nowrap">
+                          <div className="space-y-1">
+                            <span className="inline-block px-2.5 py-0.5 bg-terracota/10 text-terracota font-bold text-[10px] rounded-full border border-terracota/20">
+                              {item.category}
+                            </span>
+                            <span className="text-[11px] text-cafe/80 block font-medium truncate max-w-[170px]">
+                              {item.collection}
+                            </span>
+                          </div>
+                        </td>
 
-                  {/* Action Button */}
-                  <div className="pt-4 border-t border-crema-dark/60 mt-4">
-                    <button
-                      onClick={() => setSelectedItemModal(item)}
-                      className="w-full flex items-center justify-center space-x-2 bg-verde-profundo/90 hover:bg-verde-profundo text-crema text-xs font-bold uppercase tracking-wider py-2.5 px-4 rounded-xl transition-all shadow-md group-hover:bg-terracota"
-                    >
-                      <Info size={14} />
-                      <span>Ver Ficha de Inventario</span>
-                    </button>
-                  </div>
+                        {/* Año */}
+                        <td className="py-3.5 px-4 align-top hidden md:table-cell whitespace-nowrap">
+                          <span className="font-bold text-cafe">
+                            {item.year}
+                          </span>
+                          <span className="text-[10px] text-cafe/60 block">
+                            {item.publisher}
+                          </span>
+                        </td>
 
-                </div>
-              ))}
+                        {/* Acción / Botón Ver Ficha */}
+                        <td className="py-3.5 px-4 align-top text-right whitespace-nowrap">
+                          <button
+                            onClick={() => setSelectedItemModal(item)}
+                            className="inline-flex items-center space-x-1.5 bg-verde-profundo hover:bg-terracota text-crema font-bold text-[11px] px-3 py-1.5 rounded-lg transition-all shadow-sm hover:shadow-md cursor-pointer"
+                            title="Ver Ficha Técnica"
+                          >
+                            <Info size={13} />
+                            <span>Ver Ficha</span>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
         </main>
