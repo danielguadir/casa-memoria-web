@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { Search, BookOpen, User, Info, CheckCircle2, FileSpreadsheet, X, Hash, FolderOpen, ChevronRight, ExternalLink, Layers } from 'lucide-react';
+import { Search, BookOpen, User, Info, CheckCircle2, FileSpreadsheet, X, Hash, FolderOpen, ChevronRight, Layers } from 'lucide-react';
 import { 
   libraryCatalog, 
   LibraryItem, 
@@ -42,6 +42,10 @@ export default function BibliotecaEspecializada() {
   const clearFilters = () => {
     setSearchQuery('');
     setSelectedCategory('Todas');
+  };
+
+  const handleRequestBook = (item: LibraryItem) => {
+    alert(`Solicitud registrada para "${item.title}". Módulo de préstamo presencial en sala.`);
   };
 
   return (
@@ -248,7 +252,7 @@ export default function BibliotecaEspecializada() {
                           </div>
                         </td>
 
-                        {/* Título & Autor(es) */}
+                        {/* Título & Autor(es) con truncado inteligente de autores múltiples */}
                         <td className="py-3.5 px-4 align-top">
                           <div className="space-y-0.5 pr-2">
                             <h4 className="font-serif font-bold text-sm text-verde-profundo group-hover:text-terracota transition-colors leading-snug">
@@ -259,9 +263,29 @@ export default function BibliotecaEspecializada() {
                                 {item.subtitle}
                               </p>
                             )}
-                            <div className="flex items-center space-x-1 text-[11px] font-semibold text-cafe/75 pt-0.5">
+                            <div className="flex items-center space-x-1 text-[11px] font-semibold text-cafe/75 pt-0.5 flex-wrap gap-y-1">
                               <User size={12} className="text-terracota shrink-0" />
-                              <span>{item.authors && item.authors.length > 0 ? item.authors.join(', ') : 'Autor no registrado'}</span>
+                              {item.authors && item.authors.length > 0 ? (
+                                item.authors.length <= 2 ? (
+                                  <span>{item.authors.join(', ')}</span>
+                                ) : (
+                                  <span className="inline-flex items-center space-x-1 flex-wrap gap-y-1">
+                                    <span>{item.authors.slice(0, 2).join(', ')}</span>
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setSelectedItemModal(item);
+                                      }}
+                                      className="px-1.5 py-0.5 bg-terracota/10 text-terracota text-[10px] font-bold rounded-md border border-terracota/20 hover:bg-terracota hover:text-crema transition-colors cursor-pointer"
+                                      title={`Autores completos: ${item.authors.join(', ')}`}
+                                    >
+                                      +{item.authors.length - 2} más
+                                    </button>
+                                  </span>
+                                )
+                              ) : (
+                                <span>Autor no registrado</span>
+                              )}
                             </div>
                           </div>
                         </td>
@@ -343,7 +367,7 @@ export default function BibliotecaEspecializada() {
                   </p>
                 )}
 
-                <p className="text-xs font-bold text-terracota">
+                <p className="text-xs font-bold text-terracota leading-relaxed">
                   Autor(es): {selectedItemModal.authors && selectedItemModal.authors.length > 0 ? selectedItemModal.authors.join(', ') : 'No registrado'}
                 </p>
               </div>
@@ -374,19 +398,6 @@ export default function BibliotecaEspecializada() {
                 </span>
                 <p><strong className="text-cafe">Total Ejemplares:</strong> <span className="text-verde-profundo font-extrabold text-sm">{selectedItemModal.copiesCount}</span></p>
                 <p><strong className="text-cafe">Categoría:</strong> {selectedItemModal.category || 'N/A'}</p>
-                {selectedItemModal.sourceUrl && (
-                  <div className="pt-2">
-                    <a 
-                      href={selectedItemModal.sourceUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center space-x-1.5 bg-terracota hover:bg-terracota/90 text-crema font-bold text-xs py-1.5 px-3 rounded-lg transition-colors shadow-sm"
-                    >
-                      <span>Consultar Fuente / PDF</span>
-                      <ExternalLink size={13} />
-                    </a>
-                  </div>
-                )}
               </div>
             </div>
 
@@ -406,11 +417,8 @@ export default function BibliotecaEspecializada() {
                     >
                       <div className="space-y-1">
                         <div className="flex items-center space-x-2 flex-wrap gap-y-1">
-                          <span className="font-mono font-bold text-verde-profundo bg-verde-profundo/10 px-2 py-0.5 rounded text-[11px] border border-verde-profundo/20">
+                          <span className="font-mono font-bold text-verde-profundo bg-verde-profundo/10 px-2.5 py-0.5 rounded text-[11px] border border-verde-profundo/20">
                             {copy.inventoryCode}
-                          </span>
-                          <span className="font-bold text-cafe">
-                            Ejemplar #{copy.order || idx + 1}
                           </span>
                           {copy.condition && (
                             <span className="px-2 py-0.5 bg-verde-profundo/10 text-verde-profundo text-[10px] font-bold rounded-full border border-verde-profundo/20">
@@ -449,8 +457,16 @@ export default function BibliotecaEspecializada() {
               </p>
             </div>
 
-            {/* Footer Modal */}
-            <div className="pt-2 flex justify-end">
+            {/* Footer Modal Actions (Solicitar + Cerrar) */}
+            <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-crema-dark/60">
+              <button
+                onClick={() => handleRequestBook(selectedItemModal)}
+                className="px-5 py-2.5 bg-terracota hover:bg-terracota/90 text-crema text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer flex items-center space-x-2"
+              >
+                <BookOpen size={15} />
+                <span>Solicitar</span>
+              </button>
+
               <button
                 onClick={() => setSelectedItemModal(null)}
                 className="px-6 py-2.5 bg-verde-profundo text-crema text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-terracota transition-colors cursor-pointer"
