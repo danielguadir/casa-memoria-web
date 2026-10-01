@@ -49,7 +49,12 @@ export default function Footer() {
                     rel="noopener noreferrer"
                     title={`Síguenos en ${social.name}`}
                     aria-label={social.name}
-                    className="bg-verde-profundo p-2.5 rounded-full hover:bg-terracota hover:scale-110 transition-all duration-200 text-crema flex items-center justify-center border border-crema/10 shadow-sm"
+                    className={`
+                      w-9 h-9 rounded-full flex items-center justify-center 
+                      transition-all duration-300 cursor-pointer hover:scale-115 shrink-0 shadow-md
+                      bg-verde-profundo text-crema border border-crema/10
+                      ${social.hoverColorClass}
+                    `}
                   >
                     {social.icon}
                   </a>

@@ -11,8 +11,6 @@ interface SocialHeaderBarProps {
 export default function SocialHeaderBar({
   className = '',
 }: SocialHeaderBarProps) {
-
-
   return (
     <div className={`flex items-center space-x-2 sm:space-x-2.5 ${className}`}>
       {socialLinks.map((social) => (
@@ -24,8 +22,10 @@ export default function SocialHeaderBar({
           aria-label={social.ariaLabel}
           title={social.name}
           className={`
-            w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer hover:scale-115 shrink-0 shadow-md
-            ${social.colorClass}
+            w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center 
+            transition-all duration-300 cursor-pointer hover:scale-115 shrink-0 shadow-sm
+            bg-verde-profundo/80 text-crema border border-crema/20
+            ${social.hoverColorClass}
           `}
         >
           {social.icon}
@@ -33,6 +33,4 @@ export default function SocialHeaderBar({
       ))}
     </div>
   );
-
 }
-
