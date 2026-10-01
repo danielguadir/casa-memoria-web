@@ -1,8 +1,7 @@
 'use client';
 
-import React, { useState, useMemo, useEffect } from 'react';
-import { Search, BookOpen, User, Info, CheckCircle2, FileSpreadsheet, X, Hash, FolderOpen, ChevronRight, Layers, Lock, Mail, Eye, EyeOff, ShieldCheck, LogOut, AlertCircle } from 'lucide-react';
-import { useAuth } from '@/context/AuthContext';
+import React, { useState, useMemo } from 'react';
+import { Search, BookOpen, User, Info, CheckCircle2, FileSpreadsheet, X, Hash, FolderOpen, ChevronRight, Layers } from 'lucide-react';
 import { 
   libraryCatalog, 
   LibraryItem, 
@@ -11,59 +10,9 @@ import {
 } from '@/data/libraryCatalog';
 
 export default function BibliotecaEspecializada() {
-  const { user, isLoggedIn, login, logout } = useAuth();
-  const [isLocalAuth, setIsLocalAuth] = useState<boolean>(false);
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [authError, setAuthError] = useState<string | null>(null);
-
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todas');
   const [selectedItemModal, setSelectedItemModal] = useState<LibraryItem | null>(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const stored = sessionStorage.getItem('bepimp_authenticated');
-      if (stored === 'true') {
-        setIsLocalAuth(true);
-      }
-    }
-  }, []);
-
-  const isAuth = isLoggedIn || isLocalAuth;
-
-  const handleLoginSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setAuthError(null);
-    const trimmedEmail = loginEmail.trim().toLowerCase();
-
-    if (trimmedEmail === 'cmgcpw@gmail.com' && loginPassword === 'admincmgc2026') {
-      if (typeof window !== 'undefined') {
-        sessionStorage.setItem('bepimp_authenticated', 'true');
-      }
-      setIsLocalAuth(true);
-      login(trimmedEmail, loginPassword);
-    } else {
-      const result = login(trimmedEmail, loginPassword);
-      if (result.success) {
-        if (typeof window !== 'undefined') {
-          sessionStorage.setItem('bepimp_authenticated', 'true');
-        }
-        setIsLocalAuth(true);
-      } else {
-        setAuthError('Correo o clave de acceso incorrectos.');
-      }
-    }
-  };
-
-  const handleLogout = () => {
-    if (typeof window !== 'undefined') {
-      sessionStorage.removeItem('bepimp_authenticated');
-    }
-    setIsLocalAuth(false);
-    logout();
-  };
 
   // Dynamic categories list starting with 'Todas'
   const categoriesList = useMemo(() => ['Todas', ...getAllLibraryCategories()], []);
@@ -95,80 +44,6 @@ export default function BibliotecaEspecializada() {
     alert(`Solicitud registrada para "${item.title}". Módulo de préstamo presencial en sala.`);
   };
 
-  if (!isAuth) {
-    return (
-      <div className="max-w-md mx-auto my-12 p-8 bg-crema/95 backdrop-blur-md rounded-3xl shadow-2xl border border-crema-dark space-y-6 animate-in fade-in duration-300">
-        <div className="text-center space-y-2">
-          <div className="w-14 h-14 bg-verde-profundo/10 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-verde-profundo/20 text-verde-profundo">
-            <Lock className="w-7 h-7 text-terracota" />
-          </div>
-          <h2 className="font-serif font-bold text-2xl text-verde-profundo">Acceso a Biblioteca Especializada</h2>
-          <p className="text-cafe/80 text-xs leading-relaxed">
-            Ingrese sus credenciales de acceso autorizadas para consultar el catálogo físico bibliográfico.
-          </p>
-        </div>
-
-        {authError && (
-          <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 flex items-center space-x-2 animate-in fade-in">
-            <AlertCircle className="w-4 h-4 shrink-0" />
-            <span>{authError}</span>
-          </div>
-        )}
-
-        <form onSubmit={handleLoginSubmit} className="space-y-4">
-          <div>
-            <label className="block text-xs font-bold text-verde-profundo mb-1.5 uppercase tracking-wider">
-              Correo Electrónico
-            </label>
-            <div className="relative">
-              <Mail className="w-4 h-4 text-cafe/50 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="email"
-                required
-                value={loginEmail}
-                onChange={(e) => setLoginEmail(e.target.value)}
-                placeholder="cmgcpw@gmail.com"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-crema-dark bg-white/80 text-xs font-semibold text-cafe focus:outline-none focus:ring-2 focus:ring-verde-profundo/30 focus:border-verde-profundo transition-all"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-verde-profundo mb-1.5 uppercase tracking-wider">
-              Clave de Acceso
-            </label>
-            <div className="relative">
-              <Lock className="w-4 h-4 text-cafe/50 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type={showPassword ? 'text' : 'password'}
-                required
-                value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
-                placeholder="Ingresa clave de acceso"
-                className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-crema-dark bg-white/80 text-xs font-semibold text-cafe focus:outline-none focus:ring-2 focus:ring-verde-profundo/30 focus:border-verde-profundo transition-all"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-cafe/50 hover:text-cafe transition-colors"
-              >
-                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full py-3 bg-verde-profundo hover:bg-verde-profundo/90 text-crema font-bold rounded-xl shadow-md transition-all text-xs tracking-wider uppercase cursor-pointer flex items-center justify-center space-x-2 mt-2"
-          >
-            <ShieldCheck size={16} />
-            <span>Ingresar al Catálogo</span>
-          </button>
-        </form>
-      </div>
-    );
-  }
-
   return (
     <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-300">
       
@@ -188,21 +63,6 @@ export default function BibliotecaEspecializada() {
             <p className="text-cafe/80 text-sm sm:text-base max-w-3xl leading-relaxed">
               Catálogo físico bibliográfico custodiado en la Casa de la Memoria del Gran Cumbal.
             </p>
-          </div>
-
-          {/* User Session Info / Logout Button */}
-          <div className="flex items-center gap-3 bg-crema-dark/60 px-4 py-2.5 rounded-2xl border border-crema-dark shrink-0">
-            <div className="flex items-center space-x-2 text-xs font-bold text-verde-profundo">
-              <ShieldCheck size={16} className="text-terracota" />
-              <span>{user?.email || 'cmgcpw@gmail.com'}</span>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="text-xs text-terracota hover:text-terracota/80 font-bold underline flex items-center space-x-1 ml-2 cursor-pointer"
-            >
-              <LogOut size={14} />
-              <span>Salir</span>
-            </button>
           </div>
         </div>
       </div>
