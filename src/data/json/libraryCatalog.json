@@ -1,0 +1,1105 @@
+[
+  {
+    "id": "bepimp00001",
+    "code": "BEPIMP00001",
+    "title": "Nuestra vida ha sido nuestra lucha: resistencia y memoria en el Cauca indígena",
+    "subtitle": null,
+    "authors": [
+      "Graciela Bolaños",
+      "Victor Daniel Bonilla",
+      "Jorge Caballlero Fula",
+      "Myriam Amparo Espinoza",
+      "Vianey Judith Garcia",
+      "Jorge Hernandez Lara",
+      "Daniel Ricardo Peñaranda",
+      "Pablo Tattay",
+      "Libia Tattay Bolaños"
+    ],
+    "publisher": "Centro Nacional de Memoria Historica",
+    "year": 2012,
+    "pages": null,
+    "isbn": null,
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Historia",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPIMP00001",
+        "order": 1,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "Carlos Guadir",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://www.centrodememoriahistorica.gov.co/wp-content/uploads/2020/01/Nuestra-vida-ha-sido-nuestra-lucha.pdf"
+  },
+  {
+    "id": "bepi00002",
+    "code": "BEPI00002",
+    "title": "Tiempos de vida y muerte: memorias y luchas de los Pueblos Indígenas en Colombia",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria Historica",
+      "Organizacion Nacional Indigena de Colombia"
+    ],
+    "publisher": "Centro Nacional de Memoria Histórica (CNMH) / Organización Nacional Indígena de Colombia (ONIC)",
+    "year": 2019,
+    "pages": 566,
+    "isbn": "978-958-5500-51-8",
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Historia",
+    "copiesCount": 3,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00002-1",
+        "order": 2,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "Casa de la Memoria de Nariño",
+        "condition": "Bueno",
+        "notes": null
+      },
+      {
+        "inventoryCode": "BEPI00002-2",
+        "order": 3,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "Casa de la Memoria de Nariño",
+        "condition": "Bueno",
+        "notes": null
+      },
+      {
+        "inventoryCode": "BEPI00002-3",
+        "order": 4,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/tiempos-de-vida-y-muerte-memorias-y-luchas-de-los-pueblos-indigenas-en-colombia/"
+  },
+  {
+    "id": "bepi00003",
+    "code": "BEPI00003",
+    "title": "Revista Noche y Niebla n.º 71",
+    "subtitle": "La paz y el expansionismo de las violencias",
+    "authors": [
+      "Banco de Datos de Derechos Humanos y Violencia Política"
+    ],
+    "publisher": "CINEP/PPP",
+    "year": 2025,
+    "pages": 299,
+    "isbn": null,
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Historia",
+    "copiesCount": 2,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00003-1",
+        "order": 5,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "Casa de la Memoria de Nariño",
+        "condition": "Bueno",
+        "notes": null
+      },
+      {
+        "inventoryCode": "BEPI00003-2",
+        "order": 6,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "Casa de la Memoria de Nariño",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://cinep.org.co/publicaciones/producto/revista-noche-y-niebla-n-o-71/"
+  },
+  {
+    "id": "bepi00004",
+    "code": "BEPI00004",
+    "title": "Grupos pos-FARC: rupturas y continuidades en un nuevo escenario de violencia",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria Historica"
+    ],
+    "publisher": "Centro Nacional de Memoria Historica",
+    "year": 2024,
+    "pages": null,
+    "isbn": null,
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Historia",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00004",
+        "order": 7,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/grupos-pos-farc-rupturas-y-continuidades-en-un-nuevo-escenario-de-violencia/"
+  },
+  {
+    "id": "bepi00005",
+    "code": "BEPI00005",
+    "title": "Grupos multicrimen: entre la violencia y la paz total. Volumen I",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria Historica"
+    ],
+    "publisher": "Centro Nacional de Memoria Historica",
+    "year": 2025,
+    "pages": null,
+    "isbn": null,
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Historia",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00005",
+        "order": 8,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/grupos-multicrimen-entre-la-violencia-y-la-paz-total-estructuras-armadas-y-organizadas-de-alto-impacto/"
+  },
+  {
+    "id": "bepi00006",
+    "code": "BEPI00006",
+    "title": "Grupos multicrimen: entre la violencia y la paz total. Volumen II",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria Historica"
+    ],
+    "publisher": "Centro Nacional de Memoria Historica",
+    "year": 2025,
+    "pages": null,
+    "isbn": null,
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Historia",
+    "copiesCount": 2,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00006-1",
+        "order": 9,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      },
+      {
+        "inventoryCode": "BEPI00006-2",
+        "order": 10,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/grupos-multicrimen-entre-la-violencia-y-la-paz-total-estructuras-armadas-y-organizadas-de-alto-impacto/"
+  },
+  {
+    "id": "bepi00007",
+    "code": "BEPI00007",
+    "title": "El Bloque Central Bolívar y la expansión de la violencia paramilitar. Tomo III. Quisieron matar la utopía: la imposición del orden no deseado",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria histroica"
+    ],
+    "publisher": "Centro Nacional de Memoria Historica",
+    "year": 2023,
+    "pages": 460,
+    "isbn": "978-628-7561-64-9",
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Historia",
+    "copiesCount": 2,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00007-1",
+        "order": 11,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      },
+      {
+        "inventoryCode": "BEPI00007-2",
+        "order": 12,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/el-bloque-central-bolivar-un-entramado-entre-fuerza-publica-narcotrafico-y-politica/"
+  },
+  {
+    "id": "bepi00008",
+    "code": "BEPI00008",
+    "title": "El Bloque Central Bolívar y la expansión de la violencia paramilitar. Tomo II. “Todo el mundo sabía que eran ellos”: el BCB en Nariño, Putumayo, Caquetá y los Llanos Orientales",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria Historica"
+    ],
+    "publisher": "Centro Nacional de Memoria Historica",
+    "year": 2023,
+    "pages": 488,
+    "isbn": "978-628-7561-58-8",
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Historia",
+    "copiesCount": 2,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00008-1",
+        "order": 13,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      },
+      {
+        "inventoryCode": "BEPI00008-2",
+        "order": 14,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://repositoriobiblioteca.centrodememoriahistorica.gov.co/s/inicio/item/3852"
+  },
+  {
+    "id": "bepi00009",
+    "code": "BEPI00009",
+    "title": "Isaza, el clan paramilitar. Las Autodefensas Campesinas del Magdalena Medio",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria Historica"
+    ],
+    "publisher": "Centro Nacional de Memoria Historica",
+    "year": 2020,
+    "pages": 703,
+    "isbn": "978-958-5500-55-6",
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Historia",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00009",
+        "order": 15,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://repositoriobiblioteca.centrodememoriahistorica.gov.co/s/inicio/item/3901"
+  },
+  {
+    "id": "bepi00010",
+    "code": "BEPI00010",
+    "title": "Museo de Memoria Histórica del Valle del Cauca: tejiendo la verdad",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria Historica"
+    ],
+    "publisher": "Centro Nacional de Memoria Historica",
+    "year": 2023,
+    "pages": null,
+    "isbn": null,
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Memoria histórica",
+    "copiesCount": 2,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00010-1",
+        "order": 16,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      },
+      {
+        "inventoryCode": "BEPI00010-2",
+        "order": 17,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/museo-de-memoria-historica-del-valle-del-cauca-tejiendo-la-verdad/"
+  },
+  {
+    "id": "bepi00011",
+    "code": "BEPI00011",
+    "title": "Arte, memoria y vida: Comuna 13 y la vereda La Loma",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria Historica",
+    "year": 2023,
+    "pages": 302,
+    "isbn": "978-628-7561-50-2",
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Memoria histórica",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00011",
+        "order": 18,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://repositoriobiblioteca.centrodememoriahistorica.gov.co/s/inicio/item/3821"
+  },
+  {
+    "id": "bepi00012",
+    "code": "BEPI00012",
+    "title": "Nosotros, los hijos de la samuna. Historia del resguardo San Marcelino y sus dos cabildos menores",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria Historica",
+    "year": 2024,
+    "pages": null,
+    "isbn": null,
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Memoria histórica",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00012",
+        "order": 19,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/nosotros-los-hijos-de-la-samuna-historia-del-resguardo-san-marcelino-y-sus-dos-cabildos-menores/"
+  },
+  {
+    "id": "bepi00013",
+    "code": "BEPI00013",
+    "title": "Haciendo la paz, aunque nos cueste la vida",
+    "subtitle": "El caso de la finca La Galleta: agresión de responsabilidad estatal contra excombatientes en reincorporación",
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2023,
+    "pages": 164,
+    "isbn": "978-628-7561-76-2",
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Memoria histórica",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00013",
+        "order": 20,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://repositoriobiblioteca.centrodememoriahistorica.gov.co/s/inicio/item/3869"
+  },
+  {
+    "id": "bepi00014",
+    "code": "BEPI00014",
+    "title": "Nacer dos veces: voces de vida y resistencia en Arboleda",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2023,
+    "pages": null,
+    "isbn": null,
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Memoria histórica",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00014",
+        "order": 21,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/nacer-dos-veces-voces-de-vida-y-resistencia-en-arboleda/"
+  },
+  {
+    "id": "bepi00015",
+    "code": "BEPI00015",
+    "title": "Yolanda Cerón: la hermana del Pacífico, una biografía ilustrada",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2021,
+    "pages": 248,
+    "isbn": "978-958-5500-66-2",
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Biografía",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00015",
+        "order": 22,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://repositoriobiblioteca.centrodememoriahistorica.gov.co/s/inicio/item/2519"
+  },
+  {
+    "id": "bepi00016",
+    "code": "BEPI00016",
+    "title": "Expropiar el cuerpo: seis historias sobre violencia sexual en el conflicto armado",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2018,
+    "pages": 232,
+    "isbn": "978-958-8944-87-6",
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Memoria histórica",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00016",
+        "order": 23,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://repositoriobiblioteca.centrodememoriahistorica.gov.co/s/inicio/item/2040"
+  },
+  {
+    "id": "bepi00017",
+    "code": "BEPI00017",
+    "title": "Entre sueños y banderas. Fragmentos de un país que duele",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2025,
+    "pages": null,
+    "isbn": null,
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Memoria histórica",
+    "copiesCount": 2,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00017-1",
+        "order": 24,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      },
+      {
+        "inventoryCode": "BEPI00017-2",
+        "order": 25,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/entre-suenos-y-banderas-fragmentos-de-un-pais-que-duele/"
+  },
+  {
+    "id": "bepi00018",
+    "code": "BEPI00018",
+    "title": "La justicia que demanda memoria: las víctimas del Bloque Calima en el suroccidente colombiano",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2016,
+    "pages": 512,
+    "isbn": "978-958-8944-26-5",
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Memoria histórica",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00018",
+        "order": 26,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://repositoriobiblioteca.centrodememoriahistorica.gov.co/s/inicio/item/2126"
+  },
+  {
+    "id": "bepi00019",
+    "code": "BEPI00019",
+    "title": "Memorias de esperanza: relatos de Esperanza, Paz y Libertad",
+    "subtitle": null,
+    "authors": [
+      "COLECTIVO ESPERANZA",
+      "PAZ Y LIBERTAD"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2020,
+    "pages": 155,
+    "isbn": null,
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Relatos testimoniales",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00019",
+        "order": 27,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://repositoriobiblioteca.centrodememoriahistorica.gov.co/s/inicio/item/2540"
+  },
+  {
+    "id": "bepi00020",
+    "code": "BEPI00020",
+    "title": "¡El Hatico revive! Voces de resistencia desde el territorio. El Hatico, Fonseca (La Guajira)",
+    "subtitle": null,
+    "authors": [
+      "MUSEO LA RAMADA Y FUNDACION PARA LA PROMOCION DE ARTE Y EL TURISMO ETNIKOS"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2024,
+    "pages": null,
+    "isbn": null,
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Relatos testimoniales",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00020",
+        "order": 28,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/el-hatico-revive-voces-de-resistencia-desde-el-territorio/"
+  },
+  {
+    "id": "bepi00021",
+    "code": "BEPI00021",
+    "title": "Expropiar el cuerpo: crónicas de mujeres afrodescendientes víctimas de violencia sexual en el marco del conflicto armado colombiano",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2024,
+    "pages": null,
+    "isbn": null,
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Crónica",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00021",
+        "order": 29,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/expropiar-el-cuerpo-cronicas-de-mujeres-afrodescendientes-victimas-de-violencia-sexual-en-el-marco-del-conflicto-armado-colombiano/"
+  },
+  {
+    "id": "bepi00022",
+    "code": "BEPI00022",
+    "title": "Mujeres. Saberes y sabores",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2023,
+    "pages": 154,
+    "isbn": "978-628-7561-56-4",
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Relatos testimoniales / Cocina",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00022",
+        "order": 30,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://accioneseiniciativas.centrodememoriahistorica.gov.co/s/inicio/item/1689"
+  },
+  {
+    "id": "bepi00023",
+    "code": "BEPI00023",
+    "title": "El libro blanco de Yarumal: Rastros de vida",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2023,
+    "pages": 180,
+    "isbn": "978-628-7561-84-7",
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Relatos testimoniales",
+    "copiesCount": 2,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00023-1",
+        "order": 31,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      },
+      {
+        "inventoryCode": "BEPI00023-2",
+        "order": 32,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://repositoriobiblioteca.centrodememoriahistorica.gov.co/s/inicio/item/3840"
+  },
+  {
+    "id": "bepi00024",
+    "code": "BEPI00024",
+    "title": "La búsqueda de Salo: legados y escuchas de la verdad",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2025,
+    "pages": 68,
+    "isbn": "978-628-7792-20-3",
+    "collection": "Memoria del conflicto armado",
+    "keywords": [],
+    "category": "Cómic documental",
+    "copiesCount": 2,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00024-1",
+        "order": 33,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      },
+      {
+        "inventoryCode": "BEPI00024-2",
+        "order": 34,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/la-busqueda-de-salo-legados-y-escuchas-de-la-verdad/"
+  },
+  {
+    "id": "bepi00025",
+    "code": "BEPI00025",
+    "title": "Política Pública de Archivos de Derechos Humanos, Memoria Histórica y Conflicto Armado",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2017,
+    "pages": 208,
+    "isbn": "978-958-8944-57-9",
+    "collection": "Memoria del conflicto armado",
+    "keywords": [
+      "POLITICA PUBLICA",
+      "ARCHIVOS",
+      "DDHH",
+      "MEMORIA HISTÓRICA",
+      "CONFLICTO ARMADO"
+    ],
+    "category": "Documento técnico / Política pública",
+    "copiesCount": 1,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00025",
+        "order": 35,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/politica-publica-de-archivos-de-derechos-humanos-memoria-historica-y-conflicto-armado/"
+  },
+  {
+    "id": "bepi00026",
+    "code": "BEPI00026",
+    "title": "A nosotras nos reclutó la realidad del país. Trayectorias de vida de mujeres exintegrantes del EPL",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2025,
+    "pages": 196,
+    "isbn": "978-628-7792-28-9",
+    "collection": "Memoria del conflicto armado",
+    "keywords": [
+      "MUJERES EXCOMBATIENTES",
+      "COLOMBIA",
+      "RELATOS PERSONALES",
+      "CONFLICTO ARMADO",
+      "DESMOVILIZACIÓN",
+      "EPL",
+      "ESCLARECIMIENTO DE LA VERDAD",
+      "HISTORIA"
+    ],
+    "category": "Relatos testimoniales",
+    "copiesCount": 2,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00026-1",
+        "order": 36,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      },
+      {
+        "inventoryCode": "BEPI00026-2",
+        "order": 37,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://repositoriobiblioteca.centrodememoriahistorica.gov.co/s/inicio/item/4183"
+  },
+  {
+    "id": "bepi00027",
+    "code": "BEPI00027",
+    "title": "Leer para escribir: memorias de mujeres en la guerra",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2022,
+    "pages": 188,
+    "isbn": "978-628-7561-62-5",
+    "collection": "Memoria del conflicto armado",
+    "keywords": [
+      "CONFLICTO ARMADO",
+      "RELATOS PERSONALES",
+      "MUJERES COMO AUTORAS",
+      "MEMORIA HISTÓRICA"
+    ],
+    "category": "Literatura",
+    "copiesCount": 2,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00027-1",
+        "order": 38,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      },
+      {
+        "inventoryCode": "BEPI00027-2",
+        "order": 39,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/leer-para-escribir-memorias-de-mujeres-en-la-guerra/"
+  },
+  {
+    "id": "bepi00028",
+    "code": "BEPI00028",
+    "title": "Investigaciones y resistencias CNMH",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2025,
+    "pages": 89,
+    "isbn": null,
+    "collection": "Memoria del conflicto armado",
+    "keywords": [
+      "CONFLICTO ARMADO",
+      "ACTORES ARMADOS",
+      "PARAMILITARISMO",
+      "GUERRILAS",
+      "OTROS ACTORES",
+      "RESISTENCIAS",
+      "JUSTICIA",
+      "PROCESOS PEDAGOGICOS"
+    ],
+    "category": "Catálogo",
+    "copiesCount": 2,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00028-1",
+        "order": 40,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      },
+      {
+        "inventoryCode": "BEPI00028-2",
+        "order": 41,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/catalogos-digitales-cnmh/"
+  },
+  {
+    "id": "bepi00029",
+    "code": "BEPI00029",
+    "title": "Audiovisuales y pódcast CNMH",
+    "subtitle": null,
+    "authors": [
+      "Centro Nacional de Memoria historica"
+    ],
+    "publisher": "Centro Nacional de Memoria historica",
+    "year": 2025,
+    "pages": 56,
+    "isbn": null,
+    "collection": "Memoria del conflicto armado",
+    "keywords": [
+      "AUDIOVISUALES",
+      "PODCAST",
+      "VIOLENCIA",
+      "MEMORIA",
+      "CONSTRUCCIÓN DE PAZ"
+    ],
+    "category": "Memoria histórica",
+    "copiesCount": 2,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00029-1",
+        "order": 42,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      },
+      {
+        "inventoryCode": "BEPI00029-2",
+        "order": 43,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Donación",
+        "donor": "CNMH",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": "https://centrodememoriahistorica.gov.co/catalogos-digitales-cnmh/"
+  },
+  {
+    "id": "bepi00030",
+    "code": "BEPI00030",
+    "title": "Añoranzas cumbaleñas",
+    "subtitle": null,
+    "authors": [
+      "EFRAIN BRAVO GRIJALVA"
+    ],
+    "publisher": "Graficumbal",
+    "year": 2011,
+    "pages": 413,
+    "isbn": null,
+    "collection": "HISTORIA CUMBALEÑA",
+    "keywords": [
+      "CUMBAL",
+      "HISTORIA",
+      "INDÍGENA",
+      "RESGUARDOS",
+      "FOLCLOR",
+      "EDUCACIÓN",
+      "TURISMO"
+    ],
+    "category": "Historia",
+    "copiesCount": 2,
+    "copies": [
+      {
+        "inventoryCode": "BEPI00030-1",
+        "order": 44,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Compra",
+        "donor": "BIBLIOTECA PERSONAL DE LUIS CARLOS CUAICAL ALPALA",
+        "condition": "Bueno",
+        "notes": null
+      },
+      {
+        "inventoryCode": "BEPI00030-2",
+        "order": 45,
+        "entryDate": "2026-07-16",
+        "coverType": "Pasta blanda",
+        "acquisitionType": "Compra",
+        "donor": "BIBLIOTECA PERSONAL DE DIANA MARCELA PIARPUEZAN CANACUAN",
+        "condition": "Bueno",
+        "notes": null
+      }
+    ],
+    "sourceUrl": null
+  }
+]

@@ -1,50 +1,42 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { Search, BookOpen, User, Info, CheckCircle2, FileSpreadsheet, X, Hash, FolderOpen, ChevronRight } from 'lucide-react';
-import { bepimpCatalogData, BepimpItem, getAllBepimpCategories } from '@/data/bepimpCatalog';
+import { Search, BookOpen, User, Info, CheckCircle2, FileSpreadsheet, X, Hash, FolderOpen, ChevronRight, ExternalLink, Layers } from 'lucide-react';
+import { 
+  libraryCatalog, 
+  LibraryItem, 
+  getAllLibraryCategories, 
+  searchLibrary, 
+  getTotalCopiesCount 
+} from '@/data/libraryCatalog';
 
 export default function BibliotecaEspecializada() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todas');
-  const [selectedItemModal, setSelectedItemModal] = useState<BepimpItem | null>(null);
+  const [selectedItemModal, setSelectedItemModal] = useState<LibraryItem | null>(null);
 
-  // Dynamic category list starting with 'Todas'
-  const categoriesList = useMemo(() => ['Todas', ...getAllBepimpCategories()], []);
+  // Dynamic categories list starting with 'Todas'
+  const categoriesList = useMemo(() => ['Todas', ...getAllLibraryCategories()], []);
+
+  // Total physical copies count across all titles
+  const totalCopiesCount = useMemo(() => getTotalCopiesCount(), []);
 
   // Compute item counts per category for scalable sidebar metrics
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = {
-      Todas: bepimpCatalogData.length,
+      Todas: libraryCatalog.length,
     };
-    bepimpCatalogData.forEach((item) => {
-      counts[item.category] = (counts[item.category] || 0) + 1;
+    libraryCatalog.forEach((item) => {
+      if (item.category) {
+        counts[item.category] = (counts[item.category] || 0) + 1;
+      }
     });
     return counts;
   }, []);
 
-  // Filter items dynamically by category and search query
+  // Filter items dynamically by category and accent-insensitive search query
   const filteredCatalog = useMemo(() => {
-    return bepimpCatalogData.filter((item) => {
-      // Filter by category
-      if (selectedCategory !== 'Todas' && item.category !== selectedCategory) {
-        return false;
-      }
-
-      // Filter by search query
-      if (!searchQuery.trim()) return true;
-
-      const q = searchQuery.toLowerCase().trim();
-      const matchCode = item.code.toLowerCase().includes(q);
-      const matchTitle = item.title.toLowerCase().includes(q);
-      const matchAuthor = item.author.toLowerCase().includes(q);
-      const matchPublisher = item.publisher.toLowerCase().includes(q);
-      const matchCollection = item.collection.toLowerCase().includes(q);
-      const matchIsbn = item.isbn?.toLowerCase().includes(q) || false;
-      const matchKeywords = item.keywords.some(k => k.toLowerCase().includes(q));
-
-      return matchCode || matchTitle || matchAuthor || matchPublisher || matchCollection || matchIsbn || matchKeywords;
-    });
+    return searchLibrary(searchQuery, selectedCategory);
   }, [searchQuery, selectedCategory]);
 
   const clearFilters = () => {
@@ -69,7 +61,7 @@ export default function BibliotecaEspecializada() {
               Biblioteca Especializada en Pueblos Indígenas, Memoria y Paz
             </h3>
             <p className="text-cafe/80 text-sm sm:text-base max-w-3xl leading-relaxed">
-              Catálogo físico bibliográfico custodiado en la Casa de la Memoria del Gran Cumbal. Consulta las fichas de los ejemplares por categoría, código, título o autor.
+              Catálogo físico bibliográfico custodiado en la Casa de la Memoria del Gran Cumbal. Consulta las fichas de los ejemplares por categoría, código, título, autor o código de inventario.
             </p>
           </div>
 
@@ -77,13 +69,13 @@ export default function BibliotecaEspecializada() {
           <div className="flex items-center gap-4 bg-crema-dark/80 p-4 rounded-2xl border border-crema-dark shadow-inner shrink-0">
             <div className="text-center px-3 border-r border-cafe/20">
               <span className="block font-serif font-extrabold text-2xl text-verde-profundo">
-                {bepimpCatalogData.length}
+                {totalCopiesCount}
               </span>
               <span className="text-[11px] font-bold text-cafe/70 uppercase">Ejemplares</span>
             </div>
             <div className="text-center px-3 border-r border-cafe/20">
               <span className="block font-serif font-extrabold text-2xl text-terracota">
-                30
+                {libraryCatalog.length}
               </span>
               <span className="text-[11px] font-bold text-cafe/70 uppercase">Títulos</span>
             </div>
@@ -110,7 +102,7 @@ export default function BibliotecaEspecializada() {
             {(selectedCategory !== 'Todas' || searchQuery) && (
               <button
                 onClick={clearFilters}
-                className="text-xs font-bold text-terracota hover:underline flex items-center space-x-1"
+                className="text-xs font-bold text-terracota hover:underline flex items-center space-x-1 cursor-pointer"
                 title="Restablecer filtros"
               >
                 <X size={14} />
@@ -128,7 +120,7 @@ export default function BibliotecaEspecializada() {
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all group ${
+                  className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all group cursor-pointer ${
                     isActive
                       ? 'bg-verde-profundo text-crema shadow-md scale-[1.02]'
                       : 'bg-crema-dark/40 text-cafe/80 hover:bg-crema-dark hover:text-verde-profundo border border-crema-dark/50'
@@ -171,13 +163,13 @@ export default function BibliotecaEspecializada() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar por código (ej: BEPIMP00030-1), título, autor o tema..."
+                placeholder="Buscar por título, autor, código (ej: BEPI00002 o BEPI00002-1), ISBN o tema..."
                 className="w-full pl-12 pr-10 py-3.5 bg-crema text-cafe font-medium text-sm sm:text-base rounded-xl border-2 border-crema-dark/80 focus:border-verde-profundo focus:outline-none focus:ring-2 focus:ring-verde-profundo/20 transition-all shadow-inner placeholder-cafe/50"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-cafe/50 hover:text-terracota transition-colors"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-cafe/50 hover:text-terracota transition-colors cursor-pointer"
                 >
                   <X size={20} />
                 </button>
@@ -192,7 +184,7 @@ export default function BibliotecaEspecializada() {
               <span className="text-verde-profundo font-extrabold text-base bg-verde-profundo/10 px-2.5 py-0.5 rounded-lg border border-verde-profundo/20">
                 {filteredCatalog.length}
               </span>
-              <span>registros</span>
+              <span>obras</span>
               {selectedCategory !== 'Todas' && (
                 <span className="text-xs bg-terracota/10 text-terracota font-bold px-3 py-1 rounded-full border border-terracota/20 ml-2">
                   Categoría: {selectedCategory}
@@ -211,13 +203,13 @@ export default function BibliotecaEspecializada() {
           {filteredCatalog.length === 0 ? (
             <div className="bg-crema/90 rounded-3xl p-12 text-center border border-crema-dark space-y-4 shadow-sm">
               <BookOpen size={48} className="text-cafe/40 mx-auto" />
-              <h4 className="font-serif font-bold text-2xl text-verde-profundo">No se encontraron registros</h4>
+              <h4 className="font-serif font-bold text-2xl text-verde-profundo">No se encontraron obras</h4>
               <p className="text-cafe/70 text-sm max-w-md mx-auto">
-                No se hallaron items que coincidan con la búsqueda en la categoría <strong>{selectedCategory}</strong>.
+                No se hallaron ítems que coincidan con la búsqueda en la categoría <strong>{selectedCategory}</strong>.
               </p>
               <button
                 onClick={clearFilters}
-                className="px-6 py-2.5 bg-verde-profundo text-crema text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-terracota transition-colors"
+                className="px-6 py-2.5 bg-verde-profundo text-crema text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-terracota transition-colors cursor-pointer"
               >
                 Restablecer Filtros
               </button>
@@ -229,7 +221,7 @@ export default function BibliotecaEspecializada() {
                   <thead>
                     <tr className="bg-verde-profundo text-crema text-xs font-serif font-bold tracking-wider uppercase border-b border-verde-profundo/80">
                       <th scope="col" className="py-3.5 px-4 w-32">Código</th>
-                      <th scope="col" className="py-3.5 px-4">Título y Autor</th>
+                      <th scope="col" className="py-3.5 px-4">Título y Autor(es)</th>
                       <th scope="col" className="py-3.5 px-4 hidden sm:table-cell">Categoría / Colección</th>
                       <th scope="col" className="py-3.5 px-4 hidden md:table-cell">Año</th>
                       <th scope="col" className="py-3.5 px-4 text-right w-28">Ficha</th>
@@ -243,21 +235,33 @@ export default function BibliotecaEspecializada() {
                       >
                         {/* Código */}
                         <td className="py-3.5 px-4 whitespace-nowrap align-top">
-                          <span className="inline-flex items-center space-x-1 font-mono font-bold text-verde-profundo bg-verde-profundo/10 px-2.5 py-1 rounded-lg border border-verde-profundo/20 text-[11px]">
-                            <Hash size={11} className="text-terracota" />
-                            <span>{item.code}</span>
-                          </span>
+                          <div className="space-y-1">
+                            <span className="inline-flex items-center space-x-1 font-mono font-bold text-verde-profundo bg-verde-profundo/10 px-2.5 py-1 rounded-lg border border-verde-profundo/20 text-[11px]">
+                              <Hash size={11} className="text-terracota" />
+                              <span>{item.code}</span>
+                            </span>
+                            {item.copiesCount > 1 && (
+                              <span className="block text-[10px] font-bold text-terracota bg-terracota/10 px-2 py-0.5 rounded-full border border-terracota/20 w-fit">
+                                {item.copiesCount} ejemplares
+                              </span>
+                            )}
+                          </div>
                         </td>
 
-                        {/* Título & Autor */}
+                        {/* Título & Autor(es) */}
                         <td className="py-3.5 px-4 align-top">
                           <div className="space-y-0.5 pr-2">
                             <h4 className="font-serif font-bold text-sm text-verde-profundo group-hover:text-terracota transition-colors leading-snug">
                               {item.title}
                             </h4>
-                            <div className="flex items-center space-x-1 text-[11px] font-semibold text-cafe/75">
+                            {item.subtitle && (
+                              <p className="text-[11px] italic text-cafe/70 leading-tight">
+                                {item.subtitle}
+                              </p>
+                            )}
+                            <div className="flex items-center space-x-1 text-[11px] font-semibold text-cafe/75 pt-0.5">
                               <User size={12} className="text-terracota shrink-0" />
-                              <span>{item.author}</span>
+                              <span>{item.authors && item.authors.length > 0 ? item.authors.join(', ') : 'Autor no registrado'}</span>
                             </div>
                           </div>
                         </td>
@@ -265,23 +269,29 @@ export default function BibliotecaEspecializada() {
                         {/* Categoría / Colección */}
                         <td className="py-3.5 px-4 align-top hidden sm:table-cell whitespace-nowrap">
                           <div className="space-y-1">
-                            <span className="inline-block px-2.5 py-0.5 bg-terracota/10 text-terracota font-bold text-[10px] rounded-full border border-terracota/20">
-                              {item.category}
-                            </span>
-                            <span className="text-[11px] text-cafe/80 block font-medium truncate max-w-[170px]">
-                              {item.collection}
-                            </span>
+                            {item.category && (
+                              <span className="inline-block px-2.5 py-0.5 bg-terracota/10 text-terracota font-bold text-[10px] rounded-full border border-terracota/20">
+                                {item.category}
+                              </span>
+                            )}
+                            {item.collection && (
+                              <span className="text-[11px] text-cafe/80 block font-medium truncate max-w-[170px]">
+                                {item.collection}
+                              </span>
+                            )}
                           </div>
                         </td>
 
-                        {/* Año */}
+                        {/* Año y Editorial */}
                         <td className="py-3.5 px-4 align-top hidden md:table-cell whitespace-nowrap">
                           <span className="font-bold text-cafe">
-                            {item.year}
+                            {item.year || 'N/A'}
                           </span>
-                          <span className="text-[10px] text-cafe/60 block">
-                            {item.publisher}
-                          </span>
+                          {item.publisher && (
+                            <span className="text-[10px] text-cafe/60 block truncate max-w-[140px]">
+                              {item.publisher}
+                            </span>
+                          )}
                         </td>
 
                         {/* Acción / Botón Ver Ficha */}
@@ -308,54 +318,125 @@ export default function BibliotecaEspecializada() {
       {/* Modal de Ficha Técnica de Inventario */}
       {selectedItemModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-crema rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border-2 border-crema-dark relative overflow-hidden space-y-6 max-h-[90vh] overflow-y-auto">
+          <div className="bg-crema rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl border-2 border-crema-dark relative overflow-hidden space-y-6 max-h-[90vh] overflow-y-auto">
             
             {/* Header Modal */}
             <div className="flex items-start justify-between border-b border-crema-dark pb-4">
-              <div className="space-y-1 pr-6">
-                <span className="px-3 py-1 bg-verde-profundo text-crema font-mono font-bold text-xs rounded-lg inline-block mb-1">
-                  {selectedItemModal.code}
-                </span>
-                <h3 className="font-serif font-bold text-2xl text-verde-profundo">
+              <div className="space-y-1.5 pr-6">
+                <div className="flex items-center space-x-2 flex-wrap gap-y-1">
+                  <span className="px-3 py-1 bg-verde-profundo text-crema font-mono font-bold text-xs rounded-lg inline-block">
+                    {selectedItemModal.code}
+                  </span>
+                  {selectedItemModal.category && (
+                    <span className="px-2.5 py-0.5 bg-terracota/10 text-terracota font-bold text-xs rounded-full border border-terracota/20">
+                      {selectedItemModal.category}
+                    </span>
+                  )}
+                </div>
+
+                <h3 className="font-serif font-bold text-2xl text-verde-profundo leading-snug">
                   {selectedItemModal.title}
                 </h3>
+                {selectedItemModal.subtitle && (
+                  <p className="text-sm italic text-cafe/80 font-serif">
+                    {selectedItemModal.subtitle}
+                  </p>
+                )}
+
                 <p className="text-xs font-bold text-terracota">
-                  Autor(es): {selectedItemModal.author}
+                  Autor(es): {selectedItemModal.authors && selectedItemModal.authors.length > 0 ? selectedItemModal.authors.join(', ') : 'No registrado'}
                 </p>
               </div>
               <button
                 onClick={() => setSelectedItemModal(null)}
-                className="p-2 rounded-full hover:bg-crema-dark text-cafe/70 hover:text-terracota transition-colors"
+                className="p-2 rounded-full hover:bg-crema-dark text-cafe/70 hover:text-terracota transition-colors cursor-pointer shrink-0"
               >
                 <X size={24} />
               </button>
             </div>
 
-            {/* General Inventory Info */}
+            {/* General Metadata Info */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div className="bg-crema-dark/60 p-4 rounded-2xl border border-crema-dark space-y-2">
                 <span className="font-bold text-verde-profundo text-sm block border-b border-cafe/10 pb-1">
-                  Datos de Publicación
+                  Datos de Edición & Publicación
                 </span>
-                <p><strong className="text-cafe">Año de Edición:</strong> {selectedItemModal.year}</p>
-                <p><strong className="text-cafe">Editorial:</strong> {selectedItemModal.publisher}</p>
-                <p><strong className="text-cafe">No. Páginas:</strong> {selectedItemModal.pages || 'No registrado'}</p>
+                <p><strong className="text-cafe">Año:</strong> {selectedItemModal.year || 'No registrado'}</p>
+                <p><strong className="text-cafe">Editorial:</strong> {selectedItemModal.publisher || 'No registrada'}</p>
+                <p><strong className="text-cafe">Páginas:</strong> {selectedItemModal.pages ? `${selectedItemModal.pages} págs.` : 'No registrado'}</p>
                 <p><strong className="text-cafe">ISBN:</strong> {selectedItemModal.isbn || 'No contiene'}</p>
-                <p><strong className="text-cafe">Colección:</strong> {selectedItemModal.collection}</p>
+                <p><strong className="text-cafe">Colección:</strong> {selectedItemModal.collection || 'General'}</p>
               </div>
 
               <div className="bg-crema-dark/60 p-4 rounded-2xl border border-crema-dark space-y-2">
                 <span className="font-bold text-verde-profundo text-sm block border-b border-cafe/10 pb-1">
-                  Registro de Ingreso BEPIMP
+                  Resumen de Inventario Físico
                 </span>
-                <p><strong className="text-cafe">Fecha de Ingreso:</strong> {selectedItemModal.entryDate}</p>
-                <p><strong className="text-cafe">Forma de Llegada:</strong> {selectedItemModal.acquisitionType}</p>
-                <p><strong className="text-cafe">Donante:</strong> {selectedItemModal.donorName || 'N/A'}</p>
-                <p><strong className="text-cafe">Ejemplares Registrados:</strong> {selectedItemModal.copies}</p>
-                <p><strong className="text-cafe">Tipo Cubierta:</strong> {selectedItemModal.coverType}</p>
-                <p><strong className="text-cafe">Estado Físico:</strong> <span className="text-verde-profundo font-bold">{selectedItemModal.physicalCondition}</span></p>
+                <p><strong className="text-cafe">Total Ejemplares:</strong> <span className="text-verde-profundo font-extrabold text-sm">{selectedItemModal.copiesCount}</span></p>
+                <p><strong className="text-cafe">Categoría:</strong> {selectedItemModal.category || 'N/A'}</p>
+                {selectedItemModal.sourceUrl && (
+                  <div className="pt-2">
+                    <a 
+                      href={selectedItemModal.sourceUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center space-x-1.5 bg-terracota hover:bg-terracota/90 text-crema font-bold text-xs py-1.5 px-3 rounded-lg transition-colors shadow-sm"
+                    >
+                      <span>Consultar Fuente / PDF</span>
+                      <ExternalLink size={13} />
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
+
+            {/* List of Physical Copies (Ejemplares Físicos Registrados) */}
+            {selectedItemModal.copies && selectedItemModal.copies.length > 0 && (
+              <div className="space-y-3 pt-2">
+                <div className="flex items-center space-x-2 text-xs font-bold text-verde-profundo uppercase tracking-wider">
+                  <Layers size={16} className="text-terracota" />
+                  <span>Ejemplares Físicos Registrados ({selectedItemModal.copies.length})</span>
+                </div>
+
+                <div className="space-y-2.5 max-h-56 overflow-y-auto pr-1 custom-scrollbar">
+                  {selectedItemModal.copies.map((copy, idx) => (
+                    <div 
+                      key={idx}
+                      className="bg-crema-dark/40 p-3.5 rounded-xl border border-crema-dark flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                    >
+                      <div className="space-y-1">
+                        <div className="flex items-center space-x-2 flex-wrap gap-y-1">
+                          <span className="font-mono font-bold text-verde-profundo bg-verde-profundo/10 px-2 py-0.5 rounded text-[11px] border border-verde-profundo/20">
+                            {copy.inventoryCode}
+                          </span>
+                          <span className="font-bold text-cafe">
+                            Ejemplar #{copy.order || idx + 1}
+                          </span>
+                          {copy.condition && (
+                            <span className="px-2 py-0.5 bg-verde-profundo/10 text-verde-profundo text-[10px] font-bold rounded-full border border-verde-profundo/20">
+                              Estado: {copy.condition}
+                            </span>
+                          )}
+                        </div>
+
+                        <div className="text-cafe/80 text-[11px] space-x-3 pt-0.5">
+                          {copy.donor && <span><strong>Donante:</strong> {copy.donor}</span>}
+                          {copy.acquisitionType && <span><strong>Ingreso:</strong> {copy.acquisitionType}</span>}
+                          {copy.coverType && <span><strong>Cubierta:</strong> {copy.coverType}</span>}
+                          {copy.entryDate && <span><strong>Fecha:</strong> {copy.entryDate}</span>}
+                        </div>
+
+                        {copy.notes && (
+                          <p className="text-[11px] italic text-cafe/70 pt-0.5">
+                            Nota: {copy.notes}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Location & Custody Note */}
             <div className="p-4 bg-verde-profundo/10 rounded-2xl border border-verde-profundo/20 text-xs text-verde-profundo space-y-1">
@@ -364,7 +445,7 @@ export default function BibliotecaEspecializada() {
                 <span>Ubicación Física en la Casa de la Memoria del Gran Cumbal:</span>
               </div>
               <p className="text-cafe/80 pl-6">
-                Este volumen forma parte del Fondo Bibliográfico BEPIMP. Disponible para consulta presencial en sala o investigación comunitaria.
+                Este fondo forma parte del inventario bibliográfico BEPIMP. Disponible para consulta presencial en sala o investigación comunitaria.
               </p>
             </div>
 
@@ -372,7 +453,7 @@ export default function BibliotecaEspecializada() {
             <div className="pt-2 flex justify-end">
               <button
                 onClick={() => setSelectedItemModal(null)}
-                className="px-6 py-2.5 bg-verde-profundo text-crema text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-terracota transition-colors"
+                className="px-6 py-2.5 bg-verde-profundo text-crema text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-terracota transition-colors cursor-pointer"
               >
                 Cerrar Ficha
               </button>
