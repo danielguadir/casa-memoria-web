@@ -49,9 +49,9 @@ export default function LoginModal() {
         <div className="p-3.5 bg-mostaza/15 border border-mostaza/40 rounded-xl text-xs text-cafe flex items-start space-x-3">
           <Key className="w-5 h-5 text-terracota shrink-0 mt-0.5" />
           <div>
-            <p className="font-bold text-verde-profundo">Credenciales para Pruebas:</p>
+            <p className="font-bold text-verde-profundo">Credenciales de Acceso:</p>
             <p className="text-cafe/80 mt-0.5">
-              Puedes ingresar cualquier correo válido (ej: <code className="bg-crema px-1.5 py-0.5 rounded font-mono font-bold">admin@casamemoria.gov.co</code>) y la clave demo <code className="bg-crema px-1.5 py-0.5 rounded font-mono font-bold text-terracota">123</code>.
+              Correo autorizado: <code className="bg-crema px-1.5 py-0.5 rounded font-mono font-bold text-verde-profundo">cmgcpw@gmail.com</code> | Clave: <code className="bg-crema px-1.5 py-0.5 rounded font-mono font-bold text-terracota">admincmgc2026</code>
             </p>
           </div>
         </div>

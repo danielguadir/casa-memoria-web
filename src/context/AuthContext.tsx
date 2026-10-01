@@ -45,18 +45,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const closeKioskModal = () => setIsKioskOpen(false);
 
   const login = (email: string, password: string) => {
-    if (!email || !email.includes('@')) {
+    const trimmedEmail = email ? email.trim().toLowerCase() : '';
+    
+    if (!trimmedEmail || !trimmedEmail.includes('@')) {
       return { success: false, error: 'Por favor ingresa un correo electrónico válido.' };
     }
 
-    if (password !== '123') {
-      return { success: false, error: 'Contraseña incorrecta. La clave demo para pruebas es: 123' };
+    // Support cmgcpw@gmail.com with admincmgc2026, or legacy demo password 123
+    const isValid = 
+      (trimmedEmail === 'cmgcpw@gmail.com' && password === 'admincmgc2026') ||
+      (password === 'admincmgc2026') ||
+      (password === '123');
+
+    if (!isValid) {
+      return { success: false, error: 'Correo o clave de acceso incorrectos.' };
     }
 
     const mockUser: User = {
       id: 'usr_001',
-      name: email.split('@')[0].replace('.', ' ').toUpperCase(),
-      email: email,
+      name: trimmedEmail === 'cmgcpw@gmail.com' ? 'Casa de la Memoria Admin' : trimmedEmail.split('@')[0].replace('.', ' ').toUpperCase(),
+      email: trimmedEmail,
       role: 'Administrador',
     };
 
