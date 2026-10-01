@@ -3,8 +3,7 @@
 import Image from 'next/image';
 import { MapPin, ExternalLink } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { socialLinks } from '@/data/socialLinks';
-
+import SocialHeaderBar from '@/components/SocialHeaderBar';
 
 export default function Footer() {
   const { activeView } = useAuth();
@@ -40,26 +39,7 @@ export default function Footer() {
 
             <div className="space-y-2 pt-2">
               <p className="text-xs font-semibold text-mostaza uppercase tracking-wider">Síguenos en Redes Sociales:</p>
-              <div className="flex space-x-3">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.name}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title={`Síguenos en ${social.name}`}
-                    aria-label={social.name}
-                    className={`
-                      w-9 h-9 rounded-full flex items-center justify-center 
-                      transition-all duration-300 cursor-pointer hover:scale-115 shrink-0 shadow-md
-                      bg-verde-profundo text-crema border border-crema/10
-                      ${social.hoverColorClass}
-                    `}
-                  >
-                    {social.icon}
-                  </a>
-                ))}
-              </div>
+              <SocialHeaderBar variant="footer" />
             </div>
           </div>
 
