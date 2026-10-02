@@ -140,12 +140,13 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
             {!isCollapsed && <span>Explorador de Archivo</span>}
           </button>
 
-          {/* 2. Edición Desplegable de la Página Web */}
+          {/* 3. Edición Desplegable de la Página Web */}
           <div>
             <button
               onClick={() => {
                 if (isCollapsed) setIsCollapsed(false);
                 toggleSubmenu('editarPagina');
+                onOpenModal('editPageContent');
               }}
               className={`
                 w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-left

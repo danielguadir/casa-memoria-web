@@ -1,19 +1,34 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { Search, BookOpen, User, Info, CheckCircle2, FileSpreadsheet, X, Hash, FolderOpen, ChevronRight, Layers } from 'lucide-react';
+import { Search, BookOpen, User, Info, CheckCircle2, FileSpreadsheet, X, Hash, FolderOpen, ChevronRight, Layers, Edit, Trash2, Plus, ShieldCheck } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { AdminModals, AdminModalType } from '@/components/admin/AdminModals';
 import { 
   getLibraryCatalog,
+  deleteLibraryItem,
   LibraryItem, 
-  getAllLibraryCategories, 
   searchLibrary 
 } from '@/data/libraryCatalog';
 
 export default function BibliotecaEspecializada() {
+  const { isLoggedIn, activeView } = useAuth();
+  const isAdmin = isLoggedIn || activeView === 'admin';
+
   const [catalogItems, setCatalogItems] = useState<LibraryItem[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todas');
   const [selectedItemModal, setSelectedItemModal] = useState<LibraryItem | null>(null);
+
+  // Admin interactive state on the page
+  const [activeAdminModal, setActiveAdminModal] = useState<AdminModalType>(null);
+  const [targetBookToEdit, setTargetBookToEdit] = useState<LibraryItem | null>(null);
+  const [notification, setNotification] = useState<string | null>(null);
+
+  const showNotification = (msg: string) => {
+    setNotification(msg);
+    setTimeout(() => setNotification(null), 4000);
+  };
 
   useEffect(() => {
     setCatalogItems(getLibraryCatalog());
@@ -69,6 +84,19 @@ export default function BibliotecaEspecializada() {
   return (
     <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-300">
       
+      {/* Toast Notification */}
+      {notification && (
+        <div className="p-4 bg-verde-profundo text-crema rounded-2xl shadow-xl flex items-center justify-between animate-in slide-in-from-top-4 duration-300 font-sans">
+          <div className="flex items-center space-x-3">
+            <CheckCircle2 className="w-5 h-5 text-mostaza shrink-0" />
+            <span className="text-sm font-semibold">{notification}</span>
+          </div>
+          <button onClick={() => setNotification(null)} className="text-xs text-crema/70 hover:text-crema">
+            Descartar
+          </button>
+        </div>
+      )}
+
       {/* Target Inventory Banner */}
       <div className="bg-crema/95 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-xl border border-crema-dark relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-mostaza/10 rounded-full blur-3xl -z-10 pointer-events-none"></div>
@@ -86,6 +114,24 @@ export default function BibliotecaEspecializada() {
               Catálogo físico bibliográfico custodiado en la Casa de la Memoria del Gran Cumbal.
             </p>
           </div>
+
+          {/* Admin Control Actions Header */}
+          {isAdmin && (
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 bg-crema-dark/70 p-3.5 rounded-2xl border border-crema-dark shrink-0">
+              <div className="flex items-center space-x-2 text-xs font-bold text-verde-profundo">
+                <ShieldCheck size={16} className="text-terracota" />
+                <span>Modo Administrador</span>
+              </div>
+              <button
+                onClick={() => setActiveAdminModal('addLibraryBook')}
+                className="px-4 py-2 bg-terracota hover:bg-terracota/90 text-crema font-bold text-xs rounded-xl shadow-md transition-all flex items-center space-x-1.5 cursor-pointer"
+                title="Agregar nuevo libro o documento al catálogo"
+              >
+                <Plus size={15} />
+                <span>Agregar Libro / Documento</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -314,16 +360,49 @@ export default function BibliotecaEspecializada() {
                           )}
                         </td>
 
-                        {/* Acción / Botón Ver Ficha */}
+                        {/* Acción / Botón Ver Ficha + Admin Controls */}
                         <td className="py-3.5 px-4 align-top text-right whitespace-nowrap">
-                          <button
-                            onClick={() => setSelectedItemModal(item)}
-                            className="inline-flex items-center space-x-1.5 bg-verde-profundo hover:bg-terracota text-crema font-bold text-[11px] px-3 py-1.5 rounded-lg transition-all shadow-sm hover:shadow-md cursor-pointer"
-                            title="Ver Ficha Técnica"
-                          >
-                            <Info size={13} />
-                            <span>Ver Ficha</span>
-                          </button>
+                          <div className="flex items-center justify-end space-x-1.5">
+                            <button
+                              onClick={() => setSelectedItemModal(item)}
+                              className="inline-flex items-center space-x-1.5 bg-verde-profundo hover:bg-terracota text-crema font-bold text-[11px] px-3 py-1.5 rounded-lg transition-all shadow-sm hover:shadow-md cursor-pointer"
+                              title="Ver Ficha Técnica"
+                            >
+                              <Info size={13} />
+                              <span>Ver Ficha</span>
+                            </button>
+
+                            {isAdmin && (
+                              <>
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setTargetBookToEdit(item);
+                                    setActiveAdminModal('editLibraryBook');
+                                  }}
+                                  className="inline-flex items-center space-x-1 bg-verde-profundo/10 hover:bg-verde-profundo text-verde-profundo hover:text-crema font-bold text-[11px] px-2.5 py-1.5 rounded-lg transition-all border border-verde-profundo/20 cursor-pointer"
+                                  title="Editar libro (Administrador)"
+                                >
+                                  <Edit size={12} />
+                                  <span className="hidden sm:inline">Editar</span>
+                                </button>
+
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (confirm(`¿Estás seguro de eliminar "${item.title}" del catálogo?`)) {
+                                      deleteLibraryItem(item.id);
+                                      showNotification(`Libro "${item.title}" eliminado del catálogo.`);
+                                    }
+                                  }}
+                                  className="inline-flex items-center space-x-1 bg-red-50 hover:bg-red-600 text-red-600 hover:text-white font-bold text-[11px] p-1.5 rounded-lg transition-all border border-red-200 cursor-pointer"
+                                  title="Eliminar libro (Administrador)"
+                                >
+                                  <Trash2 size={13} />
+                                </button>
+                              </>
+                            )}
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -453,15 +532,32 @@ export default function BibliotecaEspecializada() {
               </p>
             </div>
 
-            {/* Footer Modal Actions (Solicitar + Cerrar) */}
+            {/* Footer Modal Actions (Solicitar + Cerrar + Admin Edit) */}
             <div className="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-crema-dark/60">
-              <button
-                onClick={() => handleRequestBook(selectedItemModal)}
-                className="px-5 py-2.5 bg-terracota hover:bg-terracota/90 text-crema text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer flex items-center space-x-2"
-              >
-                <BookOpen size={15} />
-                <span>Solicitar</span>
-              </button>
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => handleRequestBook(selectedItemModal)}
+                  className="px-5 py-2.5 bg-terracota hover:bg-terracota/90 text-crema text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer flex items-center space-x-2"
+                >
+                  <BookOpen size={15} />
+                  <span>Solicitar</span>
+                </button>
+
+                {isAdmin && (
+                  <button
+                    onClick={() => {
+                      const bookToEdit = selectedItemModal;
+                      setSelectedItemModal(null);
+                      setTargetBookToEdit(bookToEdit);
+                      setActiveAdminModal('editLibraryBook');
+                    }}
+                    className="px-4 py-2.5 bg-verde-profundo/10 hover:bg-verde-profundo text-verde-profundo hover:text-crema text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer flex items-center space-x-1.5 border border-verde-profundo/20"
+                  >
+                    <Edit size={14} />
+                    <span>Editar Libro</span>
+                  </button>
+                )}
+              </div>
 
               <button
                 onClick={() => setSelectedItemModal(null)}
@@ -474,6 +570,17 @@ export default function BibliotecaEspecializada() {
           </div>
         </div>
       )}
+
+      {/* Admin Action Modals for Direct Editing & Creation */}
+      <AdminModals
+        activeModal={activeAdminModal}
+        targetBookToEdit={targetBookToEdit}
+        onClose={() => {
+          setActiveAdminModal(null);
+          setTargetBookToEdit(null);
+        }}
+        onSuccessNotification={showNotification}
+      />
 
     </div>
   );
