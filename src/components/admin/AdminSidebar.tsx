@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { 
   FolderKanban, UserPlus, UserMinus, FileEdit, FilePlus, Image as ImageIcon, 
   ChevronLeft, ChevronRight, ChevronDown, LogOut, LayoutDashboard,
-  Calendar, Users, UserCheck, Activity, Type, Palette, FileText
+  Calendar, Users, UserCheck, Activity, Type, Palette, FileText, BookOpen
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { AdminModalType } from './AdminModals';
@@ -78,18 +78,31 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
           </button>
         </div>
 
-        {/* Primary Action Button */}
-        <div className="p-3">
+        {/* Primary Action Buttons */}
+        <div className="p-3 space-y-2">
+          <button
+            onClick={() => onOpenModal('addLibraryBook')}
+            className={`
+              w-full flex items-center justify-center space-x-2 py-2 px-3 rounded-xl bg-verde-profundo text-crema font-medium text-xs
+              hover:bg-verde-profundo/90 active:scale-[0.98] transition-all shadow-sm
+              ${isCollapsed ? 'px-0' : ''}
+            `}
+            title="Registrar Libro en Biblioteca Especializada"
+          >
+            <BookOpen size={16} className="shrink-0 text-mostaza" />
+            {!isCollapsed && <span className="font-semibold truncate">Registrar Libro (BEPIMP)</span>}
+          </button>
+
           <button
             onClick={() => onOpenModal('addDocument')}
             className={`
-              w-full flex items-center justify-center space-x-2 py-2.5 px-3 rounded-xl bg-terracota text-crema font-medium text-sm
+              w-full flex items-center justify-center space-x-2 py-1.5 px-3 rounded-xl bg-terracota text-crema font-medium text-xs
               hover:bg-terracota-light active:scale-[0.98] transition-all shadow-sm
               ${isCollapsed ? 'px-0' : ''}
             `}
-            title="Registrar Nuevo Documento"
+            title="Registrar Nuevo Documento de Archivo"
           >
-            <FilePlus size={18} className="shrink-0" />
+            <FilePlus size={16} className="shrink-0" />
             {!isCollapsed && <span className="font-semibold truncate">Registrar Documento</span>}
           </button>
         </div>
@@ -97,7 +110,22 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
         {/* Sidebar Navigation Tree */}
         <nav className="p-3 space-y-1">
           
-          {/* 1. Resumen / Explorador Archivo */}
+          {/* 1. Catálogo Biblioteca Especializada */}
+          <button
+            onClick={() => setActiveTab('biblioteca')}
+            className={`
+              w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors text-left
+              ${activeTab === 'biblioteca' 
+                ? 'bg-verde-profundo text-crema font-semibold shadow-xs' 
+                : 'text-cafe hover:bg-crema-dark/70 hover:text-verde-profundo'}
+            `}
+            title="Catálogo de Biblioteca Especializada BEPIMP"
+          >
+            <BookOpen size={18} className="shrink-0 text-mostaza" />
+            {!isCollapsed && <span>Biblioteca BEPIMP</span>}
+          </button>
+
+          {/* 2. Resumen / Explorador Archivo */}
           <button
             onClick={() => setActiveTab('explorador')}
             className={`

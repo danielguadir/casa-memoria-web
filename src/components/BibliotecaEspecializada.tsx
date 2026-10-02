@@ -1,34 +1,56 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Search, BookOpen, User, Info, CheckCircle2, FileSpreadsheet, X, Hash, FolderOpen, ChevronRight, Layers } from 'lucide-react';
 import { 
-  libraryCatalog, 
+  getLibraryCatalog,
   LibraryItem, 
   getAllLibraryCategories, 
   searchLibrary 
 } from '@/data/libraryCatalog';
 
 export default function BibliotecaEspecializada() {
+  const [catalogItems, setCatalogItems] = useState<LibraryItem[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todas');
   const [selectedItemModal, setSelectedItemModal] = useState<LibraryItem | null>(null);
 
+  useEffect(() => {
+    setCatalogItems(getLibraryCatalog());
+
+    const handleUpdate = () => {
+      setCatalogItems(getLibraryCatalog());
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('libraryCatalogUpdated', handleUpdate);
+      return () => window.removeEventListener('libraryCatalogUpdated', handleUpdate);
+    }
+  }, []);
+
   // Dynamic categories list starting with 'Todas'
-  const categoriesList = useMemo(() => ['Todas', ...getAllLibraryCategories()], []);
+  const categoriesList = useMemo(() => {
+    const set = new Set<string>();
+    catalogItems.forEach(item => {
+      if (item.category && item.category.trim()) {
+        set.add(item.category.trim());
+      }
+    });
+    return ['Todas', ...Array.from(set).sort()];
+  }, [catalogItems]);
 
   // Compute item counts per category for scalable sidebar metrics
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = {
-      Todas: libraryCatalog.length,
+      Todas: catalogItems.length,
     };
-    libraryCatalog.forEach((item) => {
+    catalogItems.forEach((item) => {
       if (item.category) {
         counts[item.category] = (counts[item.category] || 0) + 1;
       }
     });
     return counts;
-  }, []);
+  }, [catalogItems]);
 
   // Filter items dynamically by category and accent-insensitive search query
   const filteredCatalog = useMemo(() => {

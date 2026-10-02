@@ -30,7 +30,149 @@ export interface LibraryItem {
   sourceUrl?: string | null;
 }
 
-export const libraryCatalog: LibraryItem[] = catalogJson as LibraryItem[];
+const STORAGE_KEY = 'bepimp_custom_catalog_v1';
+
+/**
+ * Get current library catalog (from localStorage if available, or static JSON fallback)
+ */
+export const getLibraryCatalog = (): LibraryItem[] => {
+  if (typeof window === 'undefined') {
+    return catalogJson as LibraryItem[];
+  }
+
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed as LibraryItem[];
+      }
+    }
+  } catch (e) {
+    console.error('Error reading library catalog from localStorage:', e);
+  }
+
+  return catalogJson as LibraryItem[];
+};
+
+export const libraryCatalog: LibraryItem[] = (catalogJson as LibraryItem[]);
+
+/**
+ * Save catalog state to localStorage and notify listeners
+ */
+const saveCatalogAndNotify = (items: LibraryItem[]) => {
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+      window.dispatchEvent(new CustomEvent('libraryCatalogUpdated', { detail: items }));
+    } catch (e) {
+      console.error('Error saving library catalog to localStorage:', e);
+    }
+  }
+};
+
+/**
+ * Add a new book item to the library catalog
+ */
+export const addLibraryItem = (newItemData: Partial<LibraryItem>): LibraryItem => {
+  const currentCatalog = getLibraryCatalog();
+  const nextNum = currentCatalog.length + 1;
+  const newId = `bepimp_${Date.now()}`;
+  const code = newItemData.code || `BEPI${String(nextNum).padStart(5, '0')}`;
+  
+  const copiesCount = newItemData.copiesCount && newItemData.copiesCount > 0 ? newItemData.copiesCount : 1;
+  const copies: LibraryCopy[] = [];
+  for (let i = 1; i <= copiesCount; i++) {
+    copies.push({
+      inventoryCode: `${code}-${i}`,
+      order: i,
+      entryDate: new Date().toLocaleDateString('es-CO'),
+      coverType: 'Rústica',
+      acquisitionType: 'Donación / Registro Admin',
+      donor: 'Casa de la Memoria',
+      condition: 'Excelente',
+      notes: null,
+    });
+  }
+
+  const newItem: LibraryItem = {
+    id: newId,
+    code,
+    title: newItemData.title || 'Título sin especificar',
+    subtitle: newItemData.subtitle || null,
+    authors: newItemData.authors && newItemData.authors.length > 0 ? newItemData.authors : ['Autor Desconocido'],
+    publisher: newItemData.publisher || 'Ediciones Casa de la Memoria',
+    year: newItemData.year ? Number(newItemData.year) : new Date().getFullYear(),
+    pages: newItemData.pages ? Number(newItemData.pages) : null,
+    isbn: newItemData.isbn || null,
+    collection: newItemData.collection || 'Colección General',
+    keywords: newItemData.keywords || ['Memoria', 'Pueblos Indígenas'],
+    tags: newItemData.tags || ['Nuevo'],
+    category: newItemData.category || 'General',
+    copiesCount,
+    copies,
+    sourceUrl: newItemData.sourceUrl || null,
+  };
+
+  const updatedCatalog = [newItem, ...currentCatalog];
+  saveCatalogAndNotify(updatedCatalog);
+  return newItem;
+};
+
+/**
+ * Update an existing book item by ID
+ */
+export const updateLibraryItem = (id: string, updatedData: Partial<LibraryItem>): LibraryItem | null => {
+  const currentCatalog = getLibraryCatalog();
+  const index = currentCatalog.findIndex(item => item.id === id);
+  if (index === -1) return null;
+
+  const existing = currentCatalog[index];
+  const copiesCount = updatedData.copiesCount ? Number(updatedData.copiesCount) : existing.copiesCount;
+
+  // Re-generate copies if count changed
+  let copies = existing.copies;
+  if (copiesCount !== existing.copiesCount) {
+    copies = [];
+    for (let i = 1; i <= copiesCount; i++) {
+      copies.push({
+        inventoryCode: `${existing.code}-${i}`,
+        order: i,
+        entryDate: existing.copies[0]?.entryDate || new Date().toLocaleDateString('es-CO'),
+        coverType: existing.copies[0]?.coverType || 'Rústica',
+        acquisitionType: existing.copies[0]?.acquisitionType || 'Donación / Registro Admin',
+        donor: existing.copies[0]?.donor || 'Casa de la Memoria',
+        condition: 'Bueno',
+        notes: null,
+      });
+    }
+  }
+
+  const updatedItem: LibraryItem = {
+    ...existing,
+    ...updatedData,
+    year: updatedData.year ? Number(updatedData.year) : existing.year,
+    pages: updatedData.pages ? Number(updatedData.pages) : existing.pages,
+    copiesCount,
+    copies,
+  };
+
+  currentCatalog[index] = updatedItem;
+  saveCatalogAndNotify(currentCatalog);
+  return updatedItem;
+};
+
+/**
+ * Delete a book item from the catalog by ID
+ */
+export const deleteLibraryItem = (id: string): boolean => {
+  const currentCatalog = getLibraryCatalog();
+  const filtered = currentCatalog.filter(item => item.id !== id);
+  if (filtered.length === currentCatalog.length) return false;
+
+  saveCatalogAndNotify(filtered);
+  return true;
+};
 
 /**
  * Helper to remove accents / diacritics from a string for accent-insensitive search
@@ -44,7 +186,7 @@ export const removeAccents = (str: string): string => {
  * Get item by unique ID
  */
 export const getLibraryItemById = (id: string): LibraryItem | undefined => {
-  return libraryCatalog.find(item => item.id === id);
+  return getLibraryCatalog().find(item => item.id === id);
 };
 
 /**
@@ -52,7 +194,7 @@ export const getLibraryItemById = (id: string): LibraryItem | undefined => {
  */
 export const getLibraryItemByCode = (code: string): LibraryItem | undefined => {
   const normalizedCode = removeAccents(code.trim());
-  return libraryCatalog.find(
+  return getLibraryCatalog().find(
     item =>
       removeAccents(item.code) === normalizedCode ||
       item.copies?.some(copy => removeAccents(copy.inventoryCode) === normalizedCode)
@@ -63,9 +205,10 @@ export const getLibraryItemByCode = (code: string): LibraryItem | undefined => {
  * Filter books by category (accent-insensitive)
  */
 export const getBooksByCategory = (category: string): LibraryItem[] => {
-  if (!category || category === 'Todas') return libraryCatalog;
+  const catalog = getLibraryCatalog();
+  if (!category || category === 'Todas') return catalog;
   const normCat = removeAccents(category);
-  return libraryCatalog.filter(item => item.category && removeAccents(item.category) === normCat);
+  return catalog.filter(item => item.category && removeAccents(item.category) === normCat);
 };
 
 /**
@@ -73,7 +216,7 @@ export const getBooksByCategory = (category: string): LibraryItem[] => {
  */
 export const getAllLibraryCategories = (): string[] => {
   const set = new Set<string>();
-  libraryCatalog.forEach(item => {
+  getLibraryCatalog().forEach(item => {
     if (item.category && item.category.trim()) {
       set.add(item.category.trim());
     }
@@ -85,14 +228,14 @@ export const getAllLibraryCategories = (): string[] => {
  * Get total physical copies count across all titles
  */
 export const getTotalCopiesCount = (): number => {
-  return libraryCatalog.reduce((sum, item) => sum + (item.copiesCount || item.copies?.length || 1), 0);
+  return getLibraryCatalog().reduce((sum, item) => sum + (item.copiesCount || item.copies?.length || 1), 0);
 };
 
 /**
  * Advanced multi-field search (accent-insensitive & case-insensitive)
  */
 export const searchLibrary = (query: string, category: string = 'Todas'): LibraryItem[] => {
-  let results = libraryCatalog;
+  let results = getLibraryCatalog();
 
   if (category && category !== 'Todas') {
     const normCategory = removeAccents(category);

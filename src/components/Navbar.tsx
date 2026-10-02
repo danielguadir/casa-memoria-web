@@ -201,7 +201,14 @@ export default function Navbar() {
                   <Button
                     variant={activeView === 'admin' ? 'mostaza' : 'secondary'}
                     size="sm"
-                    onClick={() => setActiveView(activeView === 'admin' ? 'public' : 'admin')}
+                    onClick={() => {
+                      if (activeView !== 'admin') {
+                        setActiveView('admin');
+                        router.push('/');
+                      } else {
+                        setActiveView('public');
+                      }
+                    }}
                     leftIcon={<LayoutDashboard size={14} />}
                     className="text-xs"
                   >
@@ -237,6 +244,7 @@ export default function Navbar() {
                         <button 
                           onClick={() => {
                             setActiveView('admin');
+                            router.push('/');
                             setIsProfileOpen(false);
                           }}
                           className="w-full text-left px-4 py-2.5 hover:bg-crema-dark hover:text-terracota transition-colors text-sm flex items-center space-x-2 font-medium cursor-pointer"

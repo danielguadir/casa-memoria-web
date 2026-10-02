@@ -3,10 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { 
   UserPlus, UserMinus, FilePlus, Image as ImageIcon, 
-  Trash2, Upload, Users, Activity, Clock, Wrench, Type, Palette, FileText, Check, RotateCcw, Sliders
+  Trash2, Upload, Users, Activity, Clock, Wrench, Type, Palette, FileText, Check, RotateCcw, Sliders, BookOpen
 } from 'lucide-react';
 import { Modal, Input, Button, Badge } from '@/components/design-system';
 import { useSiteSettings, FONT_PRESETS, THEME_PRESETS, ThemeColors } from '@/context/SiteSettingsContext';
+import { LibraryItem, addLibraryItem, updateLibraryItem, getAllLibraryCategories } from '@/data/libraryCatalog';
 
 export type AdminModalType = 
   | 'createUser' 
@@ -16,6 +17,8 @@ export type AdminModalType =
   | 'editFont'
   | 'editTheme' 
   | 'addDocument' 
+  | 'addLibraryBook'
+  | 'editLibraryBook'
   | 'managePhotos' 
   | 'showUsers'
   | 'webInteraction'
@@ -23,12 +26,14 @@ export type AdminModalType =
 
 export interface AdminModalsProps {
   activeModal: AdminModalType;
+  targetBookToEdit?: LibraryItem | null;
   onClose: () => void;
   onSuccessNotification?: (message: string) => void;
 }
 
 export const AdminModals: React.FC<AdminModalsProps> = ({
   activeModal,
+  targetBookToEdit,
   onClose,
   onSuccessNotification,
 }) => {
@@ -64,7 +69,20 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
   const [sobreProcesoTitle, setSobreProcesoTitle] = useState(siteContent.sobreProcesoTitle);
   const [sobreProcesoDesc, setSobreProcesoDesc] = useState(siteContent.sobreProcesoDesc);
 
-  // Synchronize local form state with context siteContent whenever modal opens
+  // Library Book Form State
+  const [bookTitle, setBookTitle] = useState('');
+  const [bookSubtitle, setBookSubtitle] = useState('');
+  const [bookCode, setBookCode] = useState('');
+  const [bookAuthors, setBookAuthors] = useState('');
+  const [bookCategory, setBookCategory] = useState('Derechos Humanos y Territorio');
+  const [bookPublisher, setBookPublisher] = useState('');
+  const [bookYear, setBookYear] = useState('2024');
+  const [bookPages, setBookPages] = useState('');
+  const [bookIsbn, setBookIsbn] = useState('');
+  const [bookCollection, setBookCollection] = useState('General');
+  const [bookCopiesCount, setBookCopiesCount] = useState('1');
+
+  // Synchronize local form state with context siteContent & targetBookToEdit whenever modal opens
   useEffect(() => {
     setHeroTitle(siteContent.heroTitle);
     setHeroSubtitle(siteContent.heroSubtitle);
@@ -73,7 +91,33 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
     setConvocatoriaDesc(siteContent.convocatoriaDesc);
     setSobreProcesoTitle(siteContent.sobreProcesoTitle);
     setSobreProcesoDesc(siteContent.sobreProcesoDesc);
-  }, [siteContent, activeModal]);
+
+    if (activeModal === 'editLibraryBook' && targetBookToEdit) {
+      setBookTitle(targetBookToEdit.title || '');
+      setBookSubtitle(targetBookToEdit.subtitle || '');
+      setBookCode(targetBookToEdit.code || '');
+      setBookAuthors(targetBookToEdit.authors ? targetBookToEdit.authors.join(', ') : '');
+      setBookCategory(targetBookToEdit.category || 'General');
+      setBookPublisher(targetBookToEdit.publisher || '');
+      setBookYear(targetBookToEdit.year ? String(targetBookToEdit.year) : '2024');
+      setBookPages(targetBookToEdit.pages ? String(targetBookToEdit.pages) : '');
+      setBookIsbn(targetBookToEdit.isbn || '');
+      setBookCollection(targetBookToEdit.collection || 'General');
+      setBookCopiesCount(targetBookToEdit.copiesCount ? String(targetBookToEdit.copiesCount) : '1');
+    } else if (activeModal === 'addLibraryBook') {
+      setBookTitle('');
+      setBookSubtitle('');
+      setBookCode('');
+      setBookAuthors('');
+      setBookCategory('Derechos Humanos y Territorio');
+      setBookPublisher('');
+      setBookYear('2024');
+      setBookPages('');
+      setBookIsbn('');
+      setBookCollection('General');
+      setBookCopiesCount('1');
+    }
+  }, [siteContent, activeModal, targetBookToEdit]);
 
   // Add Document state
   const [docTitle, setDocTitle] = useState('');
@@ -84,6 +128,41 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
   // Photo upload state
   const [photoTitle, setPhotoTitle] = useState('');
   const [photoYear, setPhotoYear] = useState('2026');
+
+  const handleAddOrUpdateBook = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!bookTitle.trim()) return;
+
+    const authorsList = bookAuthors.split(',').map(a => a.trim()).filter(Boolean);
+
+    const bookData = {
+      code: bookCode.trim() || undefined,
+      title: bookTitle.trim(),
+      subtitle: bookSubtitle.trim() || null,
+      authors: authorsList.length > 0 ? authorsList : ['Autor Desconocido'],
+      category: bookCategory,
+      publisher: bookPublisher.trim() || 'Ediciones Casa de la Memoria',
+      year: bookYear ? Number(bookYear) : new Date().getFullYear(),
+      pages: bookPages ? Number(bookPages) : null,
+      isbn: bookIsbn.trim() || null,
+      collection: bookCollection.trim() || 'General',
+      copiesCount: bookCopiesCount ? Number(bookCopiesCount) : 1,
+    };
+
+    if (activeModal === 'editLibraryBook' && targetBookToEdit) {
+      updateLibraryItem(targetBookToEdit.id, bookData);
+      if (onSuccessNotification) {
+        onSuccessNotification(`Libro "${bookTitle}" actualizado exitosamente en la Biblioteca.`);
+      }
+    } else {
+      addLibraryItem(bookData);
+      if (onSuccessNotification) {
+        onSuccessNotification(`Libro "${bookTitle}" registrado exitosamente en la Biblioteca.`);
+      }
+    }
+
+    onClose();
+  };
 
   const handleCreateUser = (e: React.FormEvent) => {
     e.preventDefault();
@@ -896,6 +975,128 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
           <div className="pt-3 flex justify-end space-x-3">
             <Button type="button" variant="ghost" onClick={onClose}>Cancelar</Button>
             <Button type="submit" variant="terracota">Subir a Fototeca</Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* 10. MODAL REGISTRAR / EDITAR LIBRO EN BIBLIOTECA ESPECIALIZADA */}
+      <Modal
+        isOpen={activeModal === 'addLibraryBook' || activeModal === 'editLibraryBook'}
+        onClose={onClose}
+        title={
+          <div className="flex items-center space-x-2 font-serif font-bold text-lg">
+            <BookOpen className="w-5 h-5 text-terracota" />
+            <span>{activeModal === 'editLibraryBook' ? 'Actualizar Libro de la Biblioteca' : 'Registrar Nuevo Libro en la Biblioteca Especializada'}</span>
+          </div>
+        }
+        subtitle="Catalogación para la Biblioteca Especializada BEPIMP"
+        size="lg"
+      >
+        <form onSubmit={handleAddOrUpdateBook} className="space-y-4 font-sans max-h-[75vh] overflow-y-auto pr-1">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <Input
+              label="Código General del Libro"
+              placeholder="Ej. BEPI00031"
+              value={bookCode}
+              onChange={(e) => setBookCode(e.target.value)}
+            />
+
+            <div>
+              <label className="block text-xs font-semibold text-cafe/90 mb-1.5">Categoría</label>
+              <select
+                value={bookCategory}
+                onChange={(e) => setBookCategory(e.target.value)}
+                className="w-full rounded-xl bg-white text-cafe border border-crema-dark p-2.5 text-sm font-medium focus:ring-2 focus:ring-verde-profundo/20 focus:border-verde-profundo"
+              >
+                {getAllLibraryCategories().map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+                <option value="General">General</option>
+                <option value="Derechos Humanos y Territorio">Derechos Humanos y Territorio</option>
+                <option value="Etnografía e Historia Ancestral">Etnografía e Historia Ancestral</option>
+              </select>
+            </div>
+
+            <Input
+              label="Cantidad de Ejemplares"
+              type="number"
+              min="1"
+              max="20"
+              value={bookCopiesCount}
+              onChange={(e) => setBookCopiesCount(e.target.value)}
+              required
+            />
+          </div>
+
+          <Input
+            label="Título del Libro"
+            placeholder="Ej. Historia Oral y Sabiduría del Pueblo Pasto"
+            value={bookTitle}
+            onChange={(e) => setBookTitle(e.target.value)}
+            required
+          />
+
+          <Input
+            label="Subtítulo (Opcional)"
+            placeholder="Ej. Relatos de los Mayores de Cumbal"
+            value={bookSubtitle}
+            onChange={(e) => setBookSubtitle(e.target.value)}
+          />
+
+          <Input
+            label="Autores (Separados por coma)"
+            placeholder="Ej. Carlos Guanga, Lucía Alpala, Pedro Tarapues"
+            value={bookAuthors}
+            onChange={(e) => setBookAuthors(e.target.value)}
+            required
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <Input
+              label="Editorial / Imprenta"
+              placeholder="Ej. Ediciones Casa de la Memoria"
+              value={bookPublisher}
+              onChange={(e) => setBookPublisher(e.target.value)}
+            />
+
+            <Input
+              label="Año de Publicación"
+              type="number"
+              placeholder="Ej. 2024"
+              value={bookYear}
+              onChange={(e) => setBookYear(e.target.value)}
+            />
+
+            <Input
+              label="Número de Páginas"
+              type="number"
+              placeholder="Ej. 180"
+              value={bookPages}
+              onChange={(e) => setBookPages(e.target.value)}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Input
+              label="Código ISBN"
+              placeholder="Ej. 978-958-1234-56-7"
+              value={bookIsbn}
+              onChange={(e) => setBookIsbn(e.target.value)}
+            />
+
+            <Input
+              label="Colección"
+              placeholder="Ej. Memorias del Gran Cumbal"
+              value={bookCollection}
+              onChange={(e) => setBookCollection(e.target.value)}
+            />
+          </div>
+
+          <div className="pt-3 flex justify-end space-x-3 border-t border-crema-dark mt-4">
+            <Button type="button" variant="ghost" onClick={onClose}>Cancelar</Button>
+            <Button type="submit" variant="terracota">
+              {activeModal === 'editLibraryBook' ? 'Guardar Cambios' : 'Registrar en Biblioteca'}
+            </Button>
           </div>
         </form>
       </Modal>
