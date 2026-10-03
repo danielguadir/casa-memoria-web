@@ -110,15 +110,13 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="bg-verde-profundo text-crema sticky top-0 z-50 shadow-md border-b-2 border-[#a69cac]">
-        {/* Superior Social Bar (Solo redes sociales) */}
-        <div className="hidden sm:block border-b border-crema/10 bg-black/20 py-2 px-4 sm:px-6 lg:px-8">
+      <nav className="bg-azul-logo text-crema sticky top-0 z-50 shadow-md border-b-2 border-[#a69cac]">
+        {/* Superior Social Bar (Solo redes sociales - Se mantiene tal y como está) */}
+        <div className="hidden sm:block border-b border-crema/10 bg-verde-profundo bg-black/20 py-2 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto flex justify-end items-center">
             <SocialHeaderBar variant="header" />
           </div>
         </div>
-
-
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20">
@@ -304,7 +302,7 @@ export default function Navbar() {
 
         {/* Mobile Menu Accordion */}
         {isOpen && (
-          <div className="md:hidden bg-verde-profundo border-t border-verde-profundo/80 animate-in fade-in duration-200 max-h-[80vh] overflow-y-auto">
+          <div className="md:hidden bg-azul-logo border-t border-azul-logo/80 animate-in fade-in duration-200 max-h-[80vh] overflow-y-auto">
             <div className="px-3 pt-2 pb-4 space-y-1.5">
               {navLinks.map((link) => {
                 const isMobileExpanded = expandedMobileMenu === link.name;

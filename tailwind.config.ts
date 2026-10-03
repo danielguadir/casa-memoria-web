@@ -16,6 +16,7 @@ const config: Config = {
         'terracota-light': "var(--color-terracota-light)",
         cafe: "var(--color-cafe)",
         mostaza: "var(--color-mostaza)",
+        'azul-logo': "var(--color-azul-logo)",
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'sans-serif'],
