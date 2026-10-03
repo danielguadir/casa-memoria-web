@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';
-import { Search, BookOpen, User, Info, CheckCircle2, FileSpreadsheet, X, Hash, FolderOpen, ChevronRight, Layers, Edit, Trash2, Plus, ShieldCheck } from 'lucide-react';
+import { Search, BookOpen, User, Info, CheckCircle2, FileSpreadsheet, X, Hash, FolderOpen, ChevronRight, Layers, Edit, Trash2, Plus, ShieldCheck, ChevronDown } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { AdminModals, AdminModalType } from '@/components/admin/AdminModals';
 import { 
@@ -19,6 +19,7 @@ export default function BibliotecaEspecializada() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todas');
   const [selectedItemModal, setSelectedItemModal] = useState<LibraryItem | null>(null);
+  const [visibleCount, setVisibleCount] = useState<number>(3);
 
   // Admin interactive state on the page
   const [activeAdminModal, setActiveAdminModal] = useState<AdminModalType>(null);
@@ -72,9 +73,19 @@ export default function BibliotecaEspecializada() {
     return searchLibrary(searchQuery, selectedCategory);
   }, [searchQuery, selectedCategory]);
 
+  // Reset visibleCount back to 3 whenever filters change
+  useEffect(() => {
+    setVisibleCount(3);
+  }, [searchQuery, selectedCategory]);
+
+  const visibleCatalog = useMemo(() => {
+    return filteredCatalog.slice(0, visibleCount);
+  }, [filteredCatalog, visibleCount]);
+
   const clearFilters = () => {
     setSearchQuery('');
     setSelectedCategory('Todas');
+    setVisibleCount(3);
   };
 
   const handleRequestBook = (item: LibraryItem) => {
@@ -103,15 +114,14 @@ export default function BibliotecaEspecializada() {
         
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-3">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-verde-profundo/10 text-verde-profundo text-xs font-bold tracking-wider uppercase border border-verde-profundo/20">
-              <FileSpreadsheet size={14} className="text-terracota" />
-              <span>Inventario Físico BEPIMP</span>
+            <div className="inline-flex items-center p-2 rounded-full bg-verde-profundo/10 text-verde-profundo border border-verde-profundo/20 shadow-xs">
+              <FileSpreadsheet size={18} className="text-terracota" />
             </div>
             <h3 className="font-serif font-bold text-3xl sm:text-4xl text-verde-profundo">
-              Biblioteca Especializada en Pueblos Indígenas, Memoria y Paz
+              Biblioteca Especializada en Pueblos Indígenas
             </h3>
-            <p className="text-cafe/80 text-sm sm:text-base max-w-3xl leading-relaxed">
-              Catálogo físico bibliográfico custodiado en la Casa de la Memoria del Gran Cumbal.
+            <p className="text-cafe/80 text-sm sm:text-base max-w-3xl leading-relaxed font-medium">
+              Documentación custodiada por la Casa de la Memoria del Gran Cumbal.
             </p>
           </div>
 
@@ -274,7 +284,7 @@ export default function BibliotecaEspecializada() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-crema-dark/60 text-xs">
-                    {filteredCatalog.map((item) => (
+                    {visibleCatalog.map((item) => (
                       <tr 
                         key={item.id} 
                         className="hover:bg-crema-dark/40 transition-colors duration-150 group"
@@ -409,6 +419,22 @@ export default function BibliotecaEspecializada() {
                   </tbody>
                 </table>
               </div>
+
+              {/* Botón Mostrar Más */}
+              {visibleCount < filteredCatalog.length && (
+                <div className="p-4 bg-crema-dark/30 border-t border-crema-dark flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-semibold text-cafe/70">
+                  <span>
+                    Mostrando <strong className="text-verde-profundo font-mono">{visibleCatalog.length}</strong> de <strong className="text-verde-profundo font-mono">{filteredCatalog.length}</strong> obras catalogadas
+                  </span>
+                  <button
+                    onClick={() => setVisibleCount(prev => prev + 5)}
+                    className="inline-flex items-center space-x-2 px-6 py-2.5 bg-verde-profundo hover:bg-terracota text-crema font-bold rounded-xl shadow-md transition-all cursor-pointer"
+                  >
+                    <ChevronDown size={16} />
+                    <span>Mostrar más ({filteredCatalog.length - visibleCatalog.length} restantes)</span>
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </main>
