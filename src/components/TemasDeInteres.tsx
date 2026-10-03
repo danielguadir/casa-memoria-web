@@ -89,9 +89,6 @@ export default function TemasDeInteres() {
             <h3 className="font-serif font-extrabold text-2xl sm:text-3xl text-verde-profundo tracking-tight">
               Temas de interés
             </h3>
-            <p className="text-xs sm:text-sm text-cafe/75 font-sans font-medium">
-              Noticias institucionales, comunicados oficiales y novedades territoriales
-            </p>
           </div>
         </div>
 
