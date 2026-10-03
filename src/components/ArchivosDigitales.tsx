@@ -1,19 +1,17 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import Image from 'next/image';
 import { 
   BookOpen, 
   Eye, 
   ChevronDown, 
   ChevronUp, 
-  Building2, 
   User, 
-  FileText, 
   Sparkles, 
   Tag, 
   ExternalLink,
   GraduationCap,
-  Languages,
   ListOrdered,
   Search,
   FolderOpen,
@@ -296,214 +294,216 @@ export default function ArchivosDigitales() {
 
                     <div className="p-6 sm:p-8 lg:p-10 space-y-6">
                       
-                      {/* Metadatos superiores (Categoría, Código y Ojito de Vistas) */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-crema-dark/60 pb-4">
-                        <div className="flex items-center space-x-2 flex-wrap gap-2">
-                          <Badge variant="verde" className="font-semibold text-xs py-1 px-3">
-                            {doc.category}
-                          </Badge>
-                          <span className="text-xs font-mono text-cafe/70 bg-crema-dark/60 px-2.5 py-1 rounded-md border border-crema-dark font-bold">
-                            {doc.code}
-                          </span>
+                      {/* LAYOUT DE 2 COLUMNAS ESTILO LIBRERÍA NACIONAL */}
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                        
+                        {/* COLUMNA IZQUIERDA: Portada de Libro Digital */}
+                        <div className="md:col-span-4 lg:col-span-3 flex flex-col items-center">
+                          <div className="relative group w-full max-w-[220px] sm:max-w-[240px] md:max-w-none rounded-2xl overflow-hidden shadow-2xl border border-crema-dark bg-white p-2 transition-transform duration-300 hover:scale-[1.02]">
+                            <Image
+                              src={doc.coverImage || '/images/portada-libro-digital/Imagen1.png'}
+                              alt={`Portada de ${doc.title}`}
+                              width={240}
+                              height={340}
+                              className="w-full h-auto object-cover rounded-xl shadow-md"
+                            />
+                            {/* Lomo / Sombra sutil de encuadernación */}
+                            <div className="absolute top-0 left-0 bottom-0 w-3 bg-gradient-to-r from-black/20 via-black/5 to-transparent pointer-events-none rounded-l-xl" />
+                          </div>
                         </div>
 
-                        {/* Contador de Lecturas con Ojito */}
-                        <div 
-                          className="flex items-center space-x-2 bg-crema-dark/80 px-3.5 py-1.5 rounded-full border border-crema-dark text-verde-profundo shadow-xs"
-                          title="Número de personas que han consultado o leído este documento"
-                        >
-                          <Eye className="w-4 h-4 text-terracota" />
-                          <span className="font-mono font-bold text-xs text-verde-profundo">
-                            {doc.viewsCount}
-                          </span>
-                          <span className="text-[11px] text-cafe/70 font-sans hidden sm:inline">
-                            lecturas
-                          </span>
-                        </div>
-                      </div>
+                        {/* COLUMNA DERECHA: Metadatos, Título, Sinopsis Truncada y Grid Ficha de Catalogación */}
+                        <div className="md:col-span-8 lg:col-span-9 space-y-5">
+                          
+                          {/* Categoría, Código y Lecturas */}
+                          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-crema-dark/60 pb-3">
+                            <div className="flex items-center space-x-2 flex-wrap gap-2">
+                              <Badge variant="verde" className="font-semibold text-xs py-1 px-3">
+                                {doc.category}
+                              </Badge>
+                              <span className="text-xs font-mono text-cafe/70 bg-crema-dark/60 px-2.5 py-1 rounded-md border border-crema-dark font-bold">
+                                {doc.code}
+                              </span>
+                            </div>
 
-                      {/* Título Principal y Ficha Académica */}
-                      <div className="space-y-4">
-                        <div className="flex items-start justify-between gap-4">
-                          <div className="space-y-1">
+                            <div 
+                              className="flex items-center space-x-2 bg-crema-dark/80 px-3.5 py-1.5 rounded-full border border-crema-dark text-verde-profundo shadow-xs"
+                              title="Número de personas que han consultado este documento"
+                            >
+                              <Eye className="w-4 h-4 text-terracota" />
+                              <span className="font-mono font-bold text-xs text-verde-profundo">{doc.viewsCount}</span>
+                              <span className="text-[11px] text-cafe/70 font-sans hidden sm:inline">lecturas</span>
+                            </div>
+                          </div>
+
+                          {/* Título & Autoría */}
+                          <div className="space-y-1.5">
                             <span className="text-xs font-bold text-terracota uppercase tracking-widest block">
                               Monografía / Etnografía Andina
                             </span>
-                            <h4 className="font-serif font-bold text-2xl sm:text-3xl lg:text-4xl text-verde-profundo tracking-tight leading-snug">
+                            <h4 className="font-serif font-bold text-2xl sm:text-3xl text-verde-profundo tracking-tight leading-snug">
                               {doc.title}
                             </h4>
-                          </div>
-
-                          <div className="p-3 bg-verde-profundo/10 rounded-2xl text-verde-profundo shrink-0 hidden md:block border border-verde-profundo/20 shadow-xs">
-                            <BookOpen className="w-8 h-8" />
-                          </div>
-                        </div>
-
-                        {/* Ficha Rápida de Autoría y Filiación */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
-                          
-                          {/* Autor */}
-                          <div className="bg-crema-dark/50 p-3.5 rounded-2xl border border-crema-dark/60 space-y-1">
-                            <div className="flex items-center space-x-2 text-xs font-bold text-terracota uppercase tracking-wider">
-                              <User className="w-4 h-4 text-terracota" />
-                              <span>Autores/as</span>
-                            </div>
-                            <p className="text-sm font-bold text-verde-profundo">
-                              {doc.author}
+                            <p className="text-sm font-bold text-cafe/80 flex items-center space-x-2 pt-0.5">
+                              <User className="w-4 h-4 text-terracota shrink-0" />
+                              <span>{doc.author}</span>
+                              {doc.affiliation && (
+                                <span className="text-xs font-medium text-cafe/60">({doc.affiliation})</span>
+                              )}
                             </p>
-                            {doc.affiliation && (
-                              <p className="text-[11px] text-cafe/70 font-medium">
-                                {doc.affiliation}
-                              </p>
-                            )}
                           </div>
 
-                          {/* Traducción */}
-                          {doc.translator && (
-                            <div className="bg-crema-dark/50 p-3.5 rounded-2xl border border-crema-dark/60 space-y-1">
-                              <div className="flex items-center space-x-2 text-xs font-bold text-verde-profundo uppercase tracking-wider">
-                                <Languages className="w-4 h-4 text-verde-profundo" />
-                                <span>Traducción</span>
+                          {/* Sinopsis truncada a 3 renglones con Ver más / Ver menos */}
+                          {(() => {
+                            const isSynopsisExpanded = !!expandedSynopsisMap[doc.id];
+                            return (
+                              <div className="space-y-2 pt-1">
+                                <p 
+                                  className={`text-sm text-cafe/90 leading-relaxed font-sans transition-all ${!isSynopsisExpanded ? 'line-clamp-3' : ''}`}
+                                  style={!isSynopsisExpanded ? { display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' } : {}}
+                                >
+                                  {doc.synopsis || doc.description}
+                                </p>
+                                {(doc.synopsis || doc.description) && (
+                                  <button
+                                    onClick={() => toggleSynopsis(doc.id)}
+                                    className="inline-flex items-center space-x-1 text-xs font-bold text-terracota hover:text-verde-profundo transition-colors cursor-pointer focus:outline-none"
+                                  >
+                                    <span>{isSynopsisExpanded ? 'Ver menos' : 'Ver más'}</span>
+                                    {isSynopsisExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                                  </button>
+                                )}
                               </div>
-                              <p className="text-xs font-bold text-cafe">
-                                {doc.translator}
-                              </p>
-                            </div>
-                          )}
+                            );
+                          })()}
 
-                          {/* Editorial / Publicador */}
-                          <div className="bg-crema-dark/50 p-3.5 rounded-2xl border border-crema-dark/60 space-y-1">
-                            <div className="flex items-center space-x-2 text-xs font-bold text-terracota uppercase tracking-wider">
-                              <Building2 className="w-4 h-4 text-terracota" />
-                              <span>Edición / Sello</span>
+                          {/* Grid Ficha de Catalogación (Estilo Librería Nacional) */}
+                          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 bg-crema-dark/40 p-4 rounded-2xl border border-crema-dark/70 text-xs">
+                            <div>
+                              <span className="text-[10px] uppercase font-bold text-cafe/60 block">Formato</span>
+                              <span className="font-bold text-verde-profundo">{doc.format || 'Documento Digital PDF'}</span>
                             </div>
-                            <p className="text-xs font-bold text-verde-profundo truncate" title={doc.publisher}>
-                              {doc.publisher}
-                            </p>
-                            <p className="text-[11px] text-cafe/70 font-medium">
-                              Año de Publicación: {doc.year || '2005'}
-                            </p>
+                            <div>
+                              <span className="text-[10px] uppercase font-bold text-cafe/60 block">Presentación</span>
+                              <span className="font-bold text-verde-profundo">Tapa Blanda</span>
+                            </div>
+                            <div>
+                              <span className="text-[10px] uppercase font-bold text-cafe/60 block">Código / ISBN</span>
+                              <span className="font-mono font-bold text-verde-profundo">{doc.code}</span>
+                            </div>
+                            <div>
+                              <span className="text-[10px] uppercase font-bold text-cafe/60 block">Autores</span>
+                              <span className="font-bold text-verde-profundo">{doc.author}</span>
+                            </div>
+                            <div>
+                              <span className="text-[10px] uppercase font-bold text-cafe/60 block">Traducción</span>
+                              <span className="font-bold text-verde-profundo leading-tight block">{doc.translator || 'MARKA, Instituto de Historia y Antropología Andinas, Quito'}</span>
+                            </div>
+                            <div>
+                              <span className="text-[10px] uppercase font-bold text-cafe/60 block">Edición / Sello</span>
+                              <span className="font-bold text-verde-profundo leading-tight block">{doc.publisher}</span>
+                            </div>
+                            <div>
+                              <span className="text-[10px] uppercase font-bold text-cafe/60 block">Año de Publicación</span>
+                              <span className="font-bold text-verde-profundo">{doc.year || 2005}</span>
+                            </div>
+                            <div>
+                              <span className="text-[10px] uppercase font-bold text-cafe/60 block">Categoría</span>
+                              <span className="font-bold text-verde-profundo truncate block">{doc.category}</span>
+                            </div>
+                          </div>
+
+                          {/* Botones de acción principales */}
+                          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-3 border-t border-crema-dark/60">
+                            <button
+                              onClick={() => toggleExpand(doc.id)}
+                              className="inline-flex items-center space-x-2 text-xs font-bold text-terracota hover:text-verde-profundo transition-colors py-1 focus:outline-none cursor-pointer"
+                            >
+                              <span>{isExpanded ? 'Plegar capítulos e índice' : 'Desplegar estructura de capítulos y metadatos AGN'}</span>
+                              {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                            </button>
+
+                            <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                              <Button
+                                variant="outline"
+                                size="md"
+                                onClick={openKioskModal}
+                                leftIcon={<Search size={16} />}
+                                className="w-full sm:w-auto px-5 py-2.5 font-semibold text-xs cursor-pointer"
+                              >
+                                Abrir Consulta Pública
+                              </Button>
+
+                              <a
+                                href={doc.pdfUrl || '/docs/cumbe-renaciente.pdf'}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => handleReadDocument(doc)}
+                                className="inline-flex items-center justify-center space-x-2 bg-terracota hover:bg-terracota-light text-crema font-bold text-xs sm:text-sm px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer w-full sm:w-auto text-center"
+                              >
+                                <BookOpen size={18} />
+                                <span>Ver documento</span>
+                                <ExternalLink size={16} className="opacity-75 ml-1" />
+                              </a>
+                            </div>
                           </div>
 
                         </div>
+
                       </div>
 
-                      {/* Pestañas de Navegación del Documento (Sinopsis, Capítulos, Autores, Ficha) */}
-                      <div className="border-t border-crema-dark/60 pt-4">
-                        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
+                      {/* CONTENIDO DE PESTAÑAS EXPANDIBLES (Capítulos, Autores, Metadatos AGN) */}
+                      {isExpanded && (
+                        <div className="bg-crema-dark/40 rounded-2xl p-6 border border-crema-dark space-y-4 animate-in fade-in slide-in-from-top-1 duration-200 mt-6">
                           
-                          <button
-                            onClick={() => setDocTab(doc.id, 'sinopsis')}
-                            className={`
-                              px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 shrink-0 border cursor-pointer
-                              ${currentTab === 'sinopsis' 
-                                ? 'bg-verde-profundo text-crema border-verde-profundo shadow-sm' 
-                                : 'bg-crema-dark/60 text-cafe/80 border-crema-dark hover:bg-crema-dark'
-                              }
-                            `}
-                          >
-                            <FileText className="w-3.5 h-3.5" />
-                            <span>Sinopsis Etnográfica</span>
-                          </button>
+                          {/* Pestañas para capítulos y detalles */}
+                          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none border-b border-crema-dark/60">
+                            {doc.chapters && doc.chapters.length > 0 && (
+                              <button
+                                onClick={() => setDocTab(doc.id, 'capitulos')}
+                                className={`
+                                  px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 shrink-0 border cursor-pointer
+                                  ${currentTab === 'capitulos' 
+                                    ? 'bg-verde-profundo text-crema border-verde-profundo shadow-sm' 
+                                    : 'bg-crema-dark/60 text-cafe/80 border-crema-dark hover:bg-crema-dark'
+                                  }
+                                `}
+                              >
+                                <ListOrdered className="w-3.5 h-3.5" />
+                                <span>Capítulos ({doc.chapters.length})</span>
+                              </button>
+                            )}
 
-                          {doc.chapters && doc.chapters.length > 0 && (
                             <button
-                              onClick={() => setDocTab(doc.id, 'capitulos')}
+                              onClick={() => setDocTab(doc.id, 'autores')}
                               className={`
                                 px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 shrink-0 border cursor-pointer
-                                ${currentTab === 'capitulos' 
+                                ${currentTab === 'autores' 
                                   ? 'bg-verde-profundo text-crema border-verde-profundo shadow-sm' 
                                   : 'bg-crema-dark/60 text-cafe/80 border-crema-dark hover:bg-crema-dark'
                                 }
                               `}
                             >
-                              <ListOrdered className="w-3.5 h-3.5" />
-                              <span>Capítulos ({doc.chapters.length})</span>
+                              <GraduationCap className="w-3.5 h-3.5" />
+                              <span>Autores & Filiación</span>
                             </button>
-                          )}
 
-                          <button
-                            onClick={() => setDocTab(doc.id, 'autores')}
-                            className={`
-                              px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 shrink-0 border cursor-pointer
-                              ${currentTab === 'autores' 
-                                ? 'bg-verde-profundo text-crema border-verde-profundo shadow-sm' 
-                                : 'bg-crema-dark/60 text-cafe/80 border-crema-dark hover:bg-crema-dark'
-                              }
-                            `}
-                          >
-                            <GraduationCap className="w-3.5 h-3.5" />
-                            <span>Autores & Filiación</span>
-                          </button>
+                            <button
+                              onClick={() => setDocTab(doc.id, 'ficha')}
+                              className={`
+                                px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 shrink-0 border cursor-pointer
+                                ${currentTab === 'ficha' 
+                                  ? 'bg-verde-profundo text-crema border-verde-profundo shadow-sm' 
+                                  : 'bg-crema-dark/60 text-cafe/80 border-crema-dark hover:bg-crema-dark'
+                                }
+                              `}
+                            >
+                              <Sparkles className="w-3.5 h-3.5" />
+                              <span>Metadatos Archivo AGN</span>
+                            </button>
+                          </div>
 
-                          <button
-                            onClick={() => setDocTab(doc.id, 'ficha')}
-                            className={`
-                              px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 shrink-0 border cursor-pointer
-                              ${currentTab === 'ficha' 
-                                ? 'bg-verde-profundo text-crema border-verde-profundo shadow-sm' 
-                                : 'bg-crema-dark/60 text-cafe/80 border-crema-dark hover:bg-crema-dark'
-                              }
-                            `}
-                          >
-                            <Sparkles className="w-3.5 h-3.5" />
-                            <span>Ficha de Catalogación</span>
-                          </button>
-
-                        </div>
-                      </div>
-
-                      {/* CONTENIDO DE LA PESTAÑA SELECCIONADA */}
-                      {isExpanded && (
-                        <div className="bg-crema-dark/40 rounded-2xl p-6 border border-crema-dark space-y-4 animate-in fade-in slide-in-from-top-1 duration-200">
-                          
-                          {/* TAB 1: SINOPSIS (Truncado al primer párrafo con botón Mostrar más / Mostrar menos) */}
-                          {currentTab === 'sinopsis' && (
-                            <div className="space-y-4 font-sans text-sm text-cafe/90 leading-relaxed">
-                              <div className="flex items-center space-x-2 text-xs font-bold uppercase tracking-wider text-terracota border-b border-crema-dark pb-2">
-                                <FileText className="w-4 h-4" />
-                                <span>Resumen del Estudio Etnográfico</span>
-                              </div>
-
-                              {doc.synopsis ? (
-                                <div className="space-y-3 bg-white/80 p-5 rounded-xl border border-crema-dark/60 text-cafe leading-relaxed">
-                                  {(() => {
-                                    const paragraphs = doc.synopsis.split('\n\n').filter(p => p.trim());
-                                    const isSynopsisExpanded = !!expandedSynopsisMap[doc.id];
-                                    const hasMultiple = paragraphs.length > 1;
-
-                                    const displayedParagraphs = (isSynopsisExpanded || !hasMultiple) 
-                                      ? paragraphs 
-                                      : [paragraphs[0]];
-
-                                    return (
-                                      <>
-                                        {displayedParagraphs.map((para, idx) => (
-                                          <p key={idx}>{para}</p>
-                                        ))}
-
-                                        {hasMultiple && (
-                                          <div className="pt-2 border-t border-crema-dark/40 mt-3">
-                                            <button
-                                              onClick={() => toggleSynopsis(doc.id)}
-                                              className="inline-flex items-center space-x-1.5 text-xs font-bold text-terracota hover:text-verde-profundo transition-colors cursor-pointer focus:outline-none"
-                                            >
-                                              <span>{isSynopsisExpanded ? 'Mostrar menos' : 'Mostrar más'}</span>
-                                              {isSynopsisExpanded ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
-                                            </button>
-                                          </div>
-                                        )}
-                                      </>
-                                    );
-                                  })()}
-                                </div>
-                              ) : (
-                                <p className="italic text-cafe/70">Sinopsis en proceso de catalogación.</p>
-                              )}
-                            </div>
-                          )}
-
-                          {/* TAB 2: CAPÍTULOS */}
+                          {/* TAB: CAPÍTULOS */}
                           {currentTab === 'capitulos' && doc.chapters && (
                             <div className="space-y-4">
                               <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-verde-profundo border-b border-crema-dark pb-2">
@@ -532,7 +532,7 @@ export default function ArchivosDigitales() {
                             </div>
                           )}
 
-                          {/* TAB 3: AUTORES */}
+                          {/* TAB: AUTORES */}
                           {currentTab === 'autores' && (
                             <div className="space-y-4 text-xs">
                               <div className="flex items-center space-x-2 font-bold uppercase tracking-wider text-terracota border-b border-crema-dark pb-2">
@@ -562,7 +562,7 @@ export default function ArchivosDigitales() {
                             </div>
                           )}
 
-                          {/* TAB 4: FICHA DE CATALOGACIÓN */}
+                          {/* TAB: METADATOS AGN */}
                           {currentTab === 'ficha' && (
                             <div className="space-y-4 text-xs font-medium text-cafe/90">
                               <div className="flex items-center space-x-2 font-bold uppercase tracking-wider text-terracota border-b border-crema-dark pb-2">
@@ -610,45 +610,6 @@ export default function ArchivosDigitales() {
 
                         </div>
                       )}
-
-                      {/* Acciones Principales: Ver Documento en Lector PDF Nativo del Navegador & Consulta Pública */}
-                      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 border-t border-crema-dark/60">
-                        
-                        {/* Toggle Ver Más / Ver Menos */}
-                        <button
-                          onClick={() => toggleExpand(doc.id)}
-                          className="inline-flex items-center space-x-2 text-xs font-bold text-terracota hover:text-verde-profundo transition-colors py-2 px-1 focus:outline-none cursor-pointer"
-                        >
-                          <span>{isExpanded ? 'Plegar detalles' : 'Desplegar ficha completa y capítulos'}</span>
-                          {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                        </button>
-
-                        {/* Botones Principales */}
-                        <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-                          <Button
-                            variant="outline"
-                            size="md"
-                            onClick={openKioskModal}
-                            leftIcon={<Search size={16} />}
-                            className="w-full sm:w-auto px-5 py-2.5 font-semibold text-xs cursor-pointer"
-                          >
-                            Abrir Consulta Pública
-                          </Button>
-
-                          <a
-                            href={doc.pdfUrl || '/docs/cumbe-renaciente.pdf'}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={() => handleReadDocument(doc)}
-                            className="inline-flex items-center justify-center space-x-2 bg-terracota hover:bg-terracota-light text-crema font-bold text-xs sm:text-sm px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer w-full sm:w-auto text-center"
-                          >
-                            <BookOpen size={18} />
-                            <span>Ver documento</span>
-                            <ExternalLink size={16} className="opacity-75 ml-1" />
-                          </a>
-                        </div>
-
-                      </div>
 
                     </div>
                   </div>

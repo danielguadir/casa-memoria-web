@@ -64,6 +64,7 @@ Los argumentos aquí desarrollados serán de interés para antropólogos, histor
     pdfUrl: '/docs/cumbe-renaciente.pdf',
     driveUrl: 'https://drive.google.com/file/d/1k0QgJfFs3E65ASuHA7_lI5ZA8lAk_RlK/view?usp=drive_link',
     previewUrl: 'https://drive.google.com/file/d/1k0QgJfFs3E65ASuHA7_lI5ZA8lAk_RlK/preview',
+    coverImage: '/images/portada-libro-digital/Imagen1.png',
     tags: ['Pastos', 'Cumbal', 'Cacique Cumbe', 'ICANH', 'Etnografía', 'MARKA', 'Militancia Étnica', 'Georgetown'],
     locationInArchive: 'Sección Archivos Digitales / Serie Monografías e Historias Etnográficas (Nodo CMGC)'
   }
