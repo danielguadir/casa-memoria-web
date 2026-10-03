@@ -16,7 +16,6 @@ import {
   Languages,
   ListOrdered,
   Search,
-  Monitor,
   FolderOpen,
   ChevronRight,
   X
@@ -151,7 +150,7 @@ export default function ArchivosDigitales() {
             <div className="flex items-center space-x-2 flex-wrap gap-2">
               <span className="px-3.5 py-1 bg-verde-profundo text-crema font-bold text-xs rounded-full uppercase tracking-wider flex items-center gap-1.5 shadow-xs">
                 <GraduationCap className="w-3.5 h-3.5 text-mostaza" />
-                Repositorio Académico & Archivo Digital
+                Repositorio
               </span>
               <span className="text-xs text-cafe/70 font-mono font-semibold bg-crema-dark/60 px-2.5 py-0.5 rounded-full border border-crema-dark">
                 Casa de la Memoria del Gran Cumbal
@@ -159,32 +158,12 @@ export default function ArchivosDigitales() {
             </div>
 
             <h3 className="font-serif font-bold text-2xl sm:text-3xl lg:text-4xl text-verde-profundo tracking-tight">
-              Archivos Digitales e Historias Etnográficas
+              Archivos Digitales
             </h3>
 
-            <p className="text-sm sm:text-base text-cafe/85 leading-relaxed font-sans">
-              Colección digitalizada de monografías, textos de investigación etnográfica y archivos históricos del Pueblo Indígena de los Pastos.
+            <p className="text-sm sm:text-base text-cafe/85 leading-relaxed font-sans font-medium">
+              Colección digitalizada
             </p>
-          </div>
-
-          {/* Acceso a Consulta Pública en Kiosco */}
-          <div className="bg-crema-dark/90 p-4 rounded-2xl border border-crema-dark space-y-2 shrink-0 shadow-inner max-w-xs text-center sm:text-left">
-            <div className="flex items-center space-x-2 text-terracota font-bold text-xs uppercase tracking-wider">
-              <Monitor className="w-4 h-4 text-terracota" />
-              <span>Consulta de Catálogo</span>
-            </div>
-            <p className="text-xs text-cafe/70 leading-snug">
-              Búsqueda por nombre, ID o palabra clave en el fondo documental.
-            </p>
-            <Button
-              variant="mostaza"
-              size="sm"
-              onClick={openKioskModal}
-              leftIcon={<Search className="w-4 h-4" />}
-              className="w-full shadow-md font-bold text-xs py-2 mt-1"
-            >
-              Abrir Consulta Pública
-            </Button>
           </div>
         </div>
       </div>
