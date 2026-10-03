@@ -7,7 +7,6 @@ import {
   ChevronRight, 
   CheckCircle2, 
   ArrowRight, 
-  X, 
   Newspaper, 
   Award, 
   Building2, 
@@ -17,20 +16,22 @@ import { useAuth } from '@/context/AuthContext';
 
 export interface CarouselSlide {
   id: number;
+  newsId: string;
   tag: string;
   category: string;
   dateBadge?: string;
   title: string;
   bulletPoints: string[];
-  fullText?: string[];
   ctaText: string;
   imageSrc: string;
+  frameImageSrc?: string; // Optional small frame image (only for Slide 2)
   actionKey?: string;
 }
 
 const DEFAULT_SLIDES: CarouselSlide[] = [
   {
     id: 1,
+    newsId: 'noticia_1',
     tag: 'Noticia 1',
     category: 'Reconocimiento',
     dateBadge: 'Estímulos 2026',
@@ -39,16 +40,13 @@ const DEFAULT_SLIDES: CarouselSlide[] = [
       'Seleccionados en la convocatoria del Ministerio de las Culturas con la propuesta «Relatos de los abuelos Pastos en Historietas».',
       'Producción de un cómic histórico basado en entrevistas a mayores en torno a las tulpas, archivos documentales y relatos orales.'
     ],
-    fullText: [
-      'La propuesta "Relatos de los abuelos Pastos en Historietas" del Colectivo Cumbal Renaciente y la Casa de la Memoria del Gran Cumbal fue seleccionada en la convocatoria del Programa Nacional de Estímulos del Ministerio de las Culturas 2026.',
-      'Actualmente, los integrantes recorren el territorio realizando entrevistas a mayores en torno a las tulpas, revisan archivos documentales, registran y escuchan relatos orales de la comunidad. Con esta información, se encuentra en producción un cómic basado en las memorias recopiladas.',
-      'Próximamente se divulgarán más detalles sobre el avance del proyecto y sus resultados.'
-    ],
     ctaText: 'Conoce el proyecto',
     imageSrc: '/images/noticia1.jpeg',
+    frameImageSrc: undefined, // Sin recuadro
   },
   {
     id: 2,
+    newsId: 'noticia_2',
     tag: 'Noticia 2',
     category: 'Visita Institucional',
     dateBadge: '19 - 20 de Agosto',
@@ -57,16 +55,13 @@ const DEFAULT_SLIDES: CarouselSlide[] = [
       'Jornadas de trabajo con el Archivo General de la Nación (AGN) enfocadas en la protección de acervos documentales.',
       'Revisión de custodia actual y definición de líneas de acción para fortalecer la conservación archivística territorial.'
     ],
-    fullText: [
-      'Los días 19 y 20 de agosto, la Casa de la Memoria del Gran Cumbal recibió la visita del Archivo General de la Nación (AGN).',
-      'Durante la jornada, funcionarias del AGN y el equipo local sostuvieron mesas de trabajo enfocadas en la protección de los acervos documentales y el fortalecimiento de la gestión archivística del territorio. Se revisaron los procesos de custodia actuales y se plantearon líneas de acción conjuntas para mejorar la conservación de los fondos que resguardan la identidad del Gran Cumbal.',
-      'Agradecemos la asistencia técnica y el acompañamiento del AGN en este proceso.'
-    ],
     ctaText: 'Conoce más sobre la visita',
     imageSrc: '/images/noticia2.jpeg',
+    frameImageSrc: '/images/noticia2recuadro.png', // Recuadro fotográfico exclusivo noticia 2
   },
   {
     id: 3,
+    newsId: 'noticia_3',
     tag: 'Imagen 3',
     category: 'Documentación CMGC',
     dateBadge: 'Fondo Documental',
@@ -77,25 +72,25 @@ const DEFAULT_SLIDES: CarouselSlide[] = [
     ],
     ctaText: '¡Explora el Centro de Documentación!',
     imageSrc: '/images/tesoros2.png',
+    frameImageSrc: undefined, // Sin recuadro
   },
 ];
 
 export default function HeroCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [newsModalSlide, setNewsModalSlide] = useState<CarouselSlide | null>(null);
   const { setActiveSection } = useAuth();
 
-  // Auto-play feature: Switch slide every 6 seconds if not hovered or modal open
+  // Auto-play feature: Switch slide every 6 seconds if not hovered
   useEffect(() => {
-    if (isPaused || newsModalSlide !== null) return;
+    if (isPaused) return;
 
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % DEFAULT_SLIDES.length);
     }, 6000);
 
     return () => clearInterval(timer);
-  }, [isPaused, newsModalSlide]);
+  }, [isPaused]);
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? DEFAULT_SLIDES.length - 1 : prev - 1));
@@ -106,10 +101,18 @@ export default function HeroCarousel() {
   };
 
   const handleCtaClick = (slide: CarouselSlide) => {
-    if (slide.fullText && slide.fullText.length > 0) {
-      setNewsModalSlide(slide);
-    } else if (slide.id === 3) {
+    if (slide.id === 3) {
       setActiveSection('centro-documentacion');
+      return;
+    }
+
+    // Dispatch event for TemasDeInteres to expand the corresponding news item
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('selectTemaDeInteres', { detail: { newsId: slide.newsId } }));
+      const targetEl = document.getElementById('temas-de-interes');
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -132,7 +135,7 @@ export default function HeroCarousel() {
           priority
         />
 
-        {/* Multi-layered Gradients starting from bottom-left (to-tr) fading smoothly towards top-right */}
+        {/* Multi-layered Gradients starting from bottom-left fading smoothly towards top-right */}
         <div className="absolute inset-0 bg-gradient-to-tr from-verde-profundo via-verde-profundo/85 via-40% sm:via-35% to-transparent z-10" />
         <div className="absolute inset-0 bg-gradient-to-t from-verde-profundo/70 via-transparent to-transparent max-w-2xl z-10" />
 
@@ -141,8 +144,8 @@ export default function HeroCarousel() {
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
             
-            {/* LEFT COLUMN: News Content & Bullet Points */}
-            <div className="lg:col-span-7 space-y-5 text-left">
+            {/* LEFT / CENTER COLUMN: News Content & Bullet Points */}
+            <div className={`space-y-5 text-left ${currentSlide.frameImageSrc ? 'lg:col-span-7' : 'lg:col-span-10 max-w-4xl'}`}>
               
               {/* Category & Date Badge Pills */}
               <div className="flex items-center space-x-3 flex-wrap gap-y-2">
@@ -189,34 +192,39 @@ export default function HeroCarousel() {
 
             </div>
 
-            {/* RIGHT COLUMN: Floating Media Showcase Card (Style Univalle Creative Mask) */}
-            <div className="hidden lg:flex lg:col-span-5 justify-center relative">
-              
-              {/* Decorative Concentric Rings background */}
-              <div className="absolute -inset-4 rounded-full border border-mostaza/20 animate-pulse pointer-events-none" />
-              <div className="absolute -inset-8 rounded-full border border-[#a69cac]/20 pointer-events-none" />
-
-              {/* Main Card Frame */}
-              <div className="relative w-full max-w-md h-72 sm:h-80 rounded-3xl overflow-hidden border-4 border-crema/20 shadow-2xl backdrop-blur-md group/frame transform hover:scale-[1.02] transition-all duration-500 cursor-pointer" onClick={() => handleCtaClick(currentSlide)}>
-                <Image
-                  key={`frame_${currentSlide.id}`}
-                  src={currentSlide.imageSrc}
-                  alt={currentSlide.title}
-                  fill
-                  className="object-cover object-center group-hover/frame:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-verde-profundo/85 via-verde-profundo/20 to-transparent" />
+            {/* RIGHT COLUMN: Floating Media Card (Only rendered if frameImageSrc exists - Slide 2) */}
+            {currentSlide.frameImageSrc && (
+              <div className="hidden lg:flex lg:col-span-5 justify-center relative">
                 
-                {/* Overlay Badge at Bottom of Card */}
-                <div className="absolute bottom-4 left-4 right-4 bg-verde-profundo/90 backdrop-blur-md p-3.5 rounded-2xl border border-crema/20 text-xs font-bold text-crema flex items-center justify-between shadow-lg">
-                  <span className="truncate pr-2 font-serif">{currentSlide.title}</span>
-                  <span className="px-2.5 py-0.5 bg-mostaza text-verde-profundo rounded-full font-mono text-[10px] font-extrabold shrink-0">
-                    {currentSlide.category}
-                  </span>
-                </div>
-              </div>
+                {/* Decorative Concentric Rings background */}
+                <div className="absolute -inset-4 rounded-full border border-mostaza/20 animate-pulse pointer-events-none" />
+                <div className="absolute -inset-8 rounded-full border border-[#a69cac]/20 pointer-events-none" />
 
-            </div>
+                {/* Main Card Frame */}
+                <div 
+                  className="relative w-full max-w-md h-72 sm:h-80 rounded-3xl overflow-hidden border-4 border-crema/20 shadow-2xl backdrop-blur-md group/frame transform hover:scale-[1.02] transition-all duration-500 cursor-pointer"
+                  onClick={() => handleCtaClick(currentSlide)}
+                >
+                  <Image
+                    key={`frame_${currentSlide.id}`}
+                    src={currentSlide.frameImageSrc}
+                    alt={currentSlide.title}
+                    fill
+                    className="object-cover object-center group-hover/frame:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-verde-profundo/85 via-verde-profundo/20 to-transparent" />
+                  
+                  {/* Overlay Badge at Bottom of Card */}
+                  <div className="absolute bottom-4 left-4 right-4 bg-verde-profundo/90 backdrop-blur-md p-3.5 rounded-2xl border border-crema/20 text-xs font-bold text-crema flex items-center justify-between shadow-lg">
+                    <span className="truncate pr-2 font-serif">{currentSlide.title}</span>
+                    <span className="px-2.5 py-0.5 bg-mostaza text-verde-profundo rounded-full font-mono text-[10px] font-extrabold shrink-0">
+                      {currentSlide.category}
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+            )}
 
           </div>
 
@@ -261,59 +269,6 @@ export default function HeroCarousel() {
       >
         <ChevronRight size={28} />
       </button>
-
-      {/* Modal de Noticia Completa */}
-      {newsModalSlide && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="bg-crema text-verde-profundo rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border-2 border-crema-dark relative overflow-hidden space-y-6 max-h-[90vh] overflow-y-auto">
-            
-            {/* Header Modal */}
-            <div className="flex items-start justify-between border-b border-crema-dark pb-4">
-              <div className="space-y-2 pr-6">
-                <span className="px-3.5 py-1 bg-terracota text-crema font-bold text-xs rounded-full uppercase tracking-wider inline-block">
-                  {newsModalSlide.category}
-                </span>
-                <h3 className="font-serif font-bold text-xl sm:text-2xl text-verde-profundo leading-snug">
-                  {newsModalSlide.title}
-                </h3>
-              </div>
-              <button
-                onClick={() => setNewsModalSlide(null)}
-                className="p-2 rounded-full text-cafe/60 hover:text-terracota hover:bg-crema-dark transition-colors cursor-pointer shrink-0"
-                title="Cerrar noticia"
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            {/* Cuerpos de texto de la noticia oficial */}
-            <div className="space-y-4 font-sans text-sm sm:text-base text-cafe/90 leading-relaxed">
-              {newsModalSlide.fullText ? (
-                newsModalSlide.fullText.map((paragraph, idx) => (
-                  <p key={idx} className="bg-white/80 p-4 rounded-2xl border border-crema-dark/60 leading-relaxed text-cafe">
-                    {paragraph}
-                  </p>
-                ))
-              ) : (
-                <p className="bg-white/80 p-4 rounded-2xl border border-crema-dark/60 leading-relaxed text-cafe">
-                  {newsModalSlide.bulletPoints.join(' ')}
-                </p>
-              )}
-            </div>
-
-            {/* Footer Modal */}
-            <div className="pt-4 border-t border-crema-dark flex justify-end">
-              <button
-                onClick={() => setNewsModalSlide(null)}
-                className="px-6 py-2.5 bg-verde-profundo hover:bg-terracota text-crema font-bold text-xs sm:text-sm rounded-xl transition-colors cursor-pointer shadow-md"
-              >
-                Cerrar Noticia
-              </button>
-            </div>
-
-          </div>
-        </div>
-      )}
 
     </div>
   );

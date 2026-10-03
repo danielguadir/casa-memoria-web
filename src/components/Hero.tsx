@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useSiteSettings } from '@/context/SiteSettingsContext';
 import { Button } from '@/components/design-system';
 import HeroCarousel from '@/components/HeroCarousel';
+import TemasDeInteres from '@/components/TemasDeInteres';
 
 export default function Hero() {
     const { openKioskModal } = useAuth();
@@ -16,8 +17,11 @@ export default function Hero() {
             {/* 1. Carrusel de Banners a Ancho Completo */}
             <HeroCarousel />
 
-            {/* 2. Sección Institucional: Título y Descripción */}
-            <div id="inicio-presentacion" className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 pt-12 pb-6">
+            {/* 2. Sección de Temas de Interés (Noticias estilo lista institucional desplegable inline) */}
+            <TemasDeInteres />
+
+            {/* 3. Sección Institucional: Título y Descripción */}
+            <div id="inicio-presentacion" className="relative z-20 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 pt-6 pb-6">
                 
                 {/* Título y Descripción */}
                 <div className="space-y-4 max-w-4xl mx-auto">
