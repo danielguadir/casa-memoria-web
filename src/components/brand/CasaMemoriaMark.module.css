@@ -17,44 +17,18 @@
   fill: currentColor;
 }
 
-/* Clip paths para separar mitad superior e inferior sin duplicar la geometría del SVG */
-.topHalf {
-  clip-path: inset(0 0 50% 0);
-  transform-origin: center top;
+/* Animación de entrada suave para el Navbar */
+.fadeIn {
+  animation: fadeInAnim 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.bottomHalf {
-  clip-path: inset(50% 0 0 0);
-  transform-origin: center bottom;
-}
-
-/* Animación de ensamblado (800ms - 1000ms), se ejecuta una sola vez al montar */
-.assembleTop {
-  animation: assembleTopAnim 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.assembleBottom {
-  animation: assembleBottomAnim 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes assembleTopAnim {
+@keyframes fadeInAnim {
   0% {
-    transform: translateY(-14px);
+    transform: scale(0.92);
     opacity: 0;
   }
   100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes assembleBottomAnim {
-  0% {
-    transform: translateY(14px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
+    transform: scale(1);
     opacity: 1;
   }
 }
@@ -78,14 +52,10 @@
 
 /* Deshabilitar animaciones si el usuario tiene configurada la opción de movimiento reducido */
 @media (prefers-reduced-motion: reduce) {
-  .topHalf,
-  .bottomHalf,
-  .assembleTop,
-  .assembleBottom,
+  .fadeIn,
   .pulse {
     animation: none !important;
     transform: none !important;
     opacity: 1 !important;
-    clip-path: none !important;
   }
 }

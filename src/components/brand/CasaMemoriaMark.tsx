@@ -56,17 +56,16 @@ export default function CasaMemoriaMark({
           </g>
         </defs>
 
-        {animation === 'assemble' ? (
-          <>
-            <use href="#casamemoria-official-symbol-paths" className={`${styles.topHalf} ${styles.assembleTop}`} />
-            <use href="#casamemoria-official-symbol-paths" className={`${styles.bottomHalf} ${styles.assembleBottom}`} />
-          </>
-        ) : (
-          <use
-            href="#casamemoria-official-symbol-paths"
-            className={animation === 'pulse' ? styles.pulse : ''}
-          />
-        )}
+        <use
+          href="#casamemoria-official-symbol-paths"
+          className={
+            animation === 'assemble'
+              ? styles.fadeIn
+              : animation === 'pulse'
+              ? styles.pulse
+              : ''
+          }
+        />
       </svg>
     </div>
   );
