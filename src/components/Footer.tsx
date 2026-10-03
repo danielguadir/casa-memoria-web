@@ -1,12 +1,26 @@
 'use client';
 
-import Image from 'next/image';
+import React from 'react';
 import { MapPin, ExternalLink } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import BrandIdentity from '@/components/BrandIdentity';
 import SocialHeaderBar from '@/components/SocialHeaderBar';
 
 export default function Footer() {
-  const { activeView } = useAuth();
+  const router = useRouter();
+  const { activeView, setActiveSection, setActiveView } = useAuth();
+
+  const handleLogoClick = () => {
+    setActiveSection('inicio');
+    if (activeView === 'admin') {
+      setActiveView('public');
+    }
+    router.push('/');
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   // Hide footer completely when in Admin Panel view
   if (activeView === 'admin') {
@@ -19,23 +33,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
 
           <div className="space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border-2 border-mostaza bg-crema flex items-center justify-center shadow-md shrink-0">
-                <Image 
-                  src="/images/hero-logo.png" 
-                  alt="Logo Casa de la Memoria" 
-                  width={44} 
-                  height={44} 
-                  className="w-full h-full object-cover p-0" 
-                />
-              </div>
-              <h3 className="font-serif font-bold text-2xl text-mostaza">
-                Casa de la Memoria Cumbal
-              </h3>
-            </div>
-            <p className="text-sm font-sans leading-relaxed text-crema/80">
-              Desarrollamos estrategias de salvaguarda y protección de las memorias y el patrimonio cultural de los pueblos indígenas del sur de Colombia.
-            </p>
+            <BrandIdentity onLogoClick={handleLogoClick} />
 
             <div className="space-y-2 pt-2">
               <p className="text-xs font-semibold text-mostaza uppercase tracking-wider">Síguenos en Redes Sociales:</p>
