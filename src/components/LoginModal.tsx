@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Mail, Lock, Eye, EyeOff, Key, AlertCircle, ShieldCheck } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Key, AlertCircle, User } from 'lucide-react';
 import { Modal, Input, Button } from '@/components/design-system';
 import { useAuth } from '@/context/AuthContext';
 
@@ -37,11 +37,9 @@ export default function LoginModal() {
       onClose={closeLoginModal}
       title={
         <div className="flex items-center space-x-2">
-          <ShieldCheck className="w-6 h-6 text-mostaza" />
-          <span>Acceso al Archivo & Panel Admin</span>
+          <User className="w-5 h-5 text-crema" />
         </div>
       }
-      subtitle="Ingrese sus credenciales de administrador o archivista"
       size="md"
     >
       <form onSubmit={handleSubmit} className="space-y-4">
