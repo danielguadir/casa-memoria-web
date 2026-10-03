@@ -105,13 +105,13 @@ export default function HeroCarousel() {
           src={currentSlide.imageSrc}
           alt={currentSlide.title}
           fill
-          className="object-cover object-center opacity-40 transition-opacity duration-700 animate-in fade-in"
+          className="object-cover object-center opacity-90 transition-opacity duration-700 animate-in fade-in"
           priority
         />
 
-        {/* Multi-layered Gradients for Univalle-style high readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-verde-profundo via-verde-profundo/90 sm:via-verde-profundo/80 to-transparent z-10"></div>
-        <div className="absolute inset-0 bg-gradient-to-t from-verde-profundo via-transparent to-black/30 z-10"></div>
+        {/* Multi-layered Gradients focused on text legibility while revealing top-right & bottom-right natural photo colors */}
+        <div className="absolute inset-0 bg-gradient-to-r from-verde-profundo via-verde-profundo/90 via-40% sm:via-35% to-transparent z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-verde-profundo/60 via-transparent to-transparent max-w-2xl z-10"></div>
 
         {/* Full-width Container */}
         <div className="relative z-20 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full py-12 flex flex-col justify-between min-h-[440px] sm:min-h-[480px]">
