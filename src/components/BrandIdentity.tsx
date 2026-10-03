@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import CasaMemoriaMark from '@/components/brand/CasaMemoriaMark';
+import Image from 'next/image';
 
 const SEGMENT_COLORS = [
   '#E5A800', // amarillo
@@ -50,9 +50,16 @@ export default function BrandIdentity({ onLogoClick, className = '' }: BrandIden
     >
       {/* Bloque superior: Isotipo circular + Texto Institucional */}
       <div className="flex items-center space-x-2.5 sm:space-x-3.5">
-        {/* Isotipo circular oficial SVG a la izquierda */}
-        <div className="relative w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full overflow-hidden border border-[#a69cac]/60 group-hover:border-[#a69cac] bg-crema text-verde-profundo flex items-center justify-center p-1 shadow-md group-hover:scale-105 group-hover:shadow-[0_0_12px_rgba(166,156,172,0.6)] transition-all shrink-0">
-          <CasaMemoriaMark animation="assemble" size="100%" />
+        {/* Isotipo circular oficial PNG a la izquierda */}
+        <div className="relative w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full overflow-hidden border border-[#a69cac]/60 group-hover:border-[#a69cac] bg-crema flex items-center justify-center p-0.5 shadow-md group-hover:scale-105 group-hover:shadow-[0_0_12px_rgba(166,156,172,0.6)] transition-all shrink-0">
+          <Image
+            src="/images/logotipo-origina/Isotipo-casamemoriaCumbal-4x.png"
+            alt="Logo Casa de la Memoria del Gran Cumbal"
+            width={48}
+            height={48}
+            className="w-full h-full object-contain"
+            priority
+          />
         </div>
 
         {/* Bloque de Texto Institucional */}
