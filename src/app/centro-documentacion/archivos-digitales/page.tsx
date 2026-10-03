@@ -12,7 +12,7 @@ export default function ArchivosDigitalesPage() {
   }
 
   return (
-    <div className="animate-in fade-in duration-300 py-12">
+    <div className="animate-in fade-in duration-300 py-4 sm:py-6">
       <ArchivosDigitales />
     </div>
   );
