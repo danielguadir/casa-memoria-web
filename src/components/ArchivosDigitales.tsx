@@ -15,8 +15,6 @@ import {
   X
 } from 'lucide-react';
 import { digitalArchiveData, DigitalDocument } from '@/data/digitalArchiveCatalog';
-import { Button } from '@/components/design-system';
-import { useAuth } from '@/context/AuthContext';
 
 /**
  * Normalizes text removing accents for scalable accent-insensitive search
@@ -34,8 +32,6 @@ export default function ArchivosDigitales() {
   // Search filter & Category state
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todas');
-
-  const { openKioskModal } = useAuth();
 
   // Dynamic categories list starting with 'Todas'
   const categoriesList = useMemo(() => {
@@ -283,11 +279,6 @@ export default function ArchivosDigitales() {
                       </p>
                     </div>
 
-                    {/* Descripción corta de máximo 2–3 líneas */}
-                    <p className="text-xs sm:text-sm text-cafe/85 leading-relaxed line-clamp-3">
-                      {doc.description || (doc.synopsis ? doc.synopsis.split('\n\n')[0] : '')}
-                    </p>
-
                     {/* Metadatos rápidos: Formato, Capítulos, Editorial */}
                     <div className="flex flex-wrap items-center gap-3 text-xs text-cafe/75 pt-0.5">
                       <span className="font-semibold bg-crema-dark/50 px-2 py-0.5 rounded border border-crema-dark/40">
@@ -304,7 +295,7 @@ export default function ArchivosDigitales() {
                       </span>
                     </div>
 
-                    {/* Botones de acción principal (Ver documento + Consulta pública) */}
+                    {/* Botones de acción principal (Ver documento + Ver más información) */}
                     <div className="flex flex-wrap items-center justify-between gap-2.5 pt-2">
                       <div className="flex items-center gap-2">
                         <a
@@ -318,16 +309,6 @@ export default function ArchivosDigitales() {
                           <span>Ver documento</span>
                           <ExternalLink size={13} className="opacity-75" />
                         </a>
-
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={openKioskModal}
-                          leftIcon={<Search size={14} />}
-                          className="text-xs px-3 py-1.5 font-semibold cursor-pointer"
-                        >
-                          Consulta Pública
-                        </Button>
                       </div>
 
                       {/* Botón Ver más información */}
