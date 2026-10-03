@@ -189,11 +189,11 @@ export default function Navbar() {
               {!isLoggedIn ? (
                 <button
                   onClick={openLoginModal}
-                  className="p-2 sm:p-2.5 rounded-full bg-terracota hover:bg-terracota/80 text-crema transition-all duration-300 shadow-md hover:scale-105 border border-crema/20 cursor-pointer focus:outline-none flex items-center justify-center shrink-0"
+                  className="p-1.5 text-crema hover:text-[#a69cac] transition-colors duration-300 cursor-pointer focus:outline-none flex items-center justify-center shrink-0"
                   title="Ingresar / Iniciar sesión"
                   aria-label="Ingresar / Iniciar sesión"
                 >
-                  <User size={18} className="text-crema sm:w-5 sm:h-5" />
+                  <User size={22} className="w-5 h-5 lg:w-6 lg:h-6 text-crema hover:text-[#a69cac] transition-colors" />
                 </button>
               ) : (
                 <div className="flex items-center space-x-2">
@@ -274,11 +274,11 @@ export default function Navbar() {
               {!isLoggedIn ? (
                 <button
                   onClick={openLoginModal}
-                  className="p-2 rounded-full bg-terracota text-crema transition-all duration-300 cursor-pointer focus:outline-none flex items-center justify-center shrink-0"
+                  className="p-1.5 text-crema hover:text-[#a69cac] transition-colors duration-300 cursor-pointer focus:outline-none flex items-center justify-center shrink-0"
                   title="Ingresar / Iniciar sesión"
                   aria-label="Ingresar / Iniciar sesión"
                 >
-                  <User size={18} className="text-crema" />
+                  <User size={20} className="text-crema hover:text-[#a69cac] transition-colors" />
                 </button>
               ) : (
                 <Button
