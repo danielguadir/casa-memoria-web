@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu, X, LogOut, ChevronDown, ShieldCheck, LayoutDashboard, LogIn } from 'lucide-react';
+import { Menu, X, LogOut, ChevronDown, ShieldCheck, LayoutDashboard, User } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth, SectionType } from '@/context/AuthContext';
@@ -187,15 +187,14 @@ export default function Navbar() {
 
               {/* Auth Buttons / Profile Menu */}
               {!isLoggedIn ? (
-                <Button
-                  variant="terracota"
-                  size="sm"
+                <button
                   onClick={openLoginModal}
-                  leftIcon={<LogIn size={16} />}
-                  className="shadow-sm font-semibold text-xs"
+                  className="p-2 sm:p-2.5 rounded-full bg-terracota hover:bg-terracota/80 text-crema transition-all duration-300 shadow-md hover:scale-105 border border-crema/20 cursor-pointer focus:outline-none flex items-center justify-center shrink-0"
+                  title="Ingresar / Iniciar sesión"
+                  aria-label="Ingresar / Iniciar sesión"
                 >
-                  Ingresar
-                </Button>
+                  <User size={18} className="text-crema sm:w-5 sm:h-5" />
+                </button>
               ) : (
                 <div className="flex items-center space-x-2">
                   <Button
@@ -273,15 +272,14 @@ export default function Navbar() {
             {/* Mobile menu button */}
             <div className="flex items-center md:hidden space-x-2">
               {!isLoggedIn ? (
-                <Button
-                  variant="terracota"
-                  size="sm"
+                <button
                   onClick={openLoginModal}
-                  leftIcon={<LogIn size={14} />}
-                  className="text-xs px-2.5"
+                  className="p-2 rounded-full bg-terracota text-crema transition-all duration-300 cursor-pointer focus:outline-none flex items-center justify-center shrink-0"
+                  title="Ingresar / Iniciar sesión"
+                  aria-label="Ingresar / Iniciar sesión"
                 >
-                  Ingresar
-                </Button>
+                  <User size={18} className="text-crema" />
+                </button>
               ) : (
                 <Button
                   variant="secondary"
