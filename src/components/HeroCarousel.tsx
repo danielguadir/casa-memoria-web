@@ -2,13 +2,24 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight, CheckCircle2, ArrowRight, X, Newspaper, Award, Building2 } from 'lucide-react';
+import { 
+  ChevronLeft, 
+  ChevronRight, 
+  CheckCircle2, 
+  ArrowRight, 
+  X, 
+  Newspaper, 
+  Award, 
+  Building2, 
+  Calendar 
+} from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
 export interface CarouselSlide {
   id: number;
   tag: string;
   category: string;
+  dateBadge?: string;
   title: string;
   bulletPoints: string[];
   fullText?: string[];
@@ -22,6 +33,7 @@ const DEFAULT_SLIDES: CarouselSlide[] = [
     id: 1,
     tag: 'Noticia 1',
     category: 'Reconocimiento',
+    dateBadge: 'Estímulos 2026',
     title: 'Colectivo Cumbal Renaciente y Casa de la Memoria, ganadores del Programa Nacional de Estímulos 2026',
     bulletPoints: [
       'Seleccionados en la convocatoria del Ministerio de las Culturas con la propuesta «Relatos de los abuelos Pastos en Historietas».',
@@ -39,6 +51,7 @@ const DEFAULT_SLIDES: CarouselSlide[] = [
     id: 2,
     tag: 'Noticia 2',
     category: 'Visita Institucional',
+    dateBadge: '19 - 20 de Agosto',
     title: 'El Archivo General de la Nación visitó la Casa de la Memoria del Gran Cumbal',
     bulletPoints: [
       'Jornadas de trabajo con el Archivo General de la Nación (AGN) enfocadas en la protección de acervos documentales.',
@@ -56,6 +69,7 @@ const DEFAULT_SLIDES: CarouselSlide[] = [
     id: 3,
     tag: 'Imagen 3',
     category: 'Documentación CMGC',
+    dateBadge: 'Fondo Documental',
     title: 'Archivo',
     bulletPoints: [
       'Biblioteca Especializada de Pueblos Indígenas',
@@ -114,60 +128,105 @@ export default function HeroCarousel() {
           src={currentSlide.imageSrc}
           alt={currentSlide.title}
           fill
-          className="object-cover object-center opacity-90 transition-opacity duration-700 animate-in fade-in"
+          className="object-cover object-center opacity-85 transition-opacity duration-700 animate-in fade-in"
           priority
         />
 
-        {/* Multi-layered Gradients focused on text legibility while revealing natural photo colors */}
-        <div className="absolute inset-0 bg-gradient-to-r from-verde-profundo/95 via-verde-profundo/85 via-45% sm:via-40% to-transparent z-10" />
-        <div className="absolute inset-0 bg-gradient-to-t from-verde-profundo/70 via-transparent to-transparent max-w-3xl z-10" />
+        {/* Multi-layered Gradients focused on text legibility and creative depth */}
+        <div className="absolute inset-0 bg-gradient-to-r from-verde-profundo/95 via-verde-profundo/85 via-50% sm:via-45% to-verde-profundo/40 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-verde-profundo/80 via-transparent to-transparent z-10" />
 
         {/* Full-width Container */}
-        <div className="relative z-20 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full py-12 flex flex-col justify-between min-h-[440px] sm:min-h-[480px]">
+        <div className="relative z-20 max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 w-full py-10 lg:py-14 flex flex-col justify-between min-h-[460px] sm:min-h-[500px]">
           
-          {/* Top Row: Category Badge */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <span className="px-4 py-1.5 rounded-full bg-[#a69cac] text-verde-profundo font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-md inline-flex items-center gap-1.5">
-                {currentSlide.id === 1 && <Award size={16} className="text-terracota" />}
-                {currentSlide.id === 2 && <Building2 size={16} className="text-terracota" />}
-                {currentSlide.id === 3 && <Newspaper size={16} className="text-terracota" />}
-                <span>{currentSlide.category}</span>
-              </span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
+            
+            {/* LEFT COLUMN: News Content & Bullet Points */}
+            <div className="lg:col-span-7 space-y-5 text-left">
+              
+              {/* Category & Date Badge Pills */}
+              <div className="flex items-center space-x-3 flex-wrap gap-y-2">
+                <span className="px-4 py-1.5 rounded-full bg-[#a69cac] text-verde-profundo font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-md inline-flex items-center gap-1.5">
+                  {currentSlide.id === 1 && <Award size={16} className="text-terracota" />}
+                  {currentSlide.id === 2 && <Building2 size={16} className="text-terracota" />}
+                  {currentSlide.id === 3 && <Newspaper size={16} className="text-terracota" />}
+                  <span>{currentSlide.category}</span>
+                </span>
+
+                {currentSlide.dateBadge && (
+                  <span className="px-3.5 py-1 rounded-full bg-terracota/90 text-crema font-bold text-xs inline-flex items-center gap-1.5 shadow-md border border-crema/20">
+                    <Calendar size={14} className="text-mostaza" />
+                    <span>{currentSlide.dateBadge}</span>
+                  </span>
+                )}
+              </div>
+
+              {/* Title */}
+              <h2 className="font-serif font-extrabold text-2xl sm:text-3xl lg:text-4xl text-crema tracking-tight drop-shadow-lg leading-tight sm:leading-snug">
+                {currentSlide.title}
+              </h2>
+
+              {/* Bullet Points */}
+              <div className="space-y-2.5 pt-1">
+                {currentSlide.bulletPoints.map((point, idx) => (
+                  <div key={idx} className="flex items-start space-x-3 text-sm sm:text-base font-sans text-crema/95 font-medium drop-shadow-sm leading-relaxed">
+                    <CheckCircle2 size={18} className="text-mostaza shrink-0 mt-1" />
+                    <span>{point}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Pill Call To Action Button */}
+              <div className="pt-3">
+                <button
+                  onClick={() => handleCtaClick(currentSlide)}
+                  className="inline-flex items-center space-x-3 bg-terracota hover:bg-[#a69cac] hover:text-verde-profundo text-crema font-extrabold text-sm sm:text-base px-8 py-3.5 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-crema/30 group/btn cursor-pointer"
+                >
+                  <span>{currentSlide.ctaText}</span>
+                  <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
+                </button>
+              </div>
+
             </div>
-          </div>
 
-          {/* Main Slide Content Layout: Left Title & Bullets, Pill CTA */}
-          <div className="max-w-3xl space-y-5 my-auto text-left pt-4">
-            <h2 className="font-serif font-extrabold text-2xl sm:text-3xl lg:text-4xl text-crema tracking-tight drop-shadow-lg leading-tight sm:leading-snug">
-              {currentSlide.title}
-            </h2>
+            {/* RIGHT COLUMN: Floating Media Showcase Card (Style Univalle Creative Mask) */}
+            <div className="hidden lg:flex lg:col-span-5 justify-center relative">
+              
+              {/* Decorative Concentric Rings background */}
+              <div className="absolute -inset-4 rounded-full border border-mostaza/20 animate-pulse pointer-events-none" />
+              <div className="absolute -inset-8 rounded-full border border-[#a69cac]/20 pointer-events-none" />
 
-            {/* Institutional Bullet Points */}
-            <div className="space-y-2.5 pt-2">
-              {currentSlide.bulletPoints.map((point, idx) => (
-                <div key={idx} className="flex items-start space-x-3 text-sm sm:text-base md:text-lg font-sans text-crema/90 font-medium drop-shadow-sm leading-relaxed">
-                  <CheckCircle2 size={20} className="text-[#a69cac] shrink-0 mt-1" />
-                  <span>{point}</span>
+              {/* Main Card Frame */}
+              <div className="relative w-full max-w-md h-72 sm:h-80 rounded-3xl overflow-hidden border-4 border-crema/20 shadow-2xl backdrop-blur-md group/frame transform hover:scale-[1.02] transition-all duration-500 cursor-pointer" onClick={() => handleCtaClick(currentSlide)}>
+                <Image
+                  key={`frame_${currentSlide.id}`}
+                  src={currentSlide.imageSrc}
+                  alt={currentSlide.title}
+                  fill
+                  className="object-cover object-center group-hover/frame:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-verde-profundo/85 via-verde-profundo/20 to-transparent" />
+                
+                {/* Overlay Badge at Bottom of Card */}
+                <div className="absolute bottom-4 left-4 right-4 bg-verde-profundo/90 backdrop-blur-md p-3.5 rounded-2xl border border-crema/20 text-xs font-bold text-crema flex items-center justify-between shadow-lg">
+                  <span className="truncate pr-2 font-serif">{currentSlide.title}</span>
+                  <span className="px-2.5 py-0.5 bg-mostaza text-verde-profundo rounded-full font-mono text-[10px] font-extrabold shrink-0">
+                    {currentSlide.category}
+                  </span>
                 </div>
-              ))}
+              </div>
+
             </div>
 
-            {/* Pill Call To Action Button */}
-            <div className="pt-4">
-              <button
-                onClick={() => handleCtaClick(currentSlide)}
-                className="inline-flex items-center space-x-3 bg-terracota hover:bg-[#a69cac] hover:text-verde-profundo text-crema font-extrabold text-base sm:text-lg px-8 py-3.5 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-crema/30 group/btn cursor-pointer"
-              >
-                <span>{currentSlide.ctaText}</span>
-                <ArrowRight size={20} className="group-hover/btn:translate-x-1 transition-transform" />
-              </button>
-            </div>
           </div>
 
           {/* Bottom Bar: Indicator Dots */}
-          <div className="flex items-center justify-end pt-4 border-t border-crema/20">
-            <div className="flex items-center space-x-2">
+          <div className="flex items-center justify-between pt-4 border-t border-crema/20 mt-4">
+            <span className="text-xs font-mono text-crema/70 font-semibold hidden sm:inline">
+              Noticia {currentIndex + 1} de {DEFAULT_SLIDES.length}
+            </span>
+
+            <div className="flex items-center space-x-2 mx-auto sm:mr-0">
               {DEFAULT_SLIDES.map((slide, idx) => (
                 <button
                   key={slide.id}
