@@ -141,7 +141,7 @@ export default function HeroCarousel() {
               ))}
             </div>
 
-            {/* Univalle-style Pill Call To Action Button */}
+            {/* Pill Call To Action Button */}
             <div className="pt-4">
               <button
                 onClick={() => handleCtaClick(currentSlide)}

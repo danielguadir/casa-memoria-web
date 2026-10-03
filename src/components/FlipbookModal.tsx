@@ -43,16 +43,22 @@ export default function FlipbookModal({
   const totalPages = 280; // Total estimado de páginas para la obra
 
   const handleNextPage = () => {
-    setCurrentPage(prev => Math.min(prev + 2, totalPages));
+    setCurrentPage(prev => Math.min(prev + 1, totalPages));
   };
 
   const handlePrevPage = () => {
-    setCurrentPage(prev => Math.max(prev - 2, 1));
+    setCurrentPage(prev => Math.max(prev - 1, 1));
   };
 
   const handleZoomIn = () => setZoomLevel(prev => Math.min(prev + 15, 160));
   const handleZoomOut = () => setZoomLevel(prev => Math.max(prev - 15, 75));
   const handleResetZoom = () => setZoomLevel(100);
+
+  // Dynamic preview URL with page anchor parameter for PDF/Drive viewer page turns
+  const getIframeUrl = () => {
+    const baseUrl = drivePreviewUrl.replace(/#.*$/, '');
+    return `${baseUrl}#page=${currentPage}`;
+  };
 
   return (
     <Modal
@@ -67,7 +73,7 @@ export default function FlipbookModal({
           <div className="min-w-0">
             <div className="flex items-center space-x-2">
               <span className="px-2 py-0.5 bg-terracota/20 text-terracota text-[10px] font-bold uppercase rounded-md border border-terracota/30">
-                Visor Flipbook Univalle Style
+                Visor Flipbook Digital
               </span>
               <span className="text-xs text-crema/70 font-mono flex items-center gap-1">
                 <Eye className="w-3.5 h-3.5 text-mostaza" />
@@ -83,7 +89,7 @@ export default function FlipbookModal({
     >
       <div className="space-y-4">
         
-        {/* Barra Superior de Control del Lector (Estilo Biblioteca Digital Univalle) */}
+        {/* Barra Superior de Control del Lector */}
         <div className="bg-verde-profundo text-crema p-3 sm:p-4 rounded-2xl border border-crema/10 flex flex-wrap items-center justify-between gap-3 shadow-md">
           
           {/* Selector de Modos y Capítulos */}
@@ -183,7 +189,7 @@ export default function FlipbookModal({
                 <button
                   key={ch.number}
                   onClick={() => {
-                    setCurrentPage(typeof ch.number === 'number' ? (ch.number * 20) : 1);
+                    setCurrentPage(typeof ch.number === 'number' ? Math.max(1, ch.number * 10) : 1);
                     setIsChapterDrawerOpen(false);
                   }}
                   className="text-left p-2 bg-crema-dark/40 hover:bg-terracota hover:text-crema text-xs rounded-xl font-medium transition-colors flex items-center space-x-2 truncate cursor-pointer"
@@ -203,10 +209,11 @@ export default function FlipbookModal({
           className="w-full h-[74vh] rounded-3xl overflow-hidden border-2 border-crema-dark shadow-2xl bg-cafe/15 relative flex items-center justify-center transition-transform"
           style={{ transform: `scale(${zoomLevel / 100})`, transformOrigin: 'top center' }}
         >
-          {/* Iframe con Visor Integrado de Alta Definición */}
+          {/* Iframe con Visor Integrado y Key por Página para recarga suave */}
           <iframe
+            key={`flipbook_page_${currentPage}`}
             title={title}
-            src={drivePreviewUrl}
+            src={getIframeUrl()}
             width="100%"
             height="100%"
             allow="autoplay"
@@ -214,7 +221,7 @@ export default function FlipbookModal({
             className="w-full h-full rounded-3xl"
           />
 
-          {/* Overlay de navegación de páginas en laterales para experiencia tipo Flipbook */}
+          {/* Overlay de navegación de páginas en laterales */}
           <button
             onClick={handlePrevPage}
             disabled={currentPage <= 1}

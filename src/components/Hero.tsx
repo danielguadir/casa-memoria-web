@@ -13,7 +13,7 @@ export default function Hero() {
     return (
         <section id="inicio" className="relative bg-crema text-verde-profundo overflow-hidden pb-14">
             
-            {/* 1. Carrusel de Banners a Ancho Completo (Estilo Portal Univalle) */}
+            {/* 1. Carrusel de Banners a Ancho Completo */}
             <HeroCarousel />
 
             {/* 2. Sección Institucional: Título y Descripción */}

@@ -57,7 +57,7 @@ export default function ArchivosDigitales() {
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
 
-      {/* Cabecera Estilo Repositorio Institucional (Univalle / Repositorios Académicos) */}
+      {/* Cabecera Estilo Repositorio Institucional / Repositorios Académicos */}
       <div className="bg-crema/90 border border-crema-dark/80 rounded-3xl p-6 sm:p-8 shadow-lg backdrop-blur-sm relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-terracota/5 rounded-full blur-3xl pointer-events-none" />
         
@@ -104,7 +104,7 @@ export default function ArchivosDigitales() {
         </div>
       </div>
 
-      {/* Grid de Documentos Digitales (Presentación Principal Univalle en la Página) */}
+      {/* Grid de Documentos Digitales (Presentación Principal en la Página) */}
       <div className="grid grid-cols-1 gap-8">
         {digitalDocs.map((doc) => {
           const isExpanded = expandedDocId === doc.id;
@@ -163,7 +163,7 @@ export default function ArchivosDigitales() {
                     </div>
                   </div>
 
-                  {/* Ficha Rápida de Autoría y Filiación (Estilo Univalle) */}
+                  {/* Ficha Rápida de Autoría y Filiación */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
                     
                     {/* Autor */}
@@ -439,7 +439,7 @@ export default function ArchivosDigitales() {
                       rightIcon={<ExternalLink size={16} className="opacity-75" />}
                       className="w-full sm:w-auto px-6 py-3 font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
                     >
-                      Leer en Visor Flipbook (Univalle Style)
+                      Leer en Visor Flipbook Digital
                     </Button>
                   </div>
 
@@ -451,7 +451,7 @@ export default function ArchivosDigitales() {
         })}
       </div>
 
-      {/* Visor Flipbook Interactivo Integrado Estilo Biblioteca Digital Univalle */}
+      {/* Visor Flipbook Interactivo Integrado Estilo Biblioteca Digital */}
       <FlipbookModal
         isOpen={isFlipbookOpen}
         onClose={() => setIsFlipbookOpen(false)}
