@@ -149,12 +149,13 @@ export default function HeroCarousel() {
               
               {/* Category & Date Badge Pills */}
               <div className="flex items-center space-x-3 flex-wrap gap-y-2">
-                <span className="px-4 py-1.5 rounded-full bg-[#a69cac] text-verde-profundo font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-md inline-flex items-center gap-1.5">
-                  {currentSlide.id === 1 && <Award size={16} className="text-terracota" />}
-                  {currentSlide.id === 2 && <Building2 size={16} className="text-terracota" />}
-                  {currentSlide.id === 3 && <Newspaper size={16} className="text-terracota" />}
-                  <span>{currentSlide.category}</span>
-                </span>
+                {currentSlide.id !== 1 && (
+                  <span className="px-4 py-1.5 rounded-full bg-[#a69cac] text-verde-profundo font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-md inline-flex items-center gap-1.5">
+                    {currentSlide.id === 2 && <Building2 size={16} className="text-terracota" />}
+                    {currentSlide.id === 3 && <Newspaper size={16} className="text-terracota" />}
+                    <span>{currentSlide.category}</span>
+                  </span>
+                )}
 
                 {currentSlide.dateBadge && (
                   <span className="px-3.5 py-1 rounded-full bg-terracota/90 text-crema font-bold text-xs inline-flex items-center gap-1.5 shadow-md border border-crema/20">
@@ -228,24 +229,35 @@ export default function HeroCarousel() {
 
           </div>
 
-          {/* Bottom Bar: Indicator Dots */}
+          {/* Bottom Bar: Indicator Dots & Reconocimiento Badge on Bottom Right */}
           <div className="flex items-center justify-between pt-4 border-t border-crema/20 mt-4">
             <span className="text-xs font-mono text-crema/70 font-semibold hidden sm:inline">
               Noticia {currentIndex + 1} de {DEFAULT_SLIDES.length}
             </span>
 
-            <div className="flex items-center space-x-2 mx-auto sm:mr-0">
-              {DEFAULT_SLIDES.map((slide, idx) => (
-                <button
-                  key={slide.id}
-                  onClick={() => setCurrentIndex(idx)}
-                  className={`
-                    h-2.5 rounded-full transition-all duration-300 focus:outline-none cursor-pointer
-                    ${currentIndex === idx ? 'w-10 bg-[#a69cac]' : 'w-2.5 bg-crema/40 hover:bg-[#a69cac]/70'}
-                  `}
-                  aria-label={`Ir a diapositiva ${idx + 1}`}
-                />
-              ))}
+            <div className="flex items-center space-x-4">
+              {/* Badge ovalado 'Reconocimiento' posicionado en la parte inferior derecha para Noticia 1 */}
+              {currentSlide.id === 1 && (
+                <span className="px-4 py-1.5 rounded-full bg-[#a69cac] text-verde-profundo font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-xl border border-crema/30 inline-flex items-center gap-1.5 animate-in fade-in">
+                  <Award size={16} className="text-terracota" />
+                  <span>{currentSlide.category}</span>
+                </span>
+              )}
+
+              {/* Indicator Dots */}
+              <div className="flex items-center space-x-2">
+                {DEFAULT_SLIDES.map((slide, idx) => (
+                  <button
+                    key={slide.id}
+                    onClick={() => setCurrentIndex(idx)}
+                    className={`
+                      h-2.5 rounded-full transition-all duration-300 focus:outline-none cursor-pointer
+                      ${currentIndex === idx ? 'w-10 bg-[#a69cac]' : 'w-2.5 bg-crema/40 hover:bg-[#a69cac]/70'}
+                    `}
+                    aria-label={`Ir a diapositiva ${idx + 1}`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
