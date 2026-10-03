@@ -23,7 +23,6 @@ import {
 import { digitalArchiveData, DigitalDocument } from '@/data/digitalArchiveCatalog';
 import { Badge, Button } from '@/components/design-system';
 import { useAuth } from '@/context/AuthContext';
-import FlipbookModal from '@/components/FlipbookModal';
 
 /**
  * Normalizes text removing accents for scalable accent-insensitive search
@@ -39,7 +38,6 @@ export default function ArchivosDigitales() {
     dig_001: 'sinopsis'
   });
   const [expandedDocId, setExpandedDocId] = useState<string | null>('dig_001');
-  const [isFlipbookOpen, setIsFlipbookOpen] = useState(false);
 
   // Scalable category selection and search filter state
   const [searchQuery, setSearchQuery] = useState('');
@@ -63,7 +61,6 @@ export default function ArchivosDigitales() {
     setDigitalDocs(prevDocs => 
       prevDocs.map(d => d.id === doc.id ? { ...d, viewsCount: d.viewsCount + 1 } : d)
     );
-    setIsFlipbookOpen(true);
   };
 
   const setDocTab = (docId: string, tab: 'sinopsis' | 'capitulos' | 'autores' | 'ficha') => {
@@ -135,8 +132,6 @@ export default function ArchivosDigitales() {
     setSearchQuery('');
     setSelectedCategory('Todas');
   };
-
-  const mainDoc = digitalDocs[0];
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 animate-in fade-in duration-500">
@@ -593,7 +588,7 @@ export default function ArchivosDigitales() {
 
                                 <div>
                                   <span className="font-bold text-verde-profundo block mb-0.5">Disponibilidad:</span>
-                                  <p className="text-emerald-800 font-bold">Disponible para consulta digital y lectura Flipbook en línea</p>
+                                  <p className="text-emerald-800 font-bold">Disponible para lectura en lector PDF nativo del navegador</p>
                                 </div>
                               </div>
 
@@ -616,7 +611,7 @@ export default function ArchivosDigitales() {
                         </div>
                       )}
 
-                      {/* Acciones Principales: Leer Documento en Flipbook & Consulta en Kiosco Modal */}
+                      {/* Acciones Principales: Ver Documento en Lector PDF Nativo del Navegador & Consulta Pública */}
                       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2 border-t border-crema-dark/60">
                         
                         {/* Toggle Ver Más / Ver Menos */}
@@ -640,16 +635,17 @@ export default function ArchivosDigitales() {
                             Abrir Consulta Pública
                           </Button>
 
-                          <Button
-                            variant="terracota"
-                            size="md"
+                          <a
+                            href={doc.pdfUrl || '/docs/cumbe-renaciente.pdf'}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             onClick={() => handleReadDocument(doc)}
-                            leftIcon={<BookOpen size={18} />}
-                            rightIcon={<ExternalLink size={16} className="opacity-75" />}
-                            className="w-full sm:w-auto px-6 py-3 font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all cursor-pointer"
+                            className="inline-flex items-center justify-center space-x-2 bg-terracota hover:bg-terracota-light text-crema font-bold text-xs sm:text-sm px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition-all cursor-pointer w-full sm:w-auto text-center"
                           >
-                            Leer en Visor Flipbook Digital
-                          </Button>
+                            <BookOpen size={18} />
+                            <span>Ver documento</span>
+                            <ExternalLink size={16} className="opacity-75 ml-1" />
+                          </a>
                         </div>
 
                       </div>
@@ -662,19 +658,6 @@ export default function ArchivosDigitales() {
           )}
         </main>
       </div>
-
-      {/* Visor Flipbook Interactivo Integrado Estilo Biblioteca Digital */}
-      <FlipbookModal
-        isOpen={isFlipbookOpen}
-        onClose={() => setIsFlipbookOpen(false)}
-        title={mainDoc.title}
-        author={mainDoc.author}
-        publisher={mainDoc.publisher}
-        pdfUrl={mainDoc.pdfUrl}
-        drivePreviewUrl={mainDoc.previewUrl || 'https://drive.google.com/file/d/1k0QgJfFs3E65ASuHA7_lI5ZA8lAk_RlK/preview'}
-        viewsCount={mainDoc.viewsCount}
-        chapters={mainDoc.chapters}
-      />
 
     </div>
   );
