@@ -19,28 +19,29 @@ export interface CarouselSlide {
 const DEFAULT_SLIDES: CarouselSlide[] = [
   {
     id: 1,
-    tag: 'Imagen 1',
-    category: 'Memoria',
-    title: 'Territorio',
+    tag: 'Noticia 1',
+    category: 'Reconocimiento',
+    title: 'Cumbal Renaciente y la Casa de la Memoria, ganadores del Programa Nacional de Estímulos 2026',
     bulletPoints: [
-      'Preservación del Patrimonio y Cosmovisión Ancestral',
-      'Recuperación de Memorias Territoriales',
-      'Archivo Histórico del Pueblo Indígena de los Pastos'
+      'La propuesta «Relatos de los abuelos Pastos en Historietas» fue seleccionada en la convocatoria del Ministerio de las Culturas.',
+      'El equipo recorre el territorio entrevistando a mayores, revisando archivos y recopilando relatos orales de la comunidad.',
+      'Las memorias recopiladas darán vida a un cómic sobre los relatos y saberes del Gran Cumbal.'
     ],
-    ctaText: '¡Más información aquí!',
-    imageSrc: '/images/tesoros.png',
+    ctaText: 'Conoce el proyecto',
+    imageSrc: '/images/noticia1.jpeg',
   },
   {
     id: 2,
-    tag: 'Imagen 2',
-    category: 'Comunidad',
-    title: 'Escuela Renacientes del Gran Cumbal',
+    tag: 'Noticia 2',
+    category: 'Visita Institucional',
+    title: 'El Archivo General de la Nación visitó la Casa de la Memoria del Gran Cumbal',
     bulletPoints: [
-      'Círculos de Palabreo y Diálogo',
-      'Seminario en Comunicación Comunitaria y Medios Propios'
+      'Durante los días 19 y 20 de agosto se desarrollaron jornadas de trabajo con el Archivo General de la Nación.',
+      'Se revisaron los procesos de custodia y protección de los acervos documentales de la Casa de la Memoria.',
+      'Se plantearon líneas de acción para fortalecer la conservación y gestión archivística del Gran Cumbal.'
     ],
-    ctaText: '¡Conoce Tejidos de Formación!',
-    imageSrc: '/images/grupo-gente.png',
+    ctaText: 'Conoce más sobre la visita',
+    imageSrc: '/images/noticia2.jpeg',
   },
   {
     id: 3,
@@ -127,7 +128,7 @@ export default function HeroCarousel() {
 
           {/* Main Slide Content Layout: Left Title & Bullets, Pill CTA */}
           <div className="max-w-3xl space-y-5 my-auto text-left pt-4">
-            <h2 className="font-serif font-extrabold text-3xl sm:text-5xl lg:text-6xl text-crema tracking-tight drop-shadow-lg !leading-tight">
+            <h2 className="font-serif font-extrabold text-2xl sm:text-3xl lg:text-4xl text-crema tracking-tight drop-shadow-lg leading-tight sm:leading-snug">
               {currentSlide.title}
             </h2>
 
