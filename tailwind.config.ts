@@ -17,6 +17,7 @@ const config: Config = {
         cafe: "var(--color-cafe)",
         mostaza: "var(--color-mostaza)",
         'azul-logo': "var(--color-azul-logo)",
+        'oscuro-barra': "var(--color-oscuro-barra)",
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'sans-serif'],

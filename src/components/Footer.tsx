@@ -100,8 +100,8 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Franja de Copyright / Derechos Reservados exceptuada del fondo azul */}
-      <div className="bg-cafe py-6 border-t border-crema/10 text-center text-sm font-sans text-crema/60">
+      {/* Franja de Copyright / Derechos Reservados con fondo oscuro (#0F172A) */}
+      <div className="bg-oscuro-barra py-6 border-t border-crema/10 text-center text-sm font-sans text-crema/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center">
           <p>© {new Date().getFullYear()} Casa de la Memoria Cumbal. Todos los derechos reservados.</p>
           <p className="mt-2 sm:mt-0">Territorio, Memoria y Formación</p>

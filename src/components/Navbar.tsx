@@ -111,8 +111,8 @@ export default function Navbar() {
   return (
     <>
       <nav className="bg-azul-logo text-crema sticky top-0 z-50 shadow-md border-b-2 border-[#a69cac]">
-        {/* Superior Social Bar (Solo redes sociales - Se mantiene tal y como está) */}
-        <div className="hidden sm:block border-b border-crema/10 bg-verde-profundo bg-black/20 py-2 px-4 sm:px-6 lg:px-8">
+        {/* Superior Social Bar (Solo redes sociales - Fondo oscuro #0F172A) */}
+        <div className="hidden sm:block border-b border-crema/10 bg-oscuro-barra py-2 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto flex justify-end items-center">
             <SocialHeaderBar variant="header" />
           </div>
