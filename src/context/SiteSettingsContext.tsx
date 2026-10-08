@@ -162,7 +162,7 @@ interface SiteSettingsContextType {
 
 const SiteSettingsContext = createContext<SiteSettingsContextType | undefined>(undefined);
 
-const LOCAL_STORAGE_KEY = 'casa_memoria_settings_v4';
+const LOCAL_STORAGE_KEY = 'casa_memoria_settings_v5';
 
 export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [siteContent, setSiteContent] = useState<SiteContent>(DEFAULT_CONTENT);
@@ -184,6 +184,7 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
       // Purge legacy font caches to eliminate stale font IDs across mobile/desktop browsers
       localStorage.removeItem('casa_memoria_settings_v2');
       localStorage.removeItem('casa_memoria_settings_v3');
+      localStorage.removeItem('casa_memoria_settings_v4');
       localStorage.removeItem('cmgc_site_settings_v2');
 
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -285,8 +286,8 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
       if (linkElement) {
         linkElement.remove();
       }
-      root.style.setProperty('--font-serif', "var(--font-lora), 'Lora', Georgia, serif");
-      root.style.setProperty('--font-sans', "var(--font-inter), 'Inter', system-ui, sans-serif");
+      root.style.setProperty('--font-serif', "'Lora', var(--font-lora), Georgia, serif");
+      root.style.setProperty('--font-sans', "'Inter', var(--font-inter), system-ui, -apple-system, sans-serif");
     }
   }, [selectedFontId]);
 
