@@ -201,11 +201,7 @@ export default function HeroCarousel() {
 
           {/* Bottom Bar: Indicator Dots & Reconocimiento Badge on Bottom Right */}
           <div className="flex items-center justify-between pt-4 border-t border-crema/20 mt-4">
-            <span className="text-xs font-mono text-crema/70 font-semibold hidden sm:inline">
-              Noticia {currentIndex + 1} de {DEFAULT_SLIDES.length}
-            </span>
-
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 ml-auto">
               {/* Badge ovalado 'Reconocimiento' posicionado en la parte inferior derecha para Noticia 1 */}
               {currentSlide.id === 1 && (
                 <span className="px-4 py-1.5 rounded-full bg-[#a69cac] text-verde-profundo font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-xl border border-crema/30 inline-flex items-center gap-1.5 animate-in fade-in">

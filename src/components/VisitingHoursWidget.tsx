@@ -39,18 +39,6 @@ export default function VisitingHoursWidget() {
         }}
       >
         <div className="flex items-center space-x-2 group">
-          {/* Pill Informativo a la izquierda del botón circular */}
-          <button
-            type="button"
-            onClick={() => setIsOpen(true)}
-            className="hidden sm:flex items-center space-x-2 bg-white text-cafe border border-crema-dark px-3.5 py-2 rounded-full shadow-lg hover:shadow-xl group-hover:border-terracota/60 transition-all duration-300 cursor-pointer text-xs font-semibold tracking-wide animate-bounce"
-            style={{ animationDuration: '3s' }}
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Visítanos</span>
-            <span className="text-[#a69cac] text-[10px] font-bold">▶</span>
-          </button>
-
           {/* Botón Circular Azul de Estilo Mensaje con Reloj */}
           <button
             type="button"
