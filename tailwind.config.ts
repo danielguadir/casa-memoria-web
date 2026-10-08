@@ -20,8 +20,8 @@ const config: Config = {
         'oscuro-barra': "var(--color-oscuro-barra)",
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'sans-serif'],
-        serif: ['var(--font-lora)', 'serif'],
+        sans: ['var(--font-sans, var(--font-inter))', 'sans-serif'],
+        serif: ['var(--font-serif, var(--font-lora))', 'serif'],
         oswald: ['var(--font-oswald)', 'sans-serif'],
       },
       backgroundImage: {

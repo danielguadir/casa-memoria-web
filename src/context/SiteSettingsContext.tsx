@@ -162,7 +162,7 @@ interface SiteSettingsContextType {
 
 const SiteSettingsContext = createContext<SiteSettingsContextType | undefined>(undefined);
 
-const LOCAL_STORAGE_KEY = 'casa_memoria_settings_v2';
+const LOCAL_STORAGE_KEY = 'casa_memoria_settings_v4';
 
 export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [siteContent, setSiteContent] = useState<SiteContent>(DEFAULT_CONTENT);
@@ -178,9 +178,14 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     mostaza: THEME_PRESETS[0].mostaza,
   });
 
-  // Load persisted settings from localStorage on initial client mount with auto-migration for mobile devices
+  // Load persisted settings from localStorage on initial client mount with auto-purge of legacy font caches
   useEffect(() => {
     try {
+      // Purge legacy font caches to eliminate stale font IDs across mobile/desktop browsers
+      localStorage.removeItem('casa_memoria_settings_v2');
+      localStorage.removeItem('casa_memoria_settings_v3');
+      localStorage.removeItem('cmgc_site_settings_v2');
+
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
@@ -248,11 +253,14 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }
   }, [activeColors, selectedThemeId]);
 
-  // Dynamically inject Font link tag if external Google font is required
+  // Dynamically inject Font link tag and update CSS font variables for scalable Admin Panel typography changes
   useEffect(() => {
+    const root = document.documentElement;
     const font = FONT_PRESETS.find((f) => f.id === selectedFontId) || FONT_PRESETS[0];
+
+    let linkElement = document.getElementById('dynamic-google-font') as HTMLLinkElement | null;
+
     if (font.googleFontsUrl) {
-      let linkElement = document.getElementById('dynamic-google-font') as HTMLLinkElement | null;
       if (!linkElement) {
         linkElement = document.createElement('link');
         linkElement.id = 'dynamic-google-font';
@@ -260,6 +268,25 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
         document.head.appendChild(linkElement);
       }
       linkElement.href = font.googleFontsUrl;
+
+      // Apply dynamic font family CSS variable overrides
+      if (font.id === 'moderno') {
+        root.style.setProperty('--font-serif', "'Playfair Display', serif");
+        root.style.setProperty('--font-sans', "'Outfit', sans-serif");
+      } else if (font.id === 'clasico') {
+        root.style.setProperty('--font-serif', "'Merriweather', serif");
+        root.style.setProperty('--font-sans', "'Roboto', sans-serif");
+      } else if (font.id === 'andino') {
+        root.style.setProperty('--font-serif', "'Cinzel', serif");
+        root.style.setProperty('--font-sans', "'Space Grotesk', sans-serif");
+      }
+    } else {
+      // Revert to original Inter & Lora fonts
+      if (linkElement) {
+        linkElement.remove();
+      }
+      root.style.removeProperty('--font-serif');
+      root.style.removeProperty('--font-sans');
     }
   }, [selectedFontId]);
 
@@ -305,6 +332,11 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
       cafe: THEME_PRESETS[0].cafe,
       mostaza: THEME_PRESETS[0].mostaza,
     });
+
+    const linkElement = document.getElementById('dynamic-google-font');
+    if (linkElement) linkElement.remove();
+    document.documentElement.style.removeProperty('--font-serif');
+    document.documentElement.style.removeProperty('--font-sans');
   };
 
   const currentFont = FONT_PRESETS.find((f) => f.id === selectedFontId) || FONT_PRESETS[0];
