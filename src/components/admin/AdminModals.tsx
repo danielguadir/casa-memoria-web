@@ -64,8 +64,25 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
   const [heroTitle, setHeroTitle] = useState(siteContent.heroTitle);
   const [heroSubtitle, setHeroSubtitle] = useState(siteContent.heroSubtitle);
   const [heroDesc, setHeroDesc] = useState(siteContent.heroDesc);
-  const [convocatoriaTitle, setConvocatoriaTitle] = useState(siteContent.convocatoriaTitle);
-  const [convocatoriaDesc, setConvocatoriaDesc] = useState(siteContent.convocatoriaDesc);
+  
+  const [convocatoriaTag, setConvocatoriaTag] = useState(siteContent.convocatoriaTag || '');
+  const [convocatoriaTitle, setConvocatoriaTitle] = useState(siteContent.convocatoriaTitle || '');
+  const [convocatoriaDesc, setConvocatoriaDesc] = useState(siteContent.convocatoriaDesc || '');
+  const [convocatoriaBodyText, setConvocatoriaBodyText] = useState(siteContent.convocatoriaBodyText || '');
+  const [convocatoriaBadgeText, setConvocatoriaBadgeText] = useState(siteContent.convocatoriaBadgeText || '');
+  const [convocatoriaInfoInscripciones, setConvocatoriaInfoInscripciones] = useState(siteContent.convocatoriaInfoInscripciones || '');
+  const [convocatoriaInfoModalidad, setConvocatoriaInfoModalidad] = useState(siteContent.convocatoriaInfoModalidad || '');
+  const [convocatoriaInfoInicio, setConvocatoriaInfoInicio] = useState(siteContent.convocatoriaInfoInicio || '');
+  const [convocatoriaInfoCierre, setConvocatoriaInfoCierre] = useState(siteContent.convocatoriaInfoCierre || '');
+  const [convocatoriaInfoHorarios, setConvocatoriaInfoHorarios] = useState(siteContent.convocatoriaInfoHorarios || '');
+  const [convocatoriaInfoInscripcion, setConvocatoriaInfoInscripcion] = useState(siteContent.convocatoriaInfoInscripcion || '');
+  const [convocatoriaRequisito1, setConvocatoriaRequisito1] = useState(siteContent.convocatoriaRequisito1 || '');
+  const [convocatoriaRequisito2, setConvocatoriaRequisito2] = useState(siteContent.convocatoriaRequisito2 || '');
+  const [convocatoriaRequisito3, setConvocatoriaRequisito3] = useState(siteContent.convocatoriaRequisito3 || '');
+  const [convocatoriaRequisito4, setConvocatoriaRequisito4] = useState(siteContent.convocatoriaRequisito4 || '');
+  const [convocatoriaQuote, setConvocatoriaQuote] = useState(siteContent.convocatoriaQuote || '');
+  const [convocatoriaTextSize, setConvocatoriaTextSize] = useState<'sm' | 'md' | 'lg' | 'xl'>(siteContent.convocatoriaTextSize || 'md');
+
   const [sobreProcesoTitle, setSobreProcesoTitle] = useState(siteContent.sobreProcesoTitle);
   const [sobreProcesoDesc, setSobreProcesoDesc] = useState(siteContent.sobreProcesoDesc);
 
@@ -87,8 +104,25 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
     setHeroTitle(siteContent.heroTitle);
     setHeroSubtitle(siteContent.heroSubtitle);
     setHeroDesc(siteContent.heroDesc);
-    setConvocatoriaTitle(siteContent.convocatoriaTitle);
-    setConvocatoriaDesc(siteContent.convocatoriaDesc);
+    
+    setConvocatoriaTag(siteContent.convocatoriaTag || '');
+    setConvocatoriaTitle(siteContent.convocatoriaTitle || '');
+    setConvocatoriaDesc(siteContent.convocatoriaDesc || '');
+    setConvocatoriaBodyText(siteContent.convocatoriaBodyText || '');
+    setConvocatoriaBadgeText(siteContent.convocatoriaBadgeText || '');
+    setConvocatoriaInfoInscripciones(siteContent.convocatoriaInfoInscripciones || '');
+    setConvocatoriaInfoModalidad(siteContent.convocatoriaInfoModalidad || '');
+    setConvocatoriaInfoInicio(siteContent.convocatoriaInfoInicio || '');
+    setConvocatoriaInfoCierre(siteContent.convocatoriaInfoCierre || '');
+    setConvocatoriaInfoHorarios(siteContent.convocatoriaInfoHorarios || '');
+    setConvocatoriaInfoInscripcion(siteContent.convocatoriaInfoInscripcion || '');
+    setConvocatoriaRequisito1(siteContent.convocatoriaRequisito1 || '');
+    setConvocatoriaRequisito2(siteContent.convocatoriaRequisito2 || '');
+    setConvocatoriaRequisito3(siteContent.convocatoriaRequisito3 || '');
+    setConvocatoriaRequisito4(siteContent.convocatoriaRequisito4 || '');
+    setConvocatoriaQuote(siteContent.convocatoriaQuote || '');
+    setConvocatoriaTextSize(siteContent.convocatoriaTextSize || 'md');
+
     setSobreProcesoTitle(siteContent.sobreProcesoTitle);
     setSobreProcesoDesc(siteContent.sobreProcesoDesc);
 
@@ -202,13 +236,28 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
       heroTitle,
       heroSubtitle,
       heroDesc,
+      convocatoriaTag,
       convocatoriaTitle,
       convocatoriaDesc,
+      convocatoriaBodyText,
+      convocatoriaBadgeText,
+      convocatoriaInfoInscripciones,
+      convocatoriaInfoModalidad,
+      convocatoriaInfoInicio,
+      convocatoriaInfoCierre,
+      convocatoriaInfoHorarios,
+      convocatoriaInfoInscripcion,
+      convocatoriaRequisito1,
+      convocatoriaRequisito2,
+      convocatoriaRequisito3,
+      convocatoriaRequisito4,
+      convocatoriaQuote,
+      convocatoriaTextSize,
       sobreProcesoTitle,
       sobreProcesoDesc,
     });
     if (onSuccessNotification) {
-      onSuccessNotification('Secciones del sitio web actualizadas y reflejadas en tiempo real.');
+      onSuccessNotification('Contenidos y contenedores de Tejidos de Formación actualizados en tiempo real.');
     }
     onClose();
   };
@@ -542,30 +591,159 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
             </div>
           )}
 
-          {/* Tab 2: CONVOCATORIA */}
+          {/* Tab 2: CONVOCATORIA / TEJIDOS DE FORMACIÓN */}
           {contentTab === 'convocatoria' && (
-            <div className="space-y-4 animate-in fade-in duration-200">
-              <div>
-                <label className="block text-xs font-semibold text-cafe/90 mb-1">Título de la Convocatoria</label>
-                <Input
-                  value={convocatoriaTitle}
-                  onChange={(e) => setConvocatoriaTitle(e.target.value)}
-                  placeholder="Ej. Convocatoria Abierta 2026"
-                  required
-                />
+            <div className="space-y-4 max-h-[420px] overflow-y-auto pr-1 animate-in fade-in duration-200">
+              
+              {/* Ajuste de Tamaño de Fuente */}
+              <div className="p-3 bg-crema-dark/40 rounded-xl border border-crema-dark flex items-center justify-between">
+                <div>
+                  <label className="block text-xs font-bold text-verde-profundo">Tamaño de Letra de Contenedores</label>
+                  <p className="text-[11px] text-cafe/70">Ajusta el tamaño del texto en los cuadros de la página</p>
+                </div>
+                <select
+                  value={convocatoriaTextSize}
+                  onChange={(e) => setConvocatoriaTextSize(e.target.value as 'sm' | 'md' | 'lg' | 'xl')}
+                  className="rounded-lg bg-white border border-crema-dark p-2 text-xs font-bold text-verde-profundo"
+                >
+                  <option value="sm">Normal (Pequeño)</option>
+                  <option value="md">Mediano (Predeterminado)</option>
+                  <option value="lg">Grande</option>
+                  <option value="xl">Extra Grande</option>
+                </select>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-cafe/90 mb-1">Etiqueta Superior</label>
+                  <Input
+                    value={convocatoriaTag}
+                    onChange={(e) => setConvocatoriaTag(e.target.value)}
+                    placeholder="Ej. Formación Comunitaria"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-cafe/90 mb-1">Título de Convocatoria</label>
+                  <Input
+                    value={convocatoriaTitle}
+                    onChange={(e) => setConvocatoriaTitle(e.target.value)}
+                    placeholder="Escribe el título..."
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-cafe/90 mb-1">Descripción o Instrucciones</label>
+                <label className="block text-xs font-semibold text-cafe/90 mb-1">Descripción Principal</label>
                 <textarea
-                  rows={4}
+                  rows={2}
                   value={convocatoriaDesc}
                   onChange={(e) => setConvocatoriaDesc(e.target.value)}
-                  className="w-full rounded-xl bg-white text-cafe border border-crema-dark p-3 text-sm font-medium focus:ring-2 focus:ring-verde-profundo/20 focus:border-verde-profundo leading-relaxed"
-                  placeholder="Descripción de la convocatoria..."
-                  required
+                  className="w-full rounded-xl bg-white text-cafe border border-crema-dark p-2.5 text-xs font-medium focus:ring-2 focus:ring-verde-profundo/20 focus:border-verde-profundo leading-relaxed"
+                  placeholder="Descripción principal..."
                 />
               </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-cafe/90 mb-1">Texto Detalle Secundario</label>
+                  <Input
+                    value={convocatoriaBodyText}
+                    onChange={(e) => setConvocatoriaBodyText(e.target.value)}
+                    placeholder="Detalles adicionales..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-cafe/90 mb-1">Texto de Distintivo (Badge)</label>
+                  <Input
+                    value={convocatoriaBadgeText}
+                    onChange={(e) => setConvocatoriaBadgeText(e.target.value)}
+                    placeholder="Ej. 📍 CUPOS COMPLETOS (Cerrada)"
+                  />
+                </div>
+              </div>
+
+              {/* Sección Información General */}
+              <div className="pt-2 border-t border-crema-dark space-y-3">
+                <h5 className="text-xs font-bold text-verde-profundo uppercase tracking-wider">Cuadro: Información General</h5>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Input
+                    label="Inscripciones"
+                    value={convocatoriaInfoInscripciones}
+                    onChange={(e) => setConvocatoriaInfoInscripciones(e.target.value)}
+                    placeholder="Información inscripciones..."
+                  />
+                  <Input
+                    label="Modalidad"
+                    value={convocatoriaInfoModalidad}
+                    onChange={(e) => setConvocatoriaInfoModalidad(e.target.value)}
+                    placeholder="Ej. Presencial"
+                  />
+                  <Input
+                    label="Fecha Inicio"
+                    value={convocatoriaInfoInicio}
+                    onChange={(e) => setConvocatoriaInfoInicio(e.target.value)}
+                    placeholder="Fecha inicio..."
+                  />
+                  <Input
+                    label="Fecha Cierre"
+                    value={convocatoriaInfoCierre}
+                    onChange={(e) => setConvocatoriaInfoCierre(e.target.value)}
+                    placeholder="Fecha cierre..."
+                  />
+                  <Input
+                    label="Horarios"
+                    value={convocatoriaInfoHorarios}
+                    onChange={(e) => setConvocatoriaInfoHorarios(e.target.value)}
+                    placeholder="Horarios..."
+                  />
+                  <Input
+                    label="Costo Inscripción"
+                    value={convocatoriaInfoInscripcion}
+                    onChange={(e) => setConvocatoriaInfoInscripcion(e.target.value)}
+                    placeholder="Ej. Gratuita"
+                  />
+                </div>
+              </div>
+
+              {/* Sección Requisitos */}
+              <div className="pt-2 border-t border-crema-dark space-y-3">
+                <h5 className="text-xs font-bold text-verde-profundo uppercase tracking-wider">Cuadro: Requisitos</h5>
+                <Input
+                  label="Requisito 1"
+                  value={convocatoriaRequisito1}
+                  onChange={(e) => setConvocatoriaRequisito1(e.target.value)}
+                  placeholder="Requisito 1..."
+                />
+                <Input
+                  label="Requisito 2"
+                  value={convocatoriaRequisito2}
+                  onChange={(e) => setConvocatoriaRequisito2(e.target.value)}
+                  placeholder="Requisito 2..."
+                />
+                <Input
+                  label="Requisito 3"
+                  value={convocatoriaRequisito3}
+                  onChange={(e) => setConvocatoriaRequisito3(e.target.value)}
+                  placeholder="Requisito 3..."
+                />
+                <Input
+                  label="Requisito 4"
+                  value={convocatoriaRequisito4}
+                  onChange={(e) => setConvocatoriaRequisito4(e.target.value)}
+                  placeholder="Requisito 4..."
+                />
+              </div>
+
+              {/* Cita */}
+              <div className="pt-2 border-t border-crema-dark">
+                <label className="block text-xs font-semibold text-cafe/90 mb-1">Cita / Reflexión al Pie</label>
+                <Input
+                  value={convocatoriaQuote}
+                  onChange={(e) => setConvocatoriaQuote(e.target.value)}
+                  placeholder="Escribe una cita o reflexión..."
+                />
+              </div>
+
             </div>
           )}
 

@@ -6,8 +6,27 @@ export interface SiteContent {
   heroTitle: string;
   heroSubtitle: string;
   heroDesc: string;
+
+  // Convocatoria / Tejidos de Formación dinámicos
+  convocatoriaTag: string;
   convocatoriaTitle: string;
   convocatoriaDesc: string;
+  convocatoriaBodyText: string;
+  convocatoriaBadgeText: string;
+  convocatoriaImageSrc: string;
+  convocatoriaInfoInscripciones: string;
+  convocatoriaInfoModalidad: string;
+  convocatoriaInfoInicio: string;
+  convocatoriaInfoCierre: string;
+  convocatoriaInfoHorarios: string;
+  convocatoriaInfoInscripcion: string;
+  convocatoriaRequisito1: string;
+  convocatoriaRequisito2: string;
+  convocatoriaRequisito3: string;
+  convocatoriaRequisito4: string;
+  convocatoriaQuote: string;
+  convocatoriaTextSize: 'sm' | 'md' | 'lg' | 'xl';
+
   sobreProcesoTitle: string;
   sobreProcesoDesc: string;
 }
@@ -140,8 +159,27 @@ const DEFAULT_CONTENT: SiteContent = {
   heroTitle: 'Casa de la Memoria Cumbal',
   heroSubtitle: '',
   heroDesc: 'Desarrollamos estrategias de salvaguarda y protección de las memorias y el patrimonio cultural de los pueblos indígenas del sur de Colombia',
-  convocatoriaTitle: 'Convocatoria Abierta 2026',
-  convocatoriaDesc: 'Recepción de proyectos de investigación y materiales documentales para la salvaguarda territorial.',
+  
+  // Convocatoria / Tejidos de Formación (Contenedores limpios listos para contenido desde panel admin)
+  convocatoriaTag: 'Formación Comunitaria',
+  convocatoriaTitle: '',
+  convocatoriaDesc: '',
+  convocatoriaBodyText: '',
+  convocatoriaBadgeText: '',
+  convocatoriaImageSrc: '',
+  convocatoriaInfoInscripciones: '',
+  convocatoriaInfoModalidad: '',
+  convocatoriaInfoInicio: '',
+  convocatoriaInfoCierre: '',
+  convocatoriaInfoHorarios: '',
+  convocatoriaInfoInscripcion: '',
+  convocatoriaRequisito1: '',
+  convocatoriaRequisito2: '',
+  convocatoriaRequisito3: '',
+  convocatoriaRequisito4: '',
+  convocatoriaQuote: '',
+  convocatoriaTextSize: 'md',
+
   sobreProcesoTitle: 'Quiénes somos',
   sobreProcesoDesc: 'Iniciativa comunitaria para la preservación, ordenamiento y difusión del conocimiento ancestral y documental.',
 };
