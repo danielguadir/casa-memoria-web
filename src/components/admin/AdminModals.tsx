@@ -6,7 +6,7 @@ import {
   Trash2, Upload, Users, Activity, Clock, Wrench, Type, Palette, FileText, Check, RotateCcw, Sliders, BookOpen
 } from 'lucide-react';
 import { Modal, Input, Button, Badge } from '@/components/design-system';
-import { useSiteSettings, THEME_PRESETS, ThemeColors } from '@/context/SiteSettingsContext';
+import { useSiteSettings, THEME_PRESETS, FONT_PRESETS, ThemeColors } from '@/context/SiteSettingsContext';
 import { LibraryItem, addLibraryItem, updateLibraryItem, getAllLibraryCategories } from '@/data/libraryCatalog';
 
 export type AdminModalType = 
@@ -39,6 +39,7 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
 }) => {
   const { 
     siteContent, updatePageContent, 
+    selectedFontId, setFont,
     selectedThemeId, setTheme, 
     activeColors, updateCustomColor, 
     resetToDefaults 
@@ -623,35 +624,88 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
             <span>Personalizar Fuente / Tipografía</span>
           </div>
         }
-        subtitle="Configuración tipográfica institucional oficial del sitio web"
-        size="md"
+        subtitle="Seleccione la variante tipográfica activa para el sitio web"
+        size="lg"
       >
         <div className="space-y-5 font-sans">
-          <div className="p-5 rounded-xl border-2 border-terracota bg-terracota/5 shadow-sm space-y-3">
-            <div className="flex items-center justify-between">
-              <h4 className="font-bold text-base text-verde-profundo">Tipografía Institucional (Lora & Inter)</h4>
-              <span className="w-6 h-6 rounded-full bg-terracota text-crema flex items-center justify-center">
-                <Check size={14} />
-              </span>
-            </div>
-            <p className="text-xs text-cafe/80 leading-relaxed">
-              Sistema de diseño activo: la fuente <strong>Lora (Serif)</strong> se aplica a todos los títulos editoriales y la fuente <strong>Inter (Sans)</strong> se aplica al cuerpo del texto, controles y navegación.
-            </p>
-            <div className="p-4 bg-crema rounded-xl border border-crema-dark text-xs space-y-1">
-              <p className="font-serif text-base font-bold text-verde-profundo">Casa de la Memoria del Gran Cumbal</p>
-              <p className="font-sans text-cafe/90 text-xs">
-                Estrategias de salvaguarda y protección de las memorias y el patrimonio cultural.
-              </p>
-            </div>
+          <p className="text-xs text-cafe/70 bg-crema-dark/40 p-3 rounded-xl border border-crema-dark">
+            Puede elegir entre la <strong>Tipografía Institucional oficial (Lora & Inter)</strong> o seleccionar una variante tipográfica alternativa. Los cambios de fuente se aplicarán inmediatamente en toda la página web.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[380px] overflow-y-auto pr-1">
+            {FONT_PRESETS.map((font) => {
+              const isSelected = font.id === selectedFontId;
+              return (
+                <div
+                  key={font.id}
+                  onClick={() => {
+                    setFont(font.id);
+                    if (onSuccessNotification) {
+                      onSuccessNotification(`Tipografía "${font.name}" aplicada en tiempo real.`);
+                    }
+                  }}
+                  className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                    isSelected
+                      ? 'border-terracota bg-terracota/5 shadow-md ring-2 ring-terracota/20'
+                      : 'border-crema-dark bg-white hover:border-mostaza/60'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <h4 className="font-bold text-sm text-verde-profundo">{font.name}</h4>
+                    {isSelected && (
+                      <span className="w-5 h-5 rounded-full bg-terracota text-crema flex items-center justify-center shadow-xs shrink-0 ml-1">
+                        <Check size={12} />
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-cafe/70 mb-3 leading-relaxed">{font.description}</p>
+                  
+                  {/* Visual Typography Preview Box */}
+                  <div className="p-3 bg-crema rounded-xl border border-crema-dark text-xs space-y-1">
+                    <p 
+                      className="text-sm font-bold text-verde-profundo"
+                      style={{
+                        fontFamily: font.id === 'moderno' ? "'Playfair Display', serif" :
+                                    font.id === 'clasico' ? "'Merriweather', serif" :
+                                    font.id === 'andino' ? "'Cinzel', serif" :
+                                    "var(--font-lora), 'Lora', Georgia, serif"
+                      }}
+                    >
+                      Casa de la Memoria Cumbal
+                    </p>
+                    <p 
+                      className="text-xs text-cafe/90"
+                      style={{
+                        fontFamily: font.id === 'moderno' ? "'Outfit', sans-serif" :
+                                    font.id === 'clasico' ? "'Roboto', sans-serif" :
+                                    font.id === 'andino' ? "'Space Grotesk', sans-serif" :
+                                    "var(--font-inter), 'Inter', system-ui, sans-serif"
+                      }}
+                    >
+                      Preservación y salvaguarda del patrimonio cultural.
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
-          <div className="pt-3 flex justify-end space-x-3 border-t border-crema-dark">
-            <Button variant="terracota" onClick={() => {
-              if (onSuccessNotification) {
-                onSuccessNotification('Tipografía institucional confirmada.');
-              }
-              onClose();
-            }}>
+          <div className="pt-3 flex items-center justify-between border-t border-crema-dark">
+            <button
+              type="button"
+              onClick={() => {
+                setFont('ancestral');
+                if (onSuccessNotification) {
+                  onSuccessNotification('Tipografía institucional (Lora & Inter) restablecida.');
+                }
+              }}
+              className="text-xs text-cafe/60 hover:text-terracota font-medium flex items-center space-x-1"
+            >
+              <RotateCcw size={14} />
+              <span>Restablecer Tipografía Institucional</span>
+            </button>
+
+            <Button variant="terracota" onClick={onClose}>
               Aceptar
             </Button>
           </div>

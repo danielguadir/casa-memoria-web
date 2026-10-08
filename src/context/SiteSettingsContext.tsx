@@ -42,9 +42,33 @@ export const FONT_PRESETS: FontOption[] = [
   {
     id: 'ancestral',
     name: 'Tipografía Institucional (Lora & Inter)',
-    description: 'Tipografía oficial del sistema de diseño: Lora para títulos de archivo e Inter para textos y navegación.',
+    description: 'Sistema de diseño oficial: Lora para títulos de archivo e Inter para textos y navegación.',
     serifClass: 'font-serif',
     sansClass: 'font-sans',
+  },
+  {
+    id: 'moderno',
+    name: 'Moderno / Editorial (Playfair & Outfit)',
+    description: 'Estilo contemporáneo refinado con alta nitidez en pantallas digitales y encabezados elegantes.',
+    serifClass: 'font-serif',
+    sansClass: 'font-sans',
+    googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,800;1,400&display=swap',
+  },
+  {
+    id: 'clasico',
+    name: 'Clásico / Documental (Merriweather & Roboto)',
+    description: 'Sensación de documento académico impreso y archivo formal de investigación.',
+    serifClass: 'font-serif',
+    sansClass: 'font-sans',
+    googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Roboto:wght@400;500;700&display=swap',
+  },
+  {
+    id: 'andino',
+    name: 'Monumental / Andino (Cinzel & Space Grotesk)',
+    description: 'Diseño solemne y distintivo inspirado en inscripciones y grabados ancestrales.',
+    serifClass: 'font-serif',
+    sansClass: 'font-sans',
+    googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Space+Grotesk:wght@400;600&display=swap',
   },
 ];
 
@@ -229,7 +253,42 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }
   }, [activeColors, selectedThemeId]);
 
+  // Dynamically inject Font link tag and update CSS font variables for scalable Admin Panel typography changes
+  useEffect(() => {
+    const root = document.documentElement;
+    const font = FONT_PRESETS.find((f) => f.id === selectedFontId) || FONT_PRESETS[0];
 
+    let linkElement = document.getElementById('dynamic-google-font') as HTMLLinkElement | null;
+
+    if (font.googleFontsUrl) {
+      if (!linkElement) {
+        linkElement = document.createElement('link');
+        linkElement.id = 'dynamic-google-font';
+        linkElement.rel = 'stylesheet';
+        document.head.appendChild(linkElement);
+      }
+      linkElement.href = font.googleFontsUrl;
+
+      // Apply dynamic font family CSS variable overrides
+      if (font.id === 'moderno') {
+        root.style.setProperty('--font-serif', "'Playfair Display', serif");
+        root.style.setProperty('--font-sans', "'Outfit', sans-serif");
+      } else if (font.id === 'clasico') {
+        root.style.setProperty('--font-serif', "'Merriweather', serif");
+        root.style.setProperty('--font-sans', "'Roboto', sans-serif");
+      } else if (font.id === 'andino') {
+        root.style.setProperty('--font-serif', "'Cinzel', serif");
+        root.style.setProperty('--font-sans', "'Space Grotesk', sans-serif");
+      }
+    } else {
+      // Revert to original Inter & Lora fonts
+      if (linkElement) {
+        linkElement.remove();
+      }
+      root.style.setProperty('--font-serif', "var(--font-lora), 'Lora', Georgia, serif");
+      root.style.setProperty('--font-sans', "var(--font-inter), 'Inter', system-ui, sans-serif");
+    }
+  }, [selectedFontId]);
 
   const updatePageContent = (newContent: Partial<SiteContent>) => {
     setSiteContent((prev) => ({ ...prev, ...newContent }));
