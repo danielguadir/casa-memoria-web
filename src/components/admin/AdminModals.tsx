@@ -6,7 +6,7 @@ import {
   Trash2, Upload, Users, Activity, Clock, Wrench, Type, Palette, FileText, Check, RotateCcw, Sliders, BookOpen
 } from 'lucide-react';
 import { Modal, Input, Button, Badge } from '@/components/design-system';
-import { useSiteSettings, FONT_PRESETS, THEME_PRESETS, ThemeColors } from '@/context/SiteSettingsContext';
+import { useSiteSettings, THEME_PRESETS, ThemeColors } from '@/context/SiteSettingsContext';
 import { LibraryItem, addLibraryItem, updateLibraryItem, getAllLibraryCategories } from '@/data/libraryCatalog';
 
 export type AdminModalType = 
@@ -39,7 +39,6 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
 }) => {
   const { 
     siteContent, updatePageContent, 
-    selectedFontId, setFont, 
     selectedThemeId, setTheme, 
     activeColors, updateCustomColor, 
     resetToDefaults 
@@ -624,51 +623,36 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
             <span>Personalizar Fuente / Tipografía</span>
           </div>
         }
-        subtitle="Selecciona la combinación tipográfica para los títulos y textos del sitio"
-        size="lg"
+        subtitle="Configuración tipográfica institucional oficial del sitio web"
+        size="md"
       >
         <div className="space-y-5 font-sans">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {FONT_PRESETS.map((font) => {
-              const isSelected = font.id === selectedFontId;
-              return (
-                <div
-                  key={font.id}
-                  onClick={() => setFont(font.id)}
-                  className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                    isSelected
-                      ? 'border-terracota bg-terracota/5 shadow-md'
-                      : 'border-crema-dark bg-white hover:border-mostaza/60'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-bold text-sm text-verde-profundo">{font.name}</h4>
-                    {isSelected && (
-                      <span className="w-5 h-5 rounded-full bg-terracota text-crema flex items-center justify-center">
-                        <Check size={12} />
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-xs text-cafe/70 mb-3">{font.description}</p>
-                  <div className="p-3 bg-crema rounded-lg border border-crema-dark/60 text-xs">
-                    <p className="font-serif text-sm font-bold text-verde-profundo">Casa de la Memoria</p>
-                    <p className="font-sans text-cafe/80 mt-1 text-[11px]">
-                      Salvaguarda y protección del patrimonio indígena.
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="p-5 rounded-xl border-2 border-terracota bg-terracota/5 shadow-sm space-y-3">
+            <div className="flex items-center justify-between">
+              <h4 className="font-bold text-base text-verde-profundo">Tipografía Institucional (Lora & Inter)</h4>
+              <span className="w-6 h-6 rounded-full bg-terracota text-crema flex items-center justify-center">
+                <Check size={14} />
+              </span>
+            </div>
+            <p className="text-xs text-cafe/80 leading-relaxed">
+              Sistema de diseño activo: la fuente <strong>Lora (Serif)</strong> se aplica a todos los títulos editoriales y la fuente <strong>Inter (Sans)</strong> se aplica al cuerpo del texto, controles y navegación.
+            </p>
+            <div className="p-4 bg-crema rounded-xl border border-crema-dark text-xs space-y-1">
+              <p className="font-serif text-base font-bold text-verde-profundo">Casa de la Memoria del Gran Cumbal</p>
+              <p className="font-sans text-cafe/90 text-xs">
+                Estrategias de salvaguarda y protección de las memorias y el patrimonio cultural.
+              </p>
+            </div>
           </div>
 
           <div className="pt-3 flex justify-end space-x-3 border-t border-crema-dark">
             <Button variant="terracota" onClick={() => {
               if (onSuccessNotification) {
-                onSuccessNotification('Combinación tipográfica actualizada y aplicada al sitio web.');
+                onSuccessNotification('Tipografía institucional confirmada.');
               }
               onClose();
             }}>
-              Aplicar Tipografía
+              Aceptar
             </Button>
           </div>
         </div>
