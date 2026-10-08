@@ -181,11 +181,6 @@ export default function HeroCarousel() {
             {/* RIGHT COLUMN: Floating Media Card (Only rendered if frameImageSrc exists - Slide 2) */}
             {currentSlide.frameImageSrc && (
               <div className="hidden lg:flex lg:col-span-5 justify-center relative">
-                
-                {/* Decorative Concentric Rings background */}
-                <div className="absolute -inset-4 rounded-full border border-mostaza/20 animate-pulse pointer-events-none" />
-                <div className="absolute -inset-8 rounded-full border border-[#a69cac]/20 pointer-events-none" />
-
                 {/* Main Card Frame */}
                 <div 
                   className="relative w-full max-w-md h-72 sm:h-80 rounded-3xl overflow-hidden border-4 border-crema/20 shadow-2xl backdrop-blur-md group/frame transform hover:scale-[1.02] transition-all duration-500 cursor-pointer"
@@ -198,17 +193,7 @@ export default function HeroCarousel() {
                     fill
                     className="object-cover object-center group-hover/frame:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-verde-profundo/85 via-verde-profundo/20 to-transparent" />
-                  
-                  {/* Overlay Badge at Bottom of Card */}
-                  <div className="absolute bottom-4 left-4 right-4 bg-verde-profundo/90 backdrop-blur-md p-3.5 rounded-2xl border border-crema/20 text-xs font-bold text-crema flex items-center justify-between shadow-lg">
-                    <span className="truncate pr-2 font-serif">{currentSlide.title}</span>
-                    <span className="px-2.5 py-0.5 bg-mostaza text-verde-profundo rounded-full font-mono text-[10px] font-extrabold shrink-0">
-                      {currentSlide.category}
-                    </span>
-                  </div>
                 </div>
-
               </div>
             )}
 
