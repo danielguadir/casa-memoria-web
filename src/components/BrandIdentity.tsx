@@ -65,12 +65,12 @@ export default function BrandIdentity({ onLogoClick, className = '' }: BrandIden
         {/* Bloque de Texto Institucional */}
         <div className="flex flex-col justify-center">
           {/* Renglón 1: CASA DE LA MEMORIA */}
-          <div className="font-sans font-medium uppercase text-crema tracking-wide leading-none text-[10.5px] xs:text-[11.5px] sm:text-xs md:text-[13px] lg:text-[14px] group-hover:text-mostaza transition-colors whitespace-nowrap">
+          <div className="font-oswald font-medium uppercase text-crema tracking-wide leading-none text-[10.5px] xs:text-[11.5px] sm:text-xs md:text-[13px] lg:text-[14px] group-hover:text-mostaza transition-colors whitespace-nowrap">
             CASA DE LA MEMORIA
           </div>
 
           {/* Renglón 2: DEL GRAN CUMBAL */}
-          <div className="font-sans font-bold uppercase text-crema tracking-wider leading-none text-[11.5px] xs:text-[12.5px] sm:text-[13.5px] md:text-[15px] lg:text-[16.5px] group-hover:text-mostaza transition-colors whitespace-nowrap mt-0.5 sm:mt-1">
+          <div className="font-oswald font-bold uppercase text-crema tracking-wider leading-none text-[11.5px] xs:text-[12.5px] sm:text-[13.5px] md:text-[15px] lg:text-[16.5px] group-hover:text-mostaza transition-colors whitespace-nowrap mt-0.5 sm:mt-1">
             DEL GRAN CUMBAL
           </div>
         </div>

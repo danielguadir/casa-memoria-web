@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Lora } from 'next/font/google';
+import { Inter, Lora, Oswald } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -10,6 +10,7 @@ import { SiteSettingsProvider } from '@/context/SiteSettingsContext';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const lora = Lora({ subsets: ['latin'], variable: '--font-lora' });
+const oswald = Oswald({ subsets: ['latin'], weight: ['500', '600'], variable: '--font-oswald' });
 
 export const metadata: Metadata = {
   title: 'Casa de la Memoria Cumbal - Archivo & Salvaguarda',
@@ -30,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${inter.variable} ${lora.variable}`}>
+    <html lang="es" className={`${inter.variable} ${lora.variable} ${oswald.variable}`}>
       <head>
         <link rel="icon" href="/images/hero-logo.png?v=3" type="image/png" sizes="any" />
         <link rel="shortcut icon" href="/images/hero-logo.png?v=3" type="image/png" />
