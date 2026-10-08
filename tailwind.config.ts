@@ -22,7 +22,6 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-inter)', 'sans-serif'],
         serif: ['var(--font-lora)', 'serif'],
-        oswald: ['var(--font-oswald)', 'sans-serif'],
       },
       backgroundImage: {
         'pattern-tejido': "url('/images/tejido-pattern.png')",
