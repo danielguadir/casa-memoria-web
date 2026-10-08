@@ -217,6 +217,22 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
           }
         }
       }
+      const handleStorageChange = (e: StorageEvent) => {
+        if (e.key === LOCAL_STORAGE_KEY && e.newValue) {
+          try {
+            const parsed = JSON.parse(e.newValue);
+            if (parsed.siteContent) setSiteContent(parsed.siteContent);
+            if (parsed.selectedFontId) setSelectedFontId(parsed.selectedFontId);
+            if (parsed.selectedThemeId) setSelectedThemeId(parsed.selectedThemeId);
+            if (parsed.activeColors) setActiveColors(parsed.activeColors);
+          } catch (err) {
+            console.warn('Error syncing storage event', err);
+          }
+        }
+      };
+
+      window.addEventListener('storage', handleStorageChange);
+      return () => window.removeEventListener('storage', handleStorageChange);
     } catch (e) {
       console.warn('Could not read settings from localStorage', e);
     }
