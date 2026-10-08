@@ -155,19 +155,28 @@ export default function Convocatoria() {
               </span>
             )}
 
-            {siteContent.convocatoriaTitle && (
+            {siteContent.convocatoriaTitle ? (
               <h2 className="font-serif font-bold text-4xl lg:text-5xl text-verde-profundo leading-tight">
                 {siteContent.convocatoriaTitle}
               </h2>
-            )}
+            ) : isAdmin ? (
+              <div className="p-5 rounded-2xl border-2 border-dashed border-terracota/40 bg-crema-dark/30 text-center space-y-1">
+                <p className="text-xs font-bold text-verde-profundo uppercase tracking-wider">Recuadro de Título Principal</p>
+                <p className="text-[11.5px] text-cafe/60">Disponible para agregar título desde el Panel Admin</p>
+              </div>
+            ) : null}
 
             <div className="w-24 h-1 bg-terracota rounded-full"></div>
 
-            {siteContent.convocatoriaDesc && (
+            {siteContent.convocatoriaDesc ? (
               <p className={`font-sans text-cafe/90 leading-relaxed ${textSizeClasses} mt-6`}>
                 {siteContent.convocatoriaDesc}
               </p>
-            )}
+            ) : isAdmin ? (
+              <div className="p-4 rounded-xl border border-dashed border-crema-dark bg-white/50 text-center">
+                <p className="text-[11.5px] text-cafe/50 italic">Recuadro de Descripción Principal (Editable desde Panel Admin)</p>
+              </div>
+            ) : null}
 
             {siteContent.convocatoriaBodyText && (
               <p className={`font-sans text-cafe/80 ${textSizeClasses}`}>

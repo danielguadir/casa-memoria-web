@@ -200,7 +200,7 @@ interface SiteSettingsContextType {
 
 const SiteSettingsContext = createContext<SiteSettingsContextType | undefined>(undefined);
 
-const LOCAL_STORAGE_KEY = 'casa_memoria_settings_v5';
+const LOCAL_STORAGE_KEY = 'casa_memoria_settings_v7';
 
 export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [siteContent, setSiteContent] = useState<SiteContent>(DEFAULT_CONTENT);
@@ -223,6 +223,8 @@ export const SiteSettingsProvider: React.FC<{ children: React.ReactNode }> = ({ 
       localStorage.removeItem('casa_memoria_settings_v2');
       localStorage.removeItem('casa_memoria_settings_v3');
       localStorage.removeItem('casa_memoria_settings_v4');
+      localStorage.removeItem('casa_memoria_settings_v5');
+      localStorage.removeItem('casa_memoria_settings_v6');
       localStorage.removeItem('cmgc_site_settings_v2');
 
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
