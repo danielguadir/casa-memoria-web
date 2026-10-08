@@ -40,18 +40,6 @@ export const TEMAS_DE_INTERES_DATA: TemaDeInteresItem[] = [
       'Durante la jornada, funcionarias del AGN y el equipo local sostuvieron mesas de trabajo enfocadas en la protección de los acervos documentales y el fortalecimiento de la gestión archivística del territorio. Se revisaron los procesos de custodia actuales y se plantearon líneas de acción conjuntas para mejorar la conservación de los fondos que resguardan la identidad del Gran Cumbal.',
       'Agradecemos la asistencia técnica y el acompañamiento del AGN en este proceso.'
     ]
-  },
-  {
-    id: 'noticia_3',
-    title: 'Acervo Documental y Biblioteca Especializada de Pueblos Indígenas',
-    publishedDate: '2026',
-    issuedBy: 'Centro de Documentación CMGC',
-    category: 'Documentación CMGC',
-    imageSrc: '/images/tesoros2.png',
-    paragraphs: [
-      'El Centro de Documentación de la Casa de la Memoria del Gran Cumbal resguarda el acervo bibliográfico, monografías y expedientes históricos del Pueblo Indígena de los Pastos.',
-      'Consulte en sala y acceda a la biblioteca especializada en pueblos indígenas, memoria y paz para explorar manuscritos y archivos históricos.'
-    ]
   }
 ];
 

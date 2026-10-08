@@ -59,21 +59,6 @@ const DEFAULT_SLIDES: CarouselSlide[] = [
     imageSrc: '/images/noticia2.jpeg',
     frameImageSrc: '/images/noticia2recuadro.png', // Recuadro fotográfico exclusivo noticia 2
   },
-  {
-    id: 3,
-    newsId: 'noticia_3',
-    tag: 'Imagen 3',
-    category: 'Documentación CMGC',
-    dateBadge: 'Fondo Documental',
-    title: 'Archivo',
-    bulletPoints: [
-      'Biblioteca Especializada de Pueblos Indígenas',
-      'Archivo de Memoria'
-    ],
-    ctaText: '¡Explora el Centro de Documentación!',
-    imageSrc: '/images/tesoros2.png',
-    frameImageSrc: undefined, // Sin recuadro
-  },
 ];
 
 export default function HeroCarousel() {
