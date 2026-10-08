@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import LoginModal from '@/components/LoginModal';
 import FloatingBrandMark from '@/components/brand/FloatingBrandMark';
+import VisitingHoursWidget from '@/components/VisitingHoursWidget';
 import { AuthProvider } from '@/context/AuthContext';
 import { SiteSettingsProvider } from '@/context/SiteSettingsContext';
 
@@ -47,6 +48,7 @@ export default function RootLayout({
             </main>
             <Footer />
             <FloatingBrandMark />
+            <VisitingHoursWidget />
           </AuthProvider>
         </SiteSettingsProvider>
       </body>
