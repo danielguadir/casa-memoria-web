@@ -25,7 +25,7 @@ export const Card: React.FC<CardProps> = ({
   return (
     <div
       className={`
-        rounded-2xl transition-all duration-300 overflow-hidden
+        font-sans rounded-2xl transition-all duration-300 overflow-hidden
         ${cardVariants[variant]}
         ${hoverEffect ? 'hover:-translate-y-1 hover:shadow-xl hover:border-mostaza/50' : ''}
         ${className}

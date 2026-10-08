@@ -20,9 +20,9 @@ const config: Config = {
         'oscuro-barra': "var(--color-oscuro-barra)",
       },
       fontFamily: {
-        sans: ['var(--font-sans, var(--font-inter))', 'sans-serif'],
-        serif: ['var(--font-serif, var(--font-lora))', 'serif'],
-        oswald: ['var(--font-oswald)', 'sans-serif'],
+        sans: ['var(--font-sans)', 'var(--font-inter)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-serif)', 'var(--font-lora)', 'Georgia', 'serif'],
+        oswald: ['var(--font-oswald)', 'Oswald', 'sans-serif'],
       },
       backgroundImage: {
         'pattern-tejido': "url('/images/tejido-pattern.png')",

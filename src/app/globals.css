@@ -12,15 +12,23 @@
   --color-mostaza: #a69cac;
   --color-azul-logo: #07194B;
   --color-oscuro-barra: #0F172A;
+  --font-sans: var(--font-inter), 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: var(--font-lora), 'Lora', Georgia, Cambria, serif;
 }
 
 @layer base {
+  html {
+    font-family: var(--font-sans);
+  }
+
   body {
     @apply bg-crema text-cafe font-sans;
+    font-family: var(--font-sans);
     scroll-behavior: smooth;
   }
   
   h1, h2, h3, h4, h5, h6 {
     @apply font-serif;
+    font-family: var(--font-serif);
   }
 }
