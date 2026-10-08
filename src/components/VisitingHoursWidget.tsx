@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Clock, MapPin, Calendar, ArrowRight, X, MessageSquare, Sparkles } from 'lucide-react';
-import { Button, Badge } from '@/components/design-system';
+import { Clock, Calendar, X, MessageSquare } from 'lucide-react';
+import { Badge } from '@/components/design-system';
 
 export default function VisitingHoursWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -142,42 +142,6 @@ export default function VisitingHoursWidget() {
                   </div>
                 </div>
               </div>
-
-              {/* Información de Ubicación */}
-              <div className="bg-white rounded-2xl p-5 border border-crema-dark shadow-md space-y-3">
-                <div className="flex items-center space-x-2 border-b border-crema-dark/60 pb-2">
-                  <MapPin size={18} className="text-terracota" />
-                  <span className="font-serif font-bold text-sm text-verde-profundo">Sede Principal</span>
-                </div>
-                <p className="text-xs text-cafe/80 leading-relaxed font-sans">
-                  Cabildo de Cumbal. Barrio los prados, carrera 13/calle 19 esquina. Tercer piso, Cumbal, Nariño – Colombia.
-                </p>
-              </div>
-
-              {/* Mensaje Informativo adicional */}
-              <div className="p-4 rounded-xl bg-oscuro-barra text-crema text-xs space-y-1.5 shadow-sm border border-crema/10">
-                <div className="flex items-center space-x-2 font-bold text-mostaza">
-                  <Sparkles size={14} />
-                  <span>Orientación & Salvaguarda Patrimonial</span>
-                </div>
-                <p className="text-crema/80 text-[11.5px] leading-relaxed">
-                  Atención para investigadores, delegaciones comunitarias y público en general.
-                </p>
-              </div>
-            </div>
-
-            {/* Pie del Modal con botón con flecha (preparado para acción futura) */}
-            <div className="p-5 bg-white border-t border-crema-dark shrink-0">
-              <Button
-                variant="terracota"
-                size="lg"
-                fullWidth
-                rightIcon={<ArrowRight size={18} />}
-                className="font-bold text-xs uppercase tracking-wider cursor-pointer"
-                onClick={() => {}}
-              >
-                Ir a ubicación y contacto
-              </Button>
             </div>
           </div>
         </div>
