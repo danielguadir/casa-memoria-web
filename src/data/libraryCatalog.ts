@@ -11,6 +11,15 @@ export interface LibraryCopy {
   notes?: string | null;
 }
 
+export interface EditHistoryEntry {
+  timestamp: string;
+  editedBy?: string;
+  oldTitle: string;
+  newTitle: string;
+  oldCode?: string;
+  newCode?: string;
+}
+
 export interface LibraryItem {
   id: string;
   code: string;
@@ -28,6 +37,7 @@ export interface LibraryItem {
   copiesCount: number;
   copies: LibraryCopy[];
   sourceUrl?: string | null;
+  history?: EditHistoryEntry[];
 }
 
 const STORAGE_KEY = 'bepimp_custom_catalog_v1';
@@ -95,6 +105,15 @@ export const addLibraryItem = (newItemData: Partial<LibraryItem>): LibraryItem =
     });
   }
 
+  const initialHistoryEntry: EditHistoryEntry = {
+    timestamp: new Date().toLocaleString('es-CO', { dateStyle: 'short', timeStyle: 'short' }),
+    editedBy: 'Administrador',
+    oldTitle: 'Registro Inicial',
+    newTitle: newItemData.title || 'Título sin especificar',
+    oldCode: code,
+    newCode: code,
+  };
+
   const newItem: LibraryItem = {
     id: newId,
     code,
@@ -112,6 +131,7 @@ export const addLibraryItem = (newItemData: Partial<LibraryItem>): LibraryItem =
     copiesCount,
     copies,
     sourceUrl: newItemData.sourceUrl || null,
+    history: [initialHistoryEntry],
   };
 
   const updatedCatalog = [newItem, ...currentCatalog];
@@ -120,7 +140,7 @@ export const addLibraryItem = (newItemData: Partial<LibraryItem>): LibraryItem =
 };
 
 /**
- * Update an existing book item by ID
+ * Update an existing book item by ID and append edit history
  */
 export const updateLibraryItem = (id: string, updatedData: Partial<LibraryItem>): LibraryItem | null => {
   const currentCatalog = getLibraryCatalog();
@@ -148,6 +168,23 @@ export const updateLibraryItem = (id: string, updatedData: Partial<LibraryItem>)
     }
   }
 
+  // Record audit history entry if title or code changed
+  let history = existing.history || [];
+  const titleChanged = updatedData.title && updatedData.title.trim() !== existing.title;
+  const codeChanged = updatedData.code && updatedData.code.trim() !== existing.code;
+
+  if (titleChanged || codeChanged) {
+    const newHistoryEntry: EditHistoryEntry = {
+      timestamp: new Date().toLocaleString('es-CO', { dateStyle: 'short', timeStyle: 'short' }),
+      editedBy: 'Administrador',
+      oldTitle: existing.title,
+      newTitle: updatedData.title ? updatedData.title.trim() : existing.title,
+      oldCode: existing.code,
+      newCode: updatedData.code ? updatedData.code.trim() : existing.code,
+    };
+    history = [newHistoryEntry, ...history];
+  }
+
   const updatedItem: LibraryItem = {
     ...existing,
     ...updatedData,
@@ -155,6 +192,7 @@ export const updateLibraryItem = (id: string, updatedData: Partial<LibraryItem>)
     pages: updatedData.pages ? Number(updatedData.pages) : existing.pages,
     copiesCount,
     copies,
+    history,
   };
 
   currentCatalog[index] = updatedItem;

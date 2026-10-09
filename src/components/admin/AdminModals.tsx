@@ -98,9 +98,11 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
   const [bookIsbn, setBookIsbn] = useState('');
   const [bookCollection, setBookCollection] = useState('General');
   const [bookCopiesCount, setBookCopiesCount] = useState('1');
+  const [showEditHistory, setShowEditHistory] = useState(false);
 
   // Synchronize local form state with context siteContent & targetBookToEdit whenever modal opens
   useEffect(() => {
+    setShowEditHistory(false);
     setHeroTitle(siteContent.heroTitle);
     setHeroSubtitle(siteContent.heroSubtitle);
     setHeroDesc(siteContent.heroDesc);
@@ -1200,15 +1202,79 @@ export const AdminModals: React.FC<AdminModalsProps> = ({
         isOpen={activeModal === 'addLibraryBook' || activeModal === 'editLibraryBook'}
         onClose={onClose}
         title={
-          <div className="flex items-center space-x-2 font-serif font-bold text-lg">
-            <BookOpen className="w-5 h-5 text-terracota" />
-            <span>{activeModal === 'editLibraryBook' ? 'Actualizar Libro de la Biblioteca' : 'Registrar Nuevo Libro en la Biblioteca Especializada'}</span>
+          <div className="flex items-center justify-between w-full pr-6">
+            <div className="flex items-center space-x-2 font-serif font-bold text-lg">
+              <BookOpen className="w-5 h-5 text-terracota" />
+              <span>{activeModal === 'editLibraryBook' ? 'Actualizar Libro de la Biblioteca' : 'Registrar Nuevo Libro en la Biblioteca Especializada'}</span>
+            </div>
+            {activeModal === 'editLibraryBook' && (
+              <button
+                type="button"
+                onClick={() => setShowEditHistory(!showEditHistory)}
+                className={`p-1.5 px-2.5 rounded-xl border text-xs font-sans transition-all flex items-center space-x-1.5 ${
+                  showEditHistory
+                    ? 'bg-terracota text-white border-terracota shadow-xs'
+                    : 'bg-crema/60 hover:bg-crema border-crema-dark text-cafe'
+                }`}
+                title="Ver historial de cambios"
+              >
+                <Clock className="w-4 h-4" />
+                <span className="font-semibold text-xs">Historial</span>
+              </button>
+            )}
           </div>
         }
         subtitle="Catalogación para la Biblioteca Especializada BEPIMP"
         size="lg"
       >
         <form onSubmit={handleAddOrUpdateBook} className="space-y-4 font-sans max-h-[75vh] overflow-y-auto pr-1">
+          {showEditHistory && activeModal === 'editLibraryBook' && (
+            <div className="mb-4 p-4 rounded-xl bg-crema-dark/40 border border-crema-dark space-y-3 font-sans animate-in fade-in duration-200">
+              <div className="flex items-center justify-between border-b border-crema-dark pb-2">
+                <h4 className="text-xs font-bold text-verde-profundo uppercase tracking-wider flex items-center space-x-1.5">
+                  <Clock className="w-4 h-4 text-terracota" />
+                  <span>Historial de Modificaciones del Libro</span>
+                </h4>
+                <Badge variant="verde" className="text-[10px]">
+                  {targetBookToEdit?.history?.length || 0} Cambios
+                </Badge>
+              </div>
+
+              {(!targetBookToEdit?.history || targetBookToEdit.history.length === 0) ? (
+                <div className="p-3 text-center text-xs text-cafe/60 bg-white/60 rounded-lg border border-crema-dark/60 leading-relaxed">
+                  No existen modificaciones registradas previamente para este ejemplar. Las modificaciones futuras de título o código quedarán guardadas automáticamente en el historial.
+                </div>
+              ) : (
+                <div className="space-y-2.5 max-h-48 overflow-y-auto pr-1">
+                  {targetBookToEdit.history.map((entry, idx) => (
+                    <div key={idx} className="p-3 bg-white rounded-lg border border-crema-dark text-xs space-y-1 shadow-xs">
+                      <div className="flex items-center justify-between text-cafe/70 font-mono text-[11px]">
+                        <span className="font-semibold text-verde-profundo">
+                          {entry.editedBy || 'Administrador'}
+                        </span>
+                        <span>{entry.timestamp}</span>
+                      </div>
+                      {entry.oldTitle !== entry.newTitle && (
+                        <div className="text-cafe space-y-0.5">
+                          <p className="text-[11px] text-cafe/60">
+                            <span className="font-semibold">Título anterior:</span> <span className="line-through">{entry.oldTitle}</span>
+                          </p>
+                          <p className="text-xs font-bold text-terracota">
+                            <span className="font-semibold text-verde-profundo">Nuevo título:</span> {entry.newTitle}
+                          </p>
+                        </div>
+                      )}
+                      {entry.oldCode && entry.newCode && entry.oldCode !== entry.newCode && (
+                        <div className="text-[11px] text-cafe/80">
+                          <span className="font-semibold">Código:</span> {entry.oldCode} &rarr; <span className="font-bold text-verde-profundo">{entry.newCode}</span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <Input
               label="Código General del Libro"
